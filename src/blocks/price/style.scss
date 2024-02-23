@@ -1,0 +1,20 @@
+.sg-price {
+  &__list {
+    border-collapse: collapse;
+    width: 100%;
+    tr {
+      th,
+      td {
+        border: dashed var(--sg--preset--color--secondary-2, grey) 1px;
+        padding: 10px 5px;
+      }
+      .comment {
+        font-style: italic;
+        margin-top: -10px;
+      }
+      &:nth-child(2n) {
+        background-color: var(--sg--preset--color--secondary-3);
+      }
+    }
+  }
+}

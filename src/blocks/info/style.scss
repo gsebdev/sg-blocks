@@ -1,0 +1,33 @@
+.sg-info {
+  position: relative;
+  &__list {
+    position: relative;
+  }
+  &__list-item {
+    position: relative;
+    left: 0.5rem;
+    list-style: none;
+    margin: 0.25rem 0;
+    transition: 0.3s ease-in-out;
+    padding: 0.25rem 0.5rem 0.25rem 0.85rem;
+    z-index: 0;
+    &::before {
+      position: absolute;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--sg--preset--color--accent, #f50057);
+      transition: 0.3s ease-in-out;
+      top: 0;
+      content: "";
+      transform-origin: right;
+    }
+   
+    &:hover {
+      transform: translateX(4px);
+      &::before {
+        transform: scaleX(2);
+      }
+    }
+  }
+}

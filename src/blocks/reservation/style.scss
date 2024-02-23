@@ -1,0 +1,21 @@
+.sg-reservation {
+    border: solid var(--sg--preset--color--grey-1, grey) 3px;
+    .separator {
+        position: relative;
+        span {
+            position: relative;
+        }
+        &::before {
+            content: '';
+            width: 70%;
+            height: 3px;
+            background-color: var(--sg--preset--color--grey-1);
+            z-index: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+}

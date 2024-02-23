@@ -1,0 +1,11 @@
+.wp-block-sg-map {
+  width: 100%;
+  &.is-selected {
+    box-shadow: inset 0 0 2px 1px var(--wp-admin-theme-color, grey);
+  }
+
+  .leaflet-container {
+    aspect-ratio: 4 / 3;
+  }
+  padding: 15px;
+}

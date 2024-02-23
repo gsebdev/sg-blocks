@@ -1,0 +1,17 @@
+.sg-downloads {
+  position: relative;
+  ul {
+    position: relative;
+
+    li {
+      list-style: none;
+      a {
+       img {
+        height: 1.25rem;
+        width: 1.25rem;
+        object-fit: contain;
+       }
+      }
+    }
+}
+}

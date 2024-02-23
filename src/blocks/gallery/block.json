@@ -1,0 +1,115 @@
+{
+  "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
+  "apiVersion": 3,
+  "name": "sg/gallery",
+  "title": "SG Gallerie",
+  "category": "common",
+  "icon": "smiley",
+  "attributes": {
+    "imagesOptions": {
+      "type": "array"
+    },
+    "images": {
+      "type": "array",
+      "source": "query",
+      "selector": ".sg-gallery__img",
+      "query": {
+        "url": {
+          "type": "string",
+          "selector": "img",
+          "source": "attribute",
+          "attribute": "data-src"
+        },
+        "alt": {
+          "type": "string",
+          "selector": "img",
+          "source": "attribute",
+          "attribute": "alt"
+        },
+        "srcset": {
+          "type": "number",
+          "selector": "img",
+          "source": "attribute",
+          "attribute": "data-srcset"
+        },
+        "width": {
+          "type": "number",
+          "selector": "img",
+          "source": "attribute",
+          "attribute": "width"
+        },
+        "height": {
+         "type": "number",
+         "selector": "img",
+         "source": "attribute",
+         "attribute": "height"
+        },
+        "legend": {
+          "type": "string",
+          "selector": "figcaption",
+          "source": "text"
+        }
+      }
+    },
+    "draggable": {
+      "type": "boolean",
+      "selector": ".sg-gallery",
+      "source": "attribute",
+      "attribute": "data-draggable"
+    },
+    "lightbox": {
+      "type": "boolean",
+      "selector": ".sg-gallery",
+      "source": "attribute",
+      "attribute": "data-lightbox"
+    },
+    "slideshow": {
+      "type": "boolean",
+      "default": false
+    },
+    "slideshowDelay": {
+      "type": "string",
+      "selector": ".sg-gallery",
+      "source": "attribute",
+      "attribute": "data-slideshow-delay"
+    },
+    "id": {
+      "type":"string",
+      "selector": ".sg-gallery",
+      "source": "attribute",
+      "attribute": "id"
+    },
+    "thumbs": {
+      "type": "boolean",
+      "selector": ".sg-gallery",
+      "source": "attribute",
+      "attribute": "data-thumbs"
+    },
+    "legends": {
+      "type": "boolean",
+      "selector": ".sg-gallery",
+      "source": "attribute",
+      "attribute": "data-legends"
+    },
+    "gap": {
+      "type": "object",
+      "default": {}
+    },
+    "margin": {
+      "type": "object",
+      "default": {}
+    },
+    "padding": {
+      "type": "object",
+      "default": {}
+    },
+    "columns": {
+      "type": "object",
+      "default": {}
+    }
+  },
+  "textdomain": "sg-blocks",
+  "style": "file:./style.css",
+  "editorStyle": "file:./editor.css",
+  "script": "file:./gallery.js"
+}
