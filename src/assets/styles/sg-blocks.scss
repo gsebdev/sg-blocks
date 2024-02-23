@@ -1,47 +1,51 @@
 @font-face {
-    font-family: 'sg-icons';
-    src:  url('../fonts/icons/icomoon.eot?ndx7eb');
-    src:  url('../fonts/icons/icomoon.eot?ndx7eb#iefix') format('embedded-opentype'),
-      url('../fonts/icons/icomoon.ttf?ndx7eb') format('truetype'),
-      url('../fonts/icons/icomoon.woff?ndx7eb') format('woff'),
-      url('../fonts/icons/icomoon.svg?ndx7eb#icomoon') format('svg');
-    font-weight: normal;
-    font-style: normal;
-    font-display: block;
-  }
-  
-  [class^="icon-"], [class*=" icon-"] {
-    font-family: 'sg-icons' !important;
+  font-family: "sg-icons";
+  src: url("../fonts/icons/icomoon.eot?ndx7eb");
+  src: url("../fonts/icons/icomoon.eot?ndx7eb#iefix")
+      format("embedded-opentype"),
+    url("../fonts/icons/icomoon.ttf?ndx7eb") format("truetype"),
+    url("../fonts/icons/icomoon.woff?ndx7eb") format("woff"),
+    url("../fonts/icons/icomoon.svg?ndx7eb#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="sg-icon-"],
+[class*=" sg-icon-"] {
+  &::before {
+    font-family: "sg-icons" !important;
     speak: never;
     font-style: normal;
     font-weight: normal;
     font-variant: normal;
     text-transform: none;
     line-height: 1;
-  
+
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
-  .icon-file-text:before {
-    content: "\e900";
-  }
-  
+}
 
-  [data-loaded=false], .loading {
-    &::before {
-      content: "";
-      animation: spin 1s ease-in-out infinite;
-      border: 2px solid var(--sg--preset--color--grey-2, grey);
-      border-bottom-color: transparent;
-      left: calc(50% - 12.5px);
-      top: calc(50% - 12.5px);
-      width: 25px;
-      height: 25px;
-      z-index: 0;
-      position: absolute;
-      border-radius: 50%;
-    }
+.sg-icon-file-text:before {
+  content: "\e900";
+}
+
+[data-loaded="false"],
+.loading {
+  &::before {
+    content: "";
+    animation: spin 1s ease-in-out infinite;
+    border: 2px solid var(--sg--preset--color--grey-2, grey);
+    border-bottom-color: transparent;
+    left: calc(50% - 12.5px);
+    top: calc(50% - 12.5px);
+    width: 25px;
+    height: 25px;
+    z-index: 0;
+    position: absolute;
+    border-radius: 50%;
+  }
 }
 
 @keyframes spin {

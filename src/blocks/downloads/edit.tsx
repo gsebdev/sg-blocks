@@ -53,7 +53,6 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes }) => {
   const onChangeFile = (file: File, index: number) => {
     setDownloads([...downloads.slice(0, index), { id: file.id, title: file.title ? file.title : file.filename }, ...downloads.slice(index + 1)])
   }
-console.log(downloads)
   return (
     <>
       <InspectorControls>
@@ -80,9 +79,9 @@ console.log(downloads)
             <table className='sg-download__list color-primary f-s txt-ctr'>
               {downloads && downloads.map((download, i: number) => (
                 <tr key={i} className='f-s'>
-                  <td>{isSelected ?
+                  <td className='sg-icon-file-text'>{isSelected ?
                     <RichText
-                      tagName="a"
+                      tagName="span"
                       className="sg-download__title"
                       label="Nom"
                       value={download.title}
@@ -97,6 +96,7 @@ console.log(downloads)
                           <MediaUpload
                             onSelect={(file) => onChangeFile(file, i)}
                             allowedTypes={ALLOWED_MEDIA_TYPES}
+                            value={download.id}
                             render={({ open }) => (
                               <Button
                                 isSecondary

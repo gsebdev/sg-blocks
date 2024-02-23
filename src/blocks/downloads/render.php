@@ -10,7 +10,7 @@ $downloads = get_post_meta($post_id, 'downloads', true) ?? [];
                 if ($download['id'] && is_numeric($download['id'])) : ?>
                     <li class="sg-downloads__item">
 
-                        <a href="<?php echo wp_get_attachment_url((int)$download['id']) ?>" target="_blank" class="color-secondary"><svg height="100%" width="100%"><use xlink:href="<?php echo plugins_url('sg-blocks/blocks/build/downloads/icons/doc.svg'); ?>"></use></svg><?php echo esc_html($download['title'] ?? '') ?></a>
+                        <a href="<?php echo wp_get_attachment_url((int)$download['id']) ?>" target="_blank" class="sg-icon-file-text color-secondary"><?php echo esc_html($download['title'] ?? '') ?></a>
                     </li>
             <?php endif;
             endforeach; ?>
