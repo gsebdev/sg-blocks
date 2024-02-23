@@ -48,7 +48,7 @@ if (!function_exists('register_sg_blocks')) {
         register_block_type(__DIR__ . '/dist/blocks/reservation');
         register_block_type(__DIR__ . '/dist/blocks/gallery');
         register_block_type(__DIR__ . '/dist/blocks/price');
-        register_block_type(__DIR__ . 'dist//blocks/map');
+        register_block_type(__DIR__ . '/dist/blocks/map');
         register_block_type(__DIR__ . '/dist/blocks/info');
         register_block_type(__DIR__ . '/dist/blocks/downloads');
     }
