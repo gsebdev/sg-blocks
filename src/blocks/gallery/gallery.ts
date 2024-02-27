@@ -63,7 +63,7 @@ export class sgGallery {
   private async _init(startIndex?: number) {
     if (this._slideshow) {
       const { default: Swiper } = await import(
-        /* webpackChunkName: "sg-swiper" */ "../../../../../../../../sg-tools/sg-swiper/dist/sg-swiper"
+        /* webpackChunkName: "sg-swiper" */ "sg-swiper"
       );
       if (this._thumbsContainer) {
         // create the thumbs slide object

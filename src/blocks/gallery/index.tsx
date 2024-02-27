@@ -10,7 +10,7 @@ const dynamicRegisterBlockType = async () => {
         title: metadata.title,
         edit: Edit,
         save: Save
-      });
+      } as any);
 }
 
 dynamicRegisterBlockType();

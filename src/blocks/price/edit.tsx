@@ -18,7 +18,7 @@ interface Price {
 }
 interface EditProps {
   isSelected: boolean;
-  attributes: { className?: string };
+  attributes: { className: string };
 }
 
 const Edit: React.FC<EditProps> = ({ isSelected, attributes }) => {
