@@ -18,6 +18,10 @@
       "type": "boolean",
       "default": true
     },
+    "centred": {
+      "type": "boolean",
+      "default": false
+    },
     "gap": {
       "type": "object",
       "default": {}
@@ -36,5 +40,6 @@
     }
   },
   "textdomain": "sg-blocks",
-  "render": "file:./render.php"
+  "render": "file:./render.php",
+  "style": "file:./style.css"
 }

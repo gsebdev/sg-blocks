@@ -31,7 +31,14 @@ if (!function_exists('render_list_of_terms')) {
         $gap_classNames = '';
         foreach ($gap as $breakpoint => $value) {
             if ($value) {
-                $gap_classNames .= $breakpoint === 'default' ? ' g-' . $value : ' g-' . $breakpoint . '-' . $value;
+                if(is_string($value)) {
+                    $gap_classNames .= $breakpoint === 'default' ? ' g-' . $value : ' g-' . $breakpoint . '-' . $value;
+                } else if(is_array($value)) {
+                    foreach($value as $axis => $v) {
+                        $gap_classNames .= $breakpoint === 'default' ? ' g' . $axis . '-' . $v : ' g' . $axis . '-' . $breakpoint . '-' . $v;
+                    }
+                }
+                
             }
         }
 

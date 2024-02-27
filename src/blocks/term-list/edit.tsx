@@ -1,7 +1,6 @@
+import React from "react";
 import { InspectorControls, useBlockProps } from "@wordpress/block-editor";
 import { useSelect } from "@wordpress/data";
-import { useState, useEffect } from "@wordpress/element";
-import apiFetch from "@wordpress/api-fetch";
 
 import {
   SelectControl,
@@ -10,14 +9,23 @@ import {
   Spinner,
 } from "@wordpress/components";
 import {
+  // @ts-ignore
   __experimentalToggleGroupControl as ToggleGroupControl,
+  // @ts-ignore
   __experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from "@wordpress/components";
 import BreakpointTabs from "../block-components/BreakpointTabs";
 import SpacingPanel from "../block-components/SpacingPanel";
 import { getSpacingClassname } from "../block-utilities/sg-blocks-helpers";
 
-const fontSizes = ["xs", "s", "sm", "m", "l", "xl"];
+const FONT_SIZES = ["xs", "s", "sm", "m", "l", "xl"];
+
+const SPACING_OPTIONS = [
+  {
+    title: "Gap",
+    attribute: "gap",
+  },
+];
 
 const Edit = (props) => {
   const { attributes, setAttributes } = props;
@@ -28,19 +36,11 @@ const Edit = (props) => {
     separator,
     fontHeading,
     linked,
+    centered
   } = attributes;
 
-  const [taxOptions, setTaxOptions] = useState([]);
-
-  const spacingsOptions = [
-    {
-      title: "Gap",
-      attribute: "gap",
-    }
-  ];
-
   let tax_name;
-  
+
   switch (taxonomy) {
     case "category":
       tax_name = "categories";
@@ -51,41 +51,35 @@ const Edit = (props) => {
     default:
       tax_name = taxonomy;
   }
-  const post = useSelect((select) => select("core/editor").getCurrentPost());
+
+  const { post, taxOptions } = useSelect(select => {
+    const { getPostType } = select("core") as any;
+    const { getCurrentPost } = select("core/editor") as any;
+    const post = getCurrentPost();
+    const taxOptions = getPostType(post?.type)?.taxonomies;
+    return {
+      post,
+      taxOptions
+    }
+  }, []);
 
   const { terms, isLoading } = useSelect((select) => {
-    const ids = select("core/editor").getEditedPostAttribute(tax_name);
-    const entities = select("core").getEntityRecords("taxonomy", taxonomy, {
+    const { getEditedPostAttribute } = select("core/editor") as any;
+    const { getEntityRecords } = select("core") as any;
+    const ids = getEditedPostAttribute(tax_name);
+    const entities = getEntityRecords("taxonomy", taxonomy, {
       includes: ids,
     });
 
     if (entities && ids) {
-      try {
-        return {
-          isLoading: false,
-          terms: entities.filter((t) => ids.includes(t.id)),
-        };
-      } catch (e) {
-        console.error("Error in useSelect: " + e);
-        return { isLoading: false, terms: [] };
-      }
+      return {
+        isLoading: false,
+        terms: entities.filter((t) => ids.includes(t.id)),
+      };
     } else {
       return { isLoading: true, terms: null };
     }
-  });
-
-  useEffect(() => {
-    const fetchTax = async () => {
-      try {
-        const types = await apiFetch({ path: `/wp/v2/types/${post.type}` });
-        setTaxOptions(types.taxonomies);
-        if (!taxonomy) setAttributes({ taxonomy: types.taxonomies[0] });
-      } catch (error) {
-        console.error("Error fetching taxonomies: ", error);
-      }
-    };
-    fetchTax();
-  }, [post]);
+  }, [taxonomy]);
 
   const blockProps = useBlockProps();
   return (
@@ -95,7 +89,7 @@ const Edit = (props) => {
           <SelectControl
             label="Taxonomie"
             value={taxonomy}
-            options={taxOptions.map((tax) => ({
+            options={taxOptions?.map((tax) => ({
               label: tax,
               value: tax,
             }))}
@@ -111,7 +105,7 @@ const Edit = (props) => {
             value={fontSize}
             isBlock
           >
-            {fontSizes.map((size) => (
+            {FONT_SIZES.map((size) => (
               <ToggleGroupControlOption
                 value={size}
                 label={size.toUpperCase()}
@@ -123,6 +117,13 @@ const Edit = (props) => {
             checked={horizontalLayout}
             onChange={(newValue) => {
               setAttributes({ horizontalLayout: newValue });
+            }}
+          />
+          <ToggleControl
+            label="Texte centré"
+            checked={centered}
+            onChange={(newValue) => {
+              setAttributes({ centered: newValue });
             }}
           />
           <ToggleControl
@@ -153,7 +154,7 @@ const Edit = (props) => {
           <SpacingPanel
             attributes={attributes}
             setAttributes={setAttributes}
-            spacingsOptions={spacingsOptions}
+            spacingsOptions={SPACING_OPTIONS}
           />
         </PanelBody>
         <BreakpointTabs>
@@ -164,7 +165,7 @@ const Edit = (props) => {
                   attributes={attributes}
                   setAttributes={setAttributes}
                   breakpoint={tab.name}
-                  spacingsOptions={spacingsOptions}
+                  spacingsOptions={SPACING_OPTIONS}
                 />
               </div>
             );
@@ -186,11 +187,9 @@ const Edit = (props) => {
       {terms && !isLoading && (
         <ul
           {...blockProps}
-          className={`${blockProps.className} f-${fontSize} ${
-            horizontalLayout ? "flx flx-wrap flx-ctr" : ""
-          } ${getSpacingClassname(attributes)}${
-            fontHeading ? " f-heading" : ""
-          }`}
+          className={`${blockProps.className} sg-term-list f-${fontSize} ${horizontalLayout ? "flx flx-wrap" : ""
+            } ${centered ? "flx-ctr txt-ctr" : ""} ${getSpacingClassname(attributes)}${fontHeading ? " f-heading" : ""
+            }`}
         >
           {terms.map((term, index) => (
             <li
