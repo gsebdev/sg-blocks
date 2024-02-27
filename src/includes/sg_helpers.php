@@ -54,3 +54,69 @@ if (!function_exists('generate_reservation_src')) {
         }
     }
 }
+
+
+/**
+ * Get the most relevant posts by a specific taxonomy.
+ *
+ * @param int $post_id The ID of the reference post.
+ * @param string|array $post_types The post types to include in the query.
+ * @param string $taxonomy The taxonomy to filter by.
+ *
+ * @return WP_Query The query result containing the most relevant posts.
+ */
+if (!function_exists('sg_get_most_relevant_posts_by_taxonomy')) {
+    function sg_get_most_relevant_posts_by_taxonomy($post_id, $post_types, $taxonomy, $number = null, $excluded_ids = [])
+    {
+        if (!function_exists('get_term_id')) {
+            function get_term_id($term)
+            {
+                return $term->term_id;
+            };
+        }
+        // Get term IDs associated with the reference post.
+        $terms = get_the_terms($post_id, $taxonomy);
+
+        if (is_array($terms)) {
+            $post_term_ids = array_map(function ($term) {
+                return $term->term_id;
+            }, $terms);
+
+            // Query.
+            $related_args = array(
+                'post_type'      => $post_types,
+                'tax_query'      => array(
+                    array(
+                        'taxonomy' => $taxonomy,
+                        'field'    => 'id',
+                        'terms'    => $post_term_ids,
+                    ),
+                ),
+                'post__not_in'   => array($post_id, ...$excluded_ids),
+                'posts_per_page' => -1,
+            );
+
+            $related_query = new WP_Query($related_args);
+
+            // Sort the related posts based on the number of match terms.
+            if ($related_query->have_posts()) {
+                usort($related_query->posts, function ($a, $b) use ($post_term_ids) {
+                    $a_terms = get_the_terms($a->ID, 'sport');
+                    $b_terms = get_the_terms($b->ID, 'sport');
+                    $apos = count(array_intersect(array_map('get_term_id',  is_array($a_terms) ? $a_terms : []), $post_term_ids));
+                    $bpos = count(array_intersect(array_map('get_term_id',  is_array($b_terms) ? $b_terms : []), $post_term_ids));
+
+                    return ($apos < $bpos) ? 1 : -1;
+                });
+            }
+
+            if ($number && $number > 0 && $number < $related_query->post_count) {
+                $related_query->posts = array_slice($related_query->posts, 0, $number);
+                $related_query->post_count = $number;
+            }
+
+            return $related_query;
+        }
+        return null;
+    }
+}

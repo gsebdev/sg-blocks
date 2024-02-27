@@ -7,6 +7,7 @@ function sg_blocks_activation()
 {
     sg_update_meeting_point(); // convert old sg meeting points
     sg_update_downloads(); // convert old sg downloads
+    sg_update_featured_media(); // convert old sg featured media
 }
 
 if (!function_exists('sg_update_meeting_point')) {
@@ -118,6 +119,32 @@ if (!function_exists('sg_update_downloads')) {
                 }
                 update_post_meta($post_id, 'downloads', $newDownloads);
                 error_log('updated download : from ' . print_r($downloads, true) . ' to : ' . print_r($newDownloads, true));
+            } else {
+                continue;
+            }
+        }
+    }
+}
+
+if (!function_exists('sg_update_featured_media')) {
+    function sg_update_featured_media()
+    {
+        $args = array(
+            'post_type' => ['activities', 'adventures', 'guides'],
+            'posts_per_page' => -1,
+        );
+
+        $posts = get_posts($args);
+
+        foreach ($posts as $post) {
+            $post_id = $post->ID;
+
+            $media = get_post_meta($post_id, 'cover', true);
+
+            if ($media && is_numeric($media)) {
+                // set post featured media to the attachment
+                set_post_thumbnail($post_id, $media);
+                error_log('updated media : id: ' . print_r($media, true));
             } else {
                 continue;
             }
