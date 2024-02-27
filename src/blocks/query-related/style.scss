@@ -1,0 +1,13 @@
+.sg-slider {
+    &-started & {
+    &__wrapper {
+            display: flex;
+            flex-wrap: nowrap;
+
+            .sg-slider__slide {
+                flex: 0 0 45%;
+            }
+        }
+    }
+    
+}

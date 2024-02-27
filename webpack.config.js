@@ -8,6 +8,7 @@ module.exports = {
     gallery: "./src/blocks/gallery/gallery.ts",
     reservation: "./src/blocks/reservation/reservation.ts",
     map: "./src/blocks/map/map.ts",
+    "query-related": "./src/blocks/query-related/slide.ts",
   },
   output: {
     path: path.resolve(__dirname, "dist/"),

@@ -19,6 +19,7 @@ if (!defined('ABSPATH')) {
 include_once(plugin_dir_path(__FILE__) . 'dist/includes/sg_activation.php');
 include_once(plugin_dir_path(__FILE__) . 'dist/includes/sg_register_meta.php');
 include_once(plugin_dir_path(__FILE__) . 'dist/includes/sg_helpers.php');
+include_once(plugin_dir_path(__FILE__) . 'dist/includes/sg_register_rest.php');
 
 // activation actions
 register_activation_hook(__FILE__, 'sg_blocks_activation');
@@ -51,6 +52,7 @@ if (!function_exists('register_sg_blocks')) {
         register_block_type(__DIR__ . '/dist/blocks/map');
         register_block_type(__DIR__ . '/dist/blocks/info');
         register_block_type(__DIR__ . '/dist/blocks/downloads');
+        register_block_type(__DIR__ . '/dist/blocks/query-related');
     }
 }
 

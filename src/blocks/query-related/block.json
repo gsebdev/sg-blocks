@@ -1,0 +1,60 @@
+{
+  "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
+  "apiVersion": 3,
+  "name": "sg/query-related",
+  "title": "SG Related query",
+  "description": "Enregistrer les infos pratiques",
+  "category": "common",
+  "attributes": {
+    "relatedPostType": {
+      "type": "string"
+    },
+    "relatedTaxonomy": {
+      "type": "string"
+    },
+    "postNumber": {
+      "type": "string"
+    },
+    "excludedIds": {
+      "type": "array"
+    },
+    "layout": {
+      "enum": ["grid", "flex", "none"],
+      "default": "none"
+    },
+    "gap": {
+      "type": "object",
+      "default": {}
+    },
+    "margin": {
+      "type": "object",
+      "default": {}
+    },
+    "padding": {
+      "type": "object",
+      "default": {}
+    },
+    "columns": {
+      "type": "object",
+      "default": {}
+    },
+    "contentAlignement": {
+      "type": "string",
+      "default": ""
+    },
+    "slider": {
+      "type": "boolean",
+      "default": false
+    },
+    "sliderBreakpoint": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "icon": "image-rotate",
+  "textdomain": "sg-blocks",
+  "style": "file:./style.css",
+  "editorStyle": "file:./editor.css",
+  "render": "file:./render.php",
+  "script": "file:./query-related.js"
+}
