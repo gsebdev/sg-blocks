@@ -1,5 +1,4 @@
 import metadata from "./block.json";
-// @ts-ignore
 import { registerBlockType } from "@wordpress/blocks";
 
 const dynamicRegisterBlockType = async () => {
@@ -10,7 +9,7 @@ const dynamicRegisterBlockType = async () => {
     title: metadata.title,
     edit: Edit,
     save: Save,
-  });
+  } as any);
 };
 
 dynamicRegisterBlockType();

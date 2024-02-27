@@ -1,3 +1,9 @@
+import React from "react";
+
+/**
+ * Wordpress dependencies
+ */
+import { useSelect } from "@wordpress/data";
 import {
   InnerBlocks,
   InspectorControls,
@@ -10,55 +16,72 @@ import {
   PanelBody,
   SelectControl,
   PanelHeader,
+  // @ts-ignore
+  __experimentalAlignmentMatrixControl as AlignmentMatrixControl,
+  Button,
 } from "@wordpress/components";
 
+/**
+ * Internal dependencies
+ */
+import BreakpointTabs from "../block-components/BreakpointTabs";
 import { getClassNames } from "../block-utilities/sg-blocks-helpers";
 import SpacingPanel from "../block-components/SpacingPanel";
-import { useSelect } from "@wordpress/data";
-import { __experimentalAlignmentMatrixControl as AlignmentMatrixControl } from "@wordpress/components";
-import { Button } from "@wordpress/components";
-import BreakpointTabs from "../block-components/BreakpointTabs";
+
+/**
+ * types definitons
+ */
+interface BlockEditorStore {
+  getBlockCount: (clientId: string) => number;
+}
+
+/**
+ * Defining constants
+ */
+const TAGNAMES = [
+  "div",
+  "header",
+  "section",
+  "article",
+  "footer",
+  "aside",
+  "nav",
+];
+
+const SPACING_OPTIONS = [
+  {
+    title: "Marges internes",
+    attribute: "padding",
+  },
+  {
+    title: "Marges Externes",
+    attribute: "margin",
+  },
+];
+
+const LAYOUTS = ["grid", "flex", "none"];
+
+const MAX_COLUMNS = 5;
 
 const Edit = (props) => {
-  const { attributes, setAttributes, isSelected } = props;
+  const { attributes, setAttributes, isSelected, clientId } = props;
   const { columns, layout, Tag, className, contentAlignement } = attributes;
+
   const blockProps = useBlockProps();
   blockProps.className = blockProps.className.replace(className, "");
+
   const classNames = getClassNames(attributes);
   const { children, ...innerBlockProps } = useInnerBlocksProps({
     className: classNames + " " + className,
-  });
-  const { blockCount } = useSelect((select) => ({
-    blockCount: select("core/block-editor").getBlockCount(props.clientId),
-  }));
-  const maxColumns = 5;
+  }) as any;
 
-  const spacingsOptions = [
-    {
-      title: "Marges internes",
-      attribute: "padding",
+  const blockCount = useSelect(
+    (select) => {
+      const { getBlockCount } = select("core/block-editor") as BlockEditorStore;
+      return getBlockCount(clientId);
     },
-    {
-      title: "Marges Externes",
-      attribute: "margin",
-    },
-  ];
-  if (layout === "grid" || layout === "flex")
-    spacingsOptions.unshift({
-      title: "Espacement interne",
-      attribute: "gap",
-    });
-
-  const tagNames = [
-    "div",
-    "header",
-    "section",
-    "article",
-    "footer",
-    "aside",
-    "nav",
-  ];
-  const layouts = ["grid", "flex", "none"];
+    [clientId]
+  );
 
   return (
     <>
@@ -67,7 +90,7 @@ const Edit = (props) => {
           <SelectControl
             label="Type de tag"
             value={Tag}
-            options={tagNames.map((tag) => ({ label: tag, value: tag }))}
+            options={TAGNAMES.map((tag) => ({ label: tag, value: tag }))}
             onChange={(value) => {
               setAttributes({ Tag: value });
             }}
@@ -75,7 +98,7 @@ const Edit = (props) => {
           <SelectControl
             label="Type disposition"
             value={layout}
-            options={layouts.map((l) => ({ label: l, value: l }))}
+            options={LAYOUTS.map((l) => ({ label: l, value: l }))}
             onChange={(value) => {
               setAttributes({ layout: value });
             }}
@@ -90,7 +113,7 @@ const Edit = (props) => {
                 }}
               />
               <Button
-                size="small"
+                size={"small" as any}
                 variant="secondary"
                 onClick={() => {
                   setAttributes({ contentAlignement: "" });
@@ -110,7 +133,7 @@ const Edit = (props) => {
                 });
               }}
               min={1}
-              max={maxColumns}
+              max={MAX_COLUMNS}
             />
           )}
         </PanelBody>
@@ -118,9 +141,19 @@ const Edit = (props) => {
         <SpacingPanel
           attributes={attributes}
           setAttributes={setAttributes}
-          spacingsOptions={spacingsOptions}
+          spacingsOptions={
+            layout === "grid" || layout === "flex"
+              ? [
+                  ...SPACING_OPTIONS,
+                  {
+                    title: "Espacement interne",
+                    attribute: "gap",
+                  },
+                ]
+              : SPACING_OPTIONS
+          }
         />
-        <PanelHeader>Responsive Design</PanelHeader>
+        <PanelHeader label="Responsive Design" />
         <BreakpointTabs>
           {(tab) => {
             return (
@@ -136,7 +169,7 @@ const Edit = (props) => {
                         });
                       }}
                       min={1}
-                      max={maxColumns}
+                      max={MAX_COLUMNS}
                     />
                   </PanelBody>
                 )}
@@ -144,7 +177,17 @@ const Edit = (props) => {
                   breakpoint={tab.name}
                   attributes={attributes}
                   setAttributes={setAttributes}
-                  spacingsOptions={spacingsOptions}
+                  spacingsOptions={
+                    layout === "grid" || layout === "flex"
+                      ? [
+                          ...SPACING_OPTIONS,
+                          {
+                            title: "Espacement interne",
+                            attribute: "gap",
+                          },
+                        ]
+                      : SPACING_OPTIONS
+                  }
                 />
               </div>
             );
