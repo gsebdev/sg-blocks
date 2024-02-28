@@ -1,7 +1,7 @@
 <?php
 $post_id = get_the_ID();
 $custom_classnames = $attributes['className'] ?? '';
-$phone = array_key_exists('phone', $attributes) ? $attributes['phone'] : get_option('phone_number');
+$phone = array_key_exists('phone', $attributes) && strlen($attributes['phone']) > 0 ? $attributes['phone'] : get_option('phone_number');
 $price = $attributes['customPrice'] ? $attributes['customPrice'] : get_post_lowest_price($post_id);
 $src = get_post_meta($post_id, 'booking', true);
 ?>
@@ -11,13 +11,13 @@ $src = get_post_meta($post_id, 'booking', true);
     <?php
 
     if (!$src) :
-        $button_text = array_key_exists('buttonText', $attributes) ? $attributes['buttonText'] : $phone;
+        $button_text = array_key_exists('buttonText', $attributes) && strlen($attributes['buttonText']) > 0 ? $attributes['buttonText'] : $phone;
     ?>
         <a class="sg-reservation-link no-deco cta cta--arrow-right cta--solid f-b f-s" href="tel:<?php echo esc_attr(str_replace([' ', '(0)'], '', $phone)) ?>">
             <?php echo esc_html($button_text) ?>
         </a>
     <?php else : 
-        $button_text = array_key_exists('buttonText', $attributes) ? $attributes['buttonText'] : 'Réservez';
+        $button_text = array_key_exists('buttonText', $attributes) && strlen($attributes['buttonText']) > 0 ? $attributes['buttonText'] : 'Réservez';
         ?>
         <button data-src="<?php echo esc_attr($src) ?>" class="sg-reservation-link cta cta--arrow-right cta--solid f-b f-s">
             <?php echo __(esc_html($button_text)) ?>
