@@ -19,6 +19,7 @@
       "type": "array"
     },
     "layout": {
+      "type": "string",
       "enum": ["grid", "flex", "none"],
       "default": "none"
     },
