@@ -1,0 +1,46 @@
+{
+  "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
+  "apiVersion": 3,
+  "name": "sg/featured-image",
+  "title": "SG Lazy Featured Image",
+  "description": "Insérer une image de couverture avec chargement différé",
+  "category": "common",
+  "icon": "format-image",
+  "attributes": {
+    "imageSource": {
+      "type": "string",
+      "default": "full"
+    },
+    "aspectRatio":{
+      "type": "string",
+      "default": ""
+    },
+    "sizes": {
+      "type": "object",
+      "default": {}
+    },
+    "lightbox": {
+      "type": "boolean",
+      "default": false
+    },
+    "lightboxTransition": {
+      "type": "string",
+      "default": "fade"
+    },
+    "margin": {
+      "type": "object"
+    },
+    "padding": {
+      "type": "object"
+    },
+    "align": {
+      "type": "string"
+    }
+  },
+  "supports": {
+    "align": ["center"]
+  },
+  "textdomain": "sg-blocks",
+  "editorStyle": "file:./editor.css",
+  "render": "file:./render.php"
+}

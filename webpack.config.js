@@ -4,15 +4,12 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: {
-    editor: "./src/blocks/index.ts",
-    gallery: "./src/blocks/gallery/gallery.ts",
-    reservation: "./src/blocks/reservation/reservation.ts",
-    map: "./src/blocks/map/map.ts",
-    "query-related": "./src/blocks/query-related/slide.ts",
+    editor: "./src/blocks/editorIndex.ts",
+    "sg-scripts": "./src/blocks/viewIndex.ts"
   },
   output: {
     path: path.resolve(__dirname, "dist/"),
-    filename: "blocks/[name]/[name].js",
+    filename: "assets/js/[name].js",
     chunkFilename: "assets/js/chunks/[id].js",
     //clean: true,
     

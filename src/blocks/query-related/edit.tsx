@@ -63,7 +63,7 @@ interface EditorStore {
   getCurrentPost: () => any;
 }
 
-const TEMPLATE = [["sg/activties-card", {}]];
+const TEMPLATE = [["sg/container"]];
 
 /**
  * Generates inner blocks properties for the post template.

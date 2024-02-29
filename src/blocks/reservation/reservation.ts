@@ -1,4 +1,4 @@
-const sgReservationLinks = () => {
+const sgReservationLinksInit = () => {
   const links = document.querySelectorAll(".sg-reservation-link[data-src]");
   const handleReservationclick = (e: Event) => {
     e.preventDefault();
@@ -35,6 +35,4 @@ const sgReservationLinks = () => {
   });
 };
 
-window.addEventListener("DOMContentLoaded", () => {
-  sgReservationLinks();
-});
+export default sgReservationLinksInit;

@@ -52,7 +52,7 @@ const SpacingPanel: React.FC<SpacingPanelProps> = ({
     <>
       {spacingsOptions?.map((option, id) => {
         const orientationXY =
-          attributes[option.attribute] &&
+          attributes[option?.attribute] &&
           typeof attributes[option?.attribute][breakpoint] === "object";
 
         return (
@@ -95,7 +95,7 @@ const SpacingPanel: React.FC<SpacingPanelProps> = ({
               <RangeControl
                 label={option.title}
                 value={
-                  typeof attributes[option.attribute][breakpoint] === "number"
+                  attributes[option?.attribute] && typeof attributes[option?.attribute][breakpoint] === "number"
                     ? attributes[option.attribute][breakpoint]
                     : 0
                 }

@@ -1,4 +1,3 @@
-//import Swiper from "sg-swiper";
 import Swiper from "sg-swiper";
 import { loadImage } from "../block-utilities/sg-lazyload";
 
@@ -22,27 +21,29 @@ export class sgGallery {
    * @param {sgGalleryProps} props - the properties for the gallery
    */
   constructor(element: HTMLElement, startIndex: number = 0) {
-    if (!element) {
-      console.error("Cannot initialize gallery: no element provided.");
-      return;
-    }
-    const { lightbox, draggable, legends, slideshowDelay } = element.dataset;
-    this._gallery = element;
 
+    if (!element) return;
+
+    const { lightbox, draggable, legends, slideshowDelay } = element.dataset;
+
+    this._gallery = element;
     this._imagesContainer = element.querySelector(".sg-gallery__images");
     this._thumbsContainer = element.querySelector(".sg-gallery__thumbs");
+    
     this._images = this._imagesContainer
       ? Array.from(
-          this._imagesContainer.querySelectorAll(".sg-gallery__img img")
-        )
+        this._imagesContainer.querySelectorAll(".sg-gallery__img img")
+      )
       : [];
-    if (this._images.length === 0 || !this._imagesContainer) {
-      console.error("Cannot initialize gallery: no images found.");
-      return;
-    }
+
+
+    if (this._images.length === 0 || !this._imagesContainer) return;
+
     this._slideshow = element.classList.contains("sg-gallery--slideshow");
     this._lightbox = lightbox && lightbox !== "false" ? true : false;
     this._legends = legends === "true" ? true : false;
+    
+    
     if (!this._slideshow) {
       import(
         /* webpackChunkName: "sg-lazyload" */ "../block-utilities/sg-lazyload"
@@ -58,8 +59,19 @@ export class sgGallery {
           : parseInt(slideshowDelay);
       this._draggable = draggable === "true" ? true : false;
     }
+
+
     this._init(startIndex);
   }
+
+
+
+  /**
+   * Initialize the gallery.
+   *
+   * @param {number} startIndex - optional start index
+   * @return {Promise<void>} a promise with no return value
+   */
   private async _init(startIndex?: number) {
     if (this._slideshow) {
       const { default: Swiper } = await import(
@@ -92,9 +104,9 @@ export class sgGallery {
         navigation:
           this._images.length > 1
             ? {
-                prev: [...(navPrev as NodeListOf<HTMLElement>)],
-                next: [...(navNext as NodeListOf<HTMLElement>)],
-              }
+              prev: [...(navPrev as NodeListOf<HTMLElement>)],
+              next: [...(navNext as NodeListOf<HTMLElement>)],
+            }
             : undefined,
         auto: this._auto,
         slideClassName: "sg-gallery__img",
@@ -111,11 +123,20 @@ export class sgGallery {
       this._initLightbox();
     }
   }
+
+
+
+  /**
+   * Load an image from the given slide element.
+   *
+   * @param {HTMLElement} slide - the slide element to load the image from
+   * @return {Promise} a Promise that resolves with the loaded image, or resolves without a value if no image is found
+   */
   _load(slide: HTMLElement) {
     const img: HTMLImageElement | null =
-    slide.tagName === "IMG"
-      ? (slide as HTMLImageElement)
-      : slide.querySelector("img");
+      slide.tagName === "IMG"
+        ? (slide as HTMLImageElement)
+        : slide.querySelector("img");
     if (img) {
       return loadImage(img, true, slide);
     } else {
@@ -123,10 +144,16 @@ export class sgGallery {
     }
   }
 
+  
+  /**
+   * Load all thumbnail images.
+   *
+   * @return {Promise<void>} A promise that resolves when all thumbnail images are loaded.
+   */
   _loadAllThumbs() {
     const thumbs = this._thumbsContainer?.querySelectorAll('.sg-gallery__thumb');
-    
-    if(thumbs) {
+
+    if (thumbs) {
       return Promise.all(Array.from(thumbs).map((thumb) => this._load(thumb as HTMLElement)))
     }
     else {
@@ -226,8 +253,12 @@ export class sgGallery {
     }
   }
 }
-window.addEventListener("DOMContentLoaded", () => {
+
+
+const sgGalleryInit = () => {
   document.querySelectorAll(".sg-gallery").forEach((gallery) => {
     new sgGallery(gallery as HTMLElement);
   });
-});
+}
+
+export default sgGalleryInit;

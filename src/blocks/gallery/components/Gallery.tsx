@@ -111,7 +111,7 @@ const Gallery: React.FC<GalleryProps> = ({ attributes, images, setSelectedIndex,
                                     <MediaUploadCheck>
                                         <MediaUpload
                                             onSelect={(val) => onSelectImages(val, index)}
-                                            allowedTypes={"image"}
+                                            allowedTypes={["image"]}
                                             value={images[index].id}
                                             render={({ open }) => (
                                                 <Icon

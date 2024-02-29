@@ -178,7 +178,7 @@ const Edit: React.FC<{ attributes: GalleryAttributes, setAttributes: (attributes
           <MediaUploadCheck>
             <MediaUpload
               onSelect={(val: any) => onSelectImages(val, "end")}
-              allowedTypes={"image"}
+              allowedTypes={["image"]}
               multiple
               render={({ open }) => (
                 <button className="add-new" onClick={open}>

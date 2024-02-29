@@ -20,6 +20,31 @@ if (!function_exists('sg_blocks_register_post_metas')) {
         );
         register_post_meta(
             '',
+            'featured_image_position',
+            array(
+                'show_in_rest'    => [
+                    'status' => true,
+                    'schema' => [
+                        'type' => 'object',
+                        'properties' => [
+                            'x' => [
+                                'type' => 'number'
+                            ],
+                            'y' => [
+                                'type' => 'number'
+                            ]
+                        ]
+                    ]
+                ],
+                'single'          => true,
+                'type'            => 'object',
+                'auth_callback'   => function () {
+                    return current_user_can('edit_posts');
+                }
+            )
+        );
+        register_post_meta(
+            '',
             'info',
             array(
                 'show_in_rest' => [

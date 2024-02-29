@@ -53,7 +53,8 @@ export const loadImage = (
       image.classList.add('loading');
 
       // if placeholder is true
-      if (placeholder === true) {
+      if (placeholder === true && srcset) {
+        // create placeholder
         _placeholderElement = document.createElement("img");
 
         if (srcset) {

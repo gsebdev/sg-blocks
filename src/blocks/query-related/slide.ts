@@ -5,7 +5,7 @@ interface Slider {
   el: Element;
 }
 
-const activateSgSliders = async () => {
+const activateSgSlidersInit = async () => {
   const { default: Swiper } = await import(
     /* webpackChunkName: "sg-swiper" */ "sg-swiper"
   );
@@ -45,6 +45,4 @@ const activateSgSliders = async () => {
   });
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-  activateSgSliders();
-});
+export default activateSgSlidersInit;

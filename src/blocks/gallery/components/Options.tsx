@@ -130,7 +130,7 @@ const Options = ({ setAttributes, attributes, onSelectImages, images, selectedIn
                 <MediaUploadCheck>
                     <MediaUpload
                         onSelect={(val) => onSelectImages(val, "end")}
-                        allowedTypes={"image"}
+                        allowedTypes={["image"]}
                         multiple
                         value={images}
                         render={({ open }) => (
@@ -162,7 +162,7 @@ const Options = ({ setAttributes, attributes, onSelectImages, images, selectedIn
                 setAttributes={setAttributes}
                 spacingsOptions={spacingsOptions}
             />
-            <PanelHeader>Responsive Design</PanelHeader>
+            <PanelHeader label="Responsive Design" />
             <BreakpointTabs>
                 {(tab) => {
                     return (
@@ -200,7 +200,7 @@ const Options = ({ setAttributes, attributes, onSelectImages, images, selectedIn
                             <MediaUpload
                                 onSelect={(val) => onSelectImages(val, selectedIndex)}
                                 value={imagesOptions[selectedIndex].id}
-                                allowedTypes={"image"}
+                                allowedTypes={["image"]}
                                 render={({ open }) => (
                                     <Button
                                         style={{ marginBottom: "1rem" }}
@@ -234,6 +234,7 @@ const Options = ({ setAttributes, attributes, onSelectImages, images, selectedIn
                                     ? images[selectedIndex].objectPosition
                                     : undefined
                             }
+                            // @ts-ignore
                             onDrag={setFocalPoint}
                         />
                     </PanelBody>
@@ -241,7 +242,7 @@ const Options = ({ setAttributes, attributes, onSelectImages, images, selectedIn
                         <PanelBody>
                             <h3>Modifier le placement et la taille :</h3>
                             <Button
-                                size="small"
+                                size={"small" as any}
                                 variant="primary"
                                 onClick={() => {
                                     resetGridPosition();

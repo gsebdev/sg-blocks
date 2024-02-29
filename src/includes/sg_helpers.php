@@ -57,6 +57,75 @@ if (!function_exists('generate_reservation_src')) {
 
 
 /**
+ * Generate image sizes based on breakpoints and viewport width.
+ *
+ * @param array $sizes An array of sizes for different breakpoints.
+ * @return string|null The string representation of the generated image sizes or null if $sizes is not an array.
+ */
+if (!function_exists('sg_generate_image_sizes')) {
+    function sg_generate_image_sizes($sizes)
+    {
+        if ($sizes && is_array($sizes)) {
+            $sizesString = "";
+            $defaultSize = array_key_exists("default", $sizes) ? $sizes["default"] : null;
+
+            foreach ($sizes as $breakpoint => $vw) {
+                if ($breakpoint === "default") {
+                    continue;
+                } else {
+                    if ((!is_numeric($breakpoint) || ($defaultSize && $defaultSize < ((int) $breakpoint * $vw) / 100)) || !$vw) {
+                        continue;
+                    } else {
+                        $sizesString .= "(max-width:" . $breakpoint . "px) " . $vw . "vw,";
+                    }
+                }
+            }
+
+            if ($defaultSize) {
+                $sizesString .= "(max-width:" . $defaultSize . "px) 100vw," . $defaultSize . "px";
+            } else {
+                $sizesString .= "100vw";
+            }
+
+            return $sizesString;
+        } else {
+            return null;
+        }
+    }
+}
+
+if (!function_exists('sg_get_spacing_classname')) {
+    function sg_get_spacing_classname($attributes)
+    {
+        $properties = ["gap", "padding", "margin"];
+        $classNames = "";
+
+        foreach ($properties as $property) {
+            if (!isset($attributes[$property])) continue;
+
+            $shortHand = substr($property, 0, 1);
+
+            foreach ($attributes[$property] as $key => $val) {
+                if (isset($val) && $val !== null) {
+                    if (is_numeric($val)) {
+                        $classNames .= $shortHand . "-" . ($key !== "default" ? $key . "-" : "") . $val . " ";
+                    } elseif (is_array($val) && (isset($val["x"]) || isset($val["y"]))) {
+                        $x = isset($val["x"]) ? $shortHand . "x-" . ($key !== "default" ? $key . "-" : "") . $val["x"] . " " : "";
+                        $y = isset($val["y"]) ? $shortHand . "y-" . ($key !== "default" ? $key . "-" : "") . $val["y"] . " " : "";
+                        $classNames .= $x . $y;
+                    }
+                }
+            }
+        }
+
+        return $classNames;
+    }
+}
+
+
+
+
+/**
  * Get the most relevant posts by a specific taxonomy.
  *
  * @param int $post_id The ID of the reference post.
@@ -85,6 +154,7 @@ if (!function_exists('sg_get_most_relevant_posts_by_taxonomy')) {
             // Query.
             $related_args = array(
                 'post_type'      => $post_types,
+                'post_status'    => 'publish',
                 'tax_query'      => array(
                     array(
                         'taxonomy' => $taxonomy,

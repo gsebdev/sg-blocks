@@ -42,16 +42,18 @@ const mapLoadCallback = async (container: HTMLElement | SgLazyLoadElement | unde
 }
 
 
-document.addEventListener("DOMContentLoaded", () => {
+const init = () => {
     if (window.sgMaps) {
         const mapBlocks = document.querySelectorAll('.sg-map');
         mapBlocks.forEach(block => {
             const container = block.querySelector('.sg-map__container');
             if (container && container instanceof HTMLElement) {
                 container.classList.add('loading');
-                lazyLoad(container, (el) => {mapLoadCallback(el, block.id)});
+                lazyLoad(container, (el) => { mapLoadCallback(el, block.id) });
             }
         });
     }
-})
+}
+
+export default init;
 

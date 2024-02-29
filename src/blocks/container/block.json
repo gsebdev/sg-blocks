@@ -2,9 +2,9 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "sg/container",
-  "title": "Custom container",
+  "title": "SG Container",
   "category": "common",
-  "icon": "smiley",
+  "icon": "grid-view",
   "attributes": {
     "Tag": {
       "type": "string",

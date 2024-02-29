@@ -31,16 +31,25 @@ if (!function_exists('register_sg_blocks')) {
     function register_sg_blocks()
     {
         if (is_admin()) {
-            $asset_file = include(plugin_dir_path(__FILE__) . 'dist/blocks/editor/editor.asset.php');
+            $asset_file = include(plugin_dir_path(__FILE__) . 'dist/assets/js/editor.asset.php');
             wp_enqueue_script(
-                'sg-blocks',
-                plugins_url('dist/blocks/editor/editor.js', __FILE__),
+                'sg-scripts-editor',
+                plugins_url('dist/assets/js/editor.js', __FILE__),
+                $asset_file['dependencies'],
+                $asset_file['version'],
+                true
+            );
+        } else {
+            $asset_file = include(plugin_dir_path(__FILE__) . 'dist/assets/js/sg-scripts.asset.php');
+            wp_enqueue_script(
+                'sg-scripts',
+                plugins_url('dist/assets/js/sg-scripts.js', __FILE__),
                 $asset_file['dependencies'],
                 $asset_file['version'],
                 true
             );
         }
-
+        
         //enqueue style common styles
         wp_enqueue_style('sg-blocks-common', plugins_url('dist/assets/styles/sg-blocks.css', __FILE__));
 
@@ -53,6 +62,9 @@ if (!function_exists('register_sg_blocks')) {
         register_block_type(__DIR__ . '/dist/blocks/info');
         register_block_type(__DIR__ . '/dist/blocks/downloads');
         register_block_type(__DIR__ . '/dist/blocks/query-related');
+        register_block_type(__DIR__ . '/dist/blocks/featured-image');
+        register_block_type(__DIR__ . '/dist/blocks/image');
+
     }
 }
 
@@ -67,7 +79,7 @@ if (!function_exists('register_sg_meeting_point_meta_to_front')) {
         if (is_singular(['activities', 'adventures'])) {
             $meeting_data =  get_post_meta(get_the_ID(), 'meeting_point', true);
             if ($meeting_data) {
-                wp_add_inline_script('sg-map-view-script', "window.sgMaps = Object.assign({}, window.sgMaps, {meeting_point:" . json_encode($meeting_data, true) . "});", 'before');
+                wp_add_inline_script('sg-scripts', "window.sgMaps = Object.assign({}, window.sgMaps, {meeting_point:" . json_encode($meeting_data, true) . "});", 'before');
             }
         }
     }
@@ -84,3 +96,13 @@ add_action('wp_enqueue_scripts', 'register_sg_meeting_point_meta_to_front');
 add_image_size('lazy-placeholder', 75);
 add_image_size('sg-thumbnail', 150, 150);
 add_image_size('medium_medium', 520, 390);
+
+add_filter('image_size_names_choose', function($sizes) {
+    unset($sizes['thumbnail']);
+    
+    return array_merge($sizes, [
+        'lazy-placeholder' => __('SG Lazy Placeholder', 'sg-blocks'),
+        'sg-thumbnail' => __('SG Thumbnail', 'sg-blocks'),
+        'medium_medium' => __('SG Medium', 'sg-blocks'),
+    ]);
+});

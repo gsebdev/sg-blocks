@@ -32,7 +32,7 @@ export interface MapData {
 
 interface EditProps {
   isSelected: boolean;
-  attributes: { className?: string, id?: string, meta_meeting_point?: boolean, address?: string, lat?: number, lng?: number, zoom?: number };
+  attributes: { className: string, id?: string, meta_meeting_point?: boolean, address?: string, lat?: number, lng?: number, zoom?: number };
   setAttributes: (attributes: any) => void;
 }
 
@@ -152,7 +152,7 @@ const Edit: React.FC<EditProps> = ({ attributes, setAttributes }) => {
           />
           <TextControl
             label={__("Saisie Adresse", "sg-blocks")}
-            value={address}
+            value={address ?? ''}
             onChange={(value) => setAddress(value)}
           />
           <Button
