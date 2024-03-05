@@ -58,7 +58,7 @@ function sg_related_posts_callback($request)
         $request->get_param('excluded_ids') ?? []
     );
 
-    $response = is_array($response->posts) ? array_map(function ($post) { return [
+    $response = $response && is_array($response->posts) ? array_map(function ($post) { return [
         'id' => $post->ID,
         'type' => $post->post_type,
         'title' => $post->post_title
