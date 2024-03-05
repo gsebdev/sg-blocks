@@ -2,10 +2,13 @@
   "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
   "apiVersion": 3,
   "name": "sg/query-related",
-  "title": "SG Related query",
+  "title": "SG Post Liés",
   "description": "Enregistrer les infos pratiques",
   "category": "common",
   "attributes": {
+    "queryId": {
+      "type": "number"
+    },
     "relatedPostType": {
       "type": "string"
     },
@@ -18,14 +21,11 @@
     "excludedIds": {
       "type": "array"
     },
-    "layout": {
-      "type": "string",
-      "enum": ["grid", "flex", "none"],
-      "default": "none"
-    },
     "gap": {
       "type": "object",
-      "default": {}
+      "default": {
+        "default": 2
+      }
     },
     "margin": {
       "type": "object",
@@ -37,11 +37,9 @@
     },
     "columns": {
       "type": "object",
-      "default": {}
-    },
-    "contentAlignement": {
-      "type": "string",
-      "default": ""
+      "default": {
+        "default": 3
+      }
     },
     "slider": {
       "type": "boolean",
@@ -50,7 +48,18 @@
     "sliderBreakpoint": {
       "type": "number",
       "default": 0
+    },
+    "sliderAutoplay": {
+      "type": ["boolean", "number"],
+      "default": false
+    },
+    "sliderDisplayNavElements": {
+      "type": "boolean",
+      "default": true
     }
+  },
+  "providesContext": {
+    "queryId": "queryId"
   },
   "icon": "image-rotate",
   "textdomain": "sg-blocks",

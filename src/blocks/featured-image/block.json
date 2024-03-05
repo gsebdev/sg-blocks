@@ -11,7 +11,7 @@
       "type": "string",
       "default": "full"
     },
-    "aspectRatio":{
+    "aspectRatio": {
       "type": "string",
       "default": ""
     },
@@ -27,6 +27,10 @@
       "type": "string",
       "default": "fade"
     },
+    "linkedToPost": {
+      "type": "boolean",
+      "default": false
+    },
     "margin": {
       "type": "object"
     },
@@ -35,11 +39,16 @@
     },
     "align": {
       "type": "string"
+    },
+    "fullWidth": {
+      "type": "boolean",
+      "default": false
     }
   },
   "supports": {
     "align": ["center"]
   },
+  "usesContext": ["postId", "postType", "queryId"],
   "textdomain": "sg-blocks",
   "editorStyle": "file:./editor.css",
   "render": "file:./render.php"

@@ -16,3 +16,22 @@
     }
   }
 }
+
+.wp-block-sg-query-related {
+  overflow: hidden;
+  &.is-selected {
+    box-shadow: inset 0 0 2px 1px var(--wp-admin-theme-color, grey);
+  }
+
+  .sg-query-related {
+    &__block-empty, &__empty {
+      border: 1px dashed var(--wp-admin-theme-color, grey);
+      margin: 0.5rem 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+  }
+}

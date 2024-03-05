@@ -44,7 +44,7 @@
       "type": "string",
       "default": "full"
     },
-    "aspectRatio":{
+    "aspectRatio": {
       "type": "string",
       "default": ""
     },
@@ -71,6 +71,10 @@
     },
     "align": {
       "type": "string"
+    },
+    "fullWidth": {
+      "type": "boolean",
+      "default": false
     }
   },
   "supports": {

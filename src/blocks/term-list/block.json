@@ -18,13 +18,15 @@
       "type": "boolean",
       "default": true
     },
-    "centred": {
+    "centerItems": {
       "type": "boolean",
       "default": false
     },
     "gap": {
       "type": "object",
-      "default": {}
+      "default": {
+        "default": 2
+      }
     },
     "separator": {
       "type": "boolean",

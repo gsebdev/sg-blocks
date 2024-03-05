@@ -37,12 +37,12 @@ const Slideshow: React.FC<SlideshowProps> = ({ attributes, images, deleteImage, 
                     <>
                         <button
                             data-direction="prev"
-                            className="sg-gallery__nav"
+                            className="sg-gallery__nav sg-icon-cheveron-left"
                             aria-label="Previous Image"
                         />
                         <button
                             data-direction="next"
-                            className="sg-gallery__nav"
+                            className="sg-gallery__nav sg-icon-cheveron-right"
                             aria-label="Next Image"
                         />
                     </>

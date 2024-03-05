@@ -12,8 +12,8 @@ if (!function_exists('render_list_of_terms')) {
 
         $taxonomy = $attributes['taxonomy'] ?? 'category';
         $horizontalLayout = $attributes['horizontalLayout'] ?? true;
+        $centerItems = $attributes['centerItems'] ?? false;
         $fontSize = $attributes['fontSize'] ?? 'm';
-        $gap = $attributes['gap'] ?? 1;
         $separator = $attributes['separator'] ?? false;
         $font_heading = $attributes['fontHeading'] ?? true;
         $custom_classNames = $attributes['className'] ?? '';
@@ -28,22 +28,14 @@ if (!function_exists('render_list_of_terms')) {
         }
 
         // Generate gap class names based on provided values
-        $gap_classNames = '';
-        foreach ($gap as $breakpoint => $value) {
-            if ($value) {
-                if(is_string($value)) {
-                    $gap_classNames .= $breakpoint === 'default' ? ' g-' . $value : ' g-' . $breakpoint . '-' . $value;
-                } else if(is_array($value)) {
-                    foreach($value as $axis => $v) {
-                        $gap_classNames .= $breakpoint === 'default' ? ' g' . $axis . '-' . $v : ' g' . $axis . '-' . $breakpoint . '-' . $v;
-                    }
-                }
-                
-            }
-        }
+        $gap_classNames = sg_get_spacing_classname($attributes);
 
         // Generate class names based on attributes
-        $className = ($horizontalLayout ? 'flx flx-wrap' : '') . ' ' . ($fontSize ? 'f-' . esc_attr($fontSize) : '') . ' ' . $custom_classNames . $gap_classNames;
+        $className = 'sg-term-list';
+        $className .= $horizontalLayout ? ' flx flx-wrap' : '';
+        $className .= $fontSize ? ' f-' . esc_attr($fontSize) : '';
+        $className .= ' ' . $custom_classNames . ' ' . $gap_classNames;
+        $className .= $centerItems ? ' flx-ctr txt-ctr' : '';
 
 
         if ($font_heading) {

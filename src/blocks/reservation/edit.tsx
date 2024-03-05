@@ -39,7 +39,7 @@ const Edit: React.FC<EditProps> = ({
   const [isOpen, setOpen] = useState(false);
   const [modalLoading, setModalLoading] = useState(true);
   const [booking, setBooking] = usePostMeta(postType, postId, 'booking');
-  const [price, setPrice] = usePostMeta(postType, postId, 'price');
+  const [price] = usePostMeta(postType, postId, 'price');
   const [reservationData, setReservationData] = useState('');
   const [reservationDataError, setReservationDataError] = useState(false);
   const [lowestPrice, setLowestPrice] = useState<number | null>(null);
@@ -82,7 +82,7 @@ const Edit: React.FC<EditProps> = ({
   if (!displayText) {
 
     if (!booking) {
-      displayText = displayPhone ?? 'chargement...'
+      displayText = displayPhone ?? 'Entrez votre n° de Telephone...';
     } else {
       displayText = 'Réservez';
     }
@@ -136,7 +136,7 @@ const Edit: React.FC<EditProps> = ({
 
             }}
           />
-          <Button variant="secondary" size='small' onClick={openModal}>
+          <Button variant="secondary" size={'small' as any} onClick={openModal}>
             Tester le lien
           </Button>
         </PanelBody>
@@ -163,7 +163,7 @@ const Edit: React.FC<EditProps> = ({
         <div className={`sg-reservation p-3 my-2 txt-ctr ${className ?? ''}`}>
           <p className='f-s f-sb'>{!booking ? __('Envie de réserver ?') : __('Réservez directement en ligne !')}</p>
           <div className='py-2 f-xs color-secondary f-up'>à partir de <span className='f-sm f-sb'>{customPrice ? customPrice : lowestPrice ?? ''}€</span></div>
-          <button className={`cta cta--arrow-right cta--solid f-b f-s`}>
+          <button className={`cta`}>
             {displayText}
           </button>
           {booking &&

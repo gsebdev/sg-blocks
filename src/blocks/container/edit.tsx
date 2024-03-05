@@ -46,6 +46,7 @@ const TAGNAMES = [
   "footer",
   "aside",
   "nav",
+  "main"
 ];
 
 const SPACING_OPTIONS = [

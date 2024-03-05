@@ -1,5 +1,8 @@
 .sg-reservation {
-    border: solid var(--sg--preset--color--grey-1, grey) 3px;
+    border: dashed var(--sg--preset--color--grey-1, grey) 2px;
+    p {
+        margin: 0;
+    }
     .separator {
         position: relative;
         span {

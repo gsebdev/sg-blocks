@@ -1,5 +1,10 @@
-import React, { useMemo, memo, useState } from "react";
-// @ts-ignore
+import React, { useMemo, memo, useState, useEffect, useRef } from "react";
+/**
+ * 
+ * Wordpress dependencies
+ * 
+ */
+
 import {
   useBlockProps,
   InspectorControls,
@@ -9,23 +14,30 @@ import {
   __experimentalUseBlockPreview as useBlockPreview,
   useInnerBlocksProps,
 } from "@wordpress/block-editor";
-// @ts-ignore
 import { PanelBody, TabPanel } from "@wordpress/components";
-// @ts-ignore
 import { useSelect } from "@wordpress/data";
-// @ts-ignore
 import { __ } from "@wordpress/i18n";
-import QueryRelatedLayoutControls from "./insepector-controls/QueryRelatedLayoutControls";
-import QueryRelatedQueryControls from "./insepector-controls/QueryRelatedQueryControls";
+import { useInstanceId } from '@wordpress/compose';
+
+
+/**
+ * 
+ * 
+ * Internal dependencies
+ * 
+ */
+import QueryRelatedLayoutControls from "./inspector-controls/QueryRelatedLayoutControls";
+import QueryRelatedQueryControls from "./inspector-controls/QueryRelatedQueryControls";
+import QueryRelatedSliderControls from "./inspector-controls/QueryRelatedSliderControls";
 import { getClassNames } from "../block-utilities/sg-blocks-helpers";
-// @ts-ignore
+import Swiper from "sg-swiper";
+
 
 export interface Attributes {
   relatedPostType: string;
   relatedTaxonomy: string;
   postNumber: number;
   excludedIds: string[];
-  layout: string;
   gap: Record<string, number>;
   margin: Record<string, Record<string, number | { x: number; y: number }>>;
   padding: Record<string, Record<string, number | { x: number; y: number }>>;
@@ -33,7 +45,10 @@ export interface Attributes {
   contentAlignment: string;
   slider: boolean;
   sliderBreakpoint: number;
+  sliderAutoplay: boolean | number;
+  sliderDisplayNavElements: boolean;
   className: string;
+  queryId: number;
 }
 
 export interface CoreStore {
@@ -56,14 +71,22 @@ interface EditProps {
   attributes: Attributes;
   setAttributes: (attribute: Partial<Attributes>) => void;
   clientId: string;
+  innerBlocks: any[];
 }
 
-interface EditorStore {
-  getCurrentPostAttribute: (attribute: string) => any;
-  getCurrentPost: () => any;
-}
+const TEMPLATE = [['sg/container', { Tag: 'article' }, [
+  ['sg/container', { Tag: 'div' }, [
+    ['sg/featured-image', {
+      imageSource: 'medium_medium',
+      aspectRatio: '4 / 3',
+      sizes: { "default": 480 }
+    }],
+  ]],
+  ['core/post-title'],
+  ['core/post-excerpt', { moreText: '', showMoreOnNewLines: false }],
+]]
 
-const TEMPLATE = [["sg/container"]];
+];
 
 /**
  * Generates inner blocks properties for the post template.
@@ -71,11 +94,10 @@ const TEMPLATE = [["sg/container"]];
  * @return {JSX.Element} The JSX element with inner block properties.
  */
 const RelatedPostInnerBlocks = ({ className = "" }) => {
-  const innerBlocksProps = useInnerBlocksProps({
-    template: TEMPLATE,
-    className: className,
-    __unstableDisableLayoutClassNames: true,
-  });
+  const innerBlocksProps = useInnerBlocksProps(
+    { className: className },
+    { template: TEMPLATE as any }
+  );
   return <li {...innerBlocksProps} />;
 };
 
@@ -123,6 +145,14 @@ function PostTemplateBlockPreview({
 
 const MemoizedPostTemplateBlockPreview = memo(PostTemplateBlockPreview);
 
+/**
+ * Component for editing the block.
+ *
+ * @param {EditProps} clientId 
+ * @param {EditProps} attributes 
+ * @param {EditProps} setAttributes 
+ * @return {JSX.Element} 
+ */
 const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
   const {
     className,
@@ -132,9 +162,15 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
     excludedIds,
     slider,
     sliderBreakpoint,
+    sliderAutoplay,
+    sliderDisplayNavElements
   } = attributes;
+  const instanceId = useInstanceId(Edit);
 
   const [activeBlockContextId, setActiveBlockContextId] = useState(null);
+  const [sliderStarted, setSliderStarted] = useState(false);
+
+  const sliderRef = useRef<HTMLDivElement>(null);
 
   const currentPost = useSelect(
     (select) => (select("core/editor") as any).getCurrentPost(),
@@ -176,9 +212,56 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
         postType: post.type,
         postId: post.id,
         postTitle: post.title,
+        queryId: post.query_id,
       })),
     [queriedRelatedPosts]
   );
+
+  useEffect(() => {
+    setAttributes({
+      queryId: instanceId
+    })
+  })
+
+  useEffect(() => {
+
+    const toggleSlider = () => {
+      const { innerWidth: size } = window;
+      if (size <= sliderBreakpoint || sliderBreakpoint === 0) {
+        setSliderStarted(true);
+      } else {
+        setSliderStarted(false);
+      }
+    }
+
+    if (!slider) {
+      setSliderStarted(false);
+      window.removeEventListener("resize", toggleSlider);
+    } else {
+      window.addEventListener("resize", toggleSlider);
+      toggleSlider();
+    }
+    return (() => {
+      window.removeEventListener("resize", toggleSlider);
+    })
+  }, [slider, sliderBreakpoint]);
+
+  useEffect(() => {
+    if (!!slider && !!sliderRef.current && sliderStarted) {
+      const swiper = new Swiper(sliderRef.current, {
+        draggable: true,
+        auto: typeof sliderAutoplay === "number" ? sliderAutoplay : undefined,
+        navigation: {
+          prev: Array.from(sliderRef.current?.querySelectorAll("[data-direction=prev]")),
+          next: Array.from(sliderRef.current?.querySelectorAll("[data-direction=next]"))
+        },
+      });
+      swiper.start();
+      return (() => {
+        swiper.stop();
+      })
+    }
+  }, [slider, sliderStarted, sliderRef.current]);
 
   return (
     <>
@@ -195,6 +278,10 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
               {
                 name: "layout",
                 title: "Affichage",
+              },
+              {
+                name: "slider",
+                title: "Slider",
               },
             ]}
           >
@@ -215,49 +302,91 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
                     posts={postContexts}
                   />
                 )}
+                {tab.name === "slider" && (
+                  <QueryRelatedSliderControls
+                    attributes={attributes}
+                    setAttributes={setAttributes}
+                  />
+                )}
               </div>
             )}
           </TabPanel>
         </PanelBody>
       </InspectorControls>
       <div {...blockProps}>
-        <div
-          data-sg-slider={slider ? sliderBreakpoint : undefined}
-          className={slider ? "sg-slider" : undefined}
-        >
-          <ul
-            className={`${classNames} ${className ? className : ""} ${slider ? "sg-slider__wrapper" : ""
-              }`}
-            role="list"
+        {postContexts && postContexts.length > 0 ?
+          <div
+            data-sg-slider={slider ? sliderBreakpoint : undefined}
+            className={`sg-query-related${slider ? " sg-swiper" : ""}${sliderStarted ? " sg-swiper--started" : ""}`}
+            ref={sliderRef}
           >
-            {postContexts &&
+            <ul
+              className={`sg-query-related__list ${classNames} ${className ? className : ""} ${slider ? "sg-swiper__wrapper" : ""}`}
+            >
+              {
+                postContexts.map((postContext) => (
+                  <BlockContextProvider
+                    key={postContext.postId}
+                    value={postContext}
+                  >
+                    {postContext.postId ===
+                      (activeBlockContextId || postContexts[0]?.postId) ? (
+                      <RelatedPostInnerBlocks
+                        className={slider ? "sg-swiper__slide" : undefined}
+                      />
+                    ) : null}
 
-              postContexts.map((postContext) => (
-                <BlockContextProvider
-                  key={postContext.postId}
-                  value={postContext}
-                >
-                  {postContext.postId ===
-                    (activeBlockContextId || postContexts[0]?.postId) ? (
-                    <RelatedPostInnerBlocks
-                      className={slider ? "sg-slider__slide" : undefined}
+                    <MemoizedPostTemplateBlockPreview
+                      className={slider ? "sg-swiper__slide" : undefined}
+                      blocks={blocks}
+                      blockContextId={postContext.postId}
+                      setActiveBlockContextId={setActiveBlockContextId}
+                      isHidden={
+                        postContext.postId ===
+                        (activeBlockContextId || postContexts[0]?.postId)
+                      }
                     />
-                  ) : null}
+                  </BlockContextProvider>
+                ))
+              }
+            </ul>
+            {
+              /**
+               * 
+               * Navigation is enabled, then display the nav buttons
+               * 
+               */
+              !!sliderDisplayNavElements && !!slider &&
+              <>
+                <button
+                  className="sg-swiper__nav sg-icon-cheveron-left"
+                  data-direction="prev"
+                />
+                <button
+                  className="sg-swiper__nav sg-icon-cheveron-right"
+                  data-direction="next"
+                />
+              </>
+            }
+          </div> :
 
-                  <MemoizedPostTemplateBlockPreview
-                    className={slider ? "sg-slider__slide" : undefined}
-                    blocks={blocks}
-                    blockContextId={postContext.postId}
-                    setActiveBlockContextId={setActiveBlockContextId}
-                    isHidden={
-                      postContext.postId ===
-                      (activeBlockContextId || postContexts[0]?.postId)
-                    }
-                  />
-                </BlockContextProvider>
-              ))}
-          </ul>
-        </div>
+          /**
+           * 
+           * If the query return 0 results, then display a placeholder that show query options
+           * 
+           * 
+           */
+          <div className="sg-query-related__empty">
+            <h3>{__('SG Boucle de Post liés')}</h3>
+            <p>{__('Aucun post trouvé')}</p>
+            <QueryRelatedQueryControls
+              attributes={attributes}
+              setAttributes={setAttributes}
+              currentPost={currentPost}
+              posts={postContexts}
+            />
+          </div>
+        }
       </div>
     </>
   );

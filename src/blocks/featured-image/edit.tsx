@@ -23,6 +23,8 @@ import {
   getClassNames,
 } from "../block-utilities/sg-blocks-helpers";
 import usePostMeta from "../block-components/usePostMeta";
+// @ts-ignore
+import { useEntityProp } from "@wordpress/core-data";
 
 import breakpoints from "../breakpoints";
 import SpacingPanel from "../block-components/SpacingPanel";
@@ -52,8 +54,13 @@ const SPACING_OPTIONS = [
   },
 ];
 
-const Edit = ({ attributes, setAttributes }) => {
-  const { aspectRatio, sizes, imageSource, lightbox, lightboxTransition } = attributes;
+const Edit = ({ attributes, setAttributes, context, isSelected }) => {
+  const { aspectRatio, sizes, imageSource, lightbox, lightboxTransition, fullWidth, linkedToPost } =
+    attributes;
+
+  const { postId, postType: postTypeSlug, queryId } = context;
+
+  const isDescendentOfQueryLoop = Number.isFinite(queryId);
 
   const classNames = getClassNames(attributes);
   const blockProps = useBlockProps({ className: classNames });
@@ -63,46 +70,36 @@ const Edit = ({ attributes, setAttributes }) => {
     []
   );
 
-  const { featuredId, post } = useSelect(
-    (select) => {
-      const { getEditedPostAttribute, getCurrentPost } = select("core/editor") as any
-      return {
-        featuredId: getEditedPostAttribute("featured_media"),
-        post: getCurrentPost(),
-      }
-    },
-    []
-  );
-
-  const featuredImage = useSelect(
-    (select) =>
-      featuredId
-        ? (select("core") as any).getEntityRecord(
-          "postType",
-          "attachment",
-          featuredId
-        )
-        : null,
-    [featuredId]
+  const [featuredImageId, setFeaturedImage] = useEntityProp(
+    "postType",
+    postTypeSlug,
+    "featured_media",
+    postId
   );
 
   const [featuredImagePosition, setFeaturedImagePosition] = usePostMeta(
-    post.type,
-    post.id,
+    postTypeSlug,
+    postId,
     "featured_image_position"
   );
 
-  const { editPost } = useDispatch("core/editor");
+  const featuredImage = useSelect(
+    (select) => {
+      const { getMedia } =
+        select('core') as any;
+      return featuredImageId && getMedia(featuredImageId, { context: 'view' })
+    },
+    [featuredImageId]
+  );
 
   const setNewFeaturedImage = (newImage) => {
-    editPost({ featured_media: newImage.id });
-    setAttributes({ imageSource: 'full', sizes: { ...sizes, default: null } });
-  }
-
+    setFeaturedImage(newImage.id);
+    setAttributes({ imageSource: "full", sizes: { ...sizes, default: null } });
+  };
 
   const removeFeaturedImage = () => {
-    editPost({ featured_media: null });
-    setAttributes({ imageSource: 'full', sizes: { ...sizes, default: null } });
+    setFeaturedImage(null);
+    setAttributes({ imageSource: "full", sizes: { ...sizes, default: null } });
   };
 
   const setImageSource = (value: string) => {
@@ -114,9 +111,8 @@ const Edit = ({ attributes, setAttributes }) => {
       },
     });
   };
-
   useEffect(() => {
-    if (imageSource && !sizes['default'] && featuredImage) {
+    if (!!imageSource && !sizes["default"] && featuredImage) {
       setAttributes({
         sizes: {
           ...sizes,
@@ -124,13 +120,17 @@ const Edit = ({ attributes, setAttributes }) => {
         },
       });
     }
-
   }, [imageSource, featuredImage]);
 
   return (
     <>
       <InspectorControls>
         <PanelBody title="Image de couverture">
+          <ToggleControl
+            label="Occuper toute la largeur"
+            checked={!!fullWidth}
+            onChange={(value) => setAttributes({ fullWidth: value })}
+          />
           <SelectControl
             label="Ratio de l'image"
             placeholder="Choisir un ratio"
@@ -148,47 +148,86 @@ const Edit = ({ attributes, setAttributes }) => {
             label="Source de l'image"
             placeholder="Choisir une résolution"
             value={imageSource}
-            options={imageSizes.map((size) => ({
+            options={imageSizes?.map((size) => ({
               label: size.name,
               value: size.slug,
             }))}
             onChange={setImageSource}
           />
           <ToggleControl
-            label="Agrandir au clic"
-            help="Agrandissez l'image dans une lightbox au clic"
-            checked={!!lightbox}
-            onChange={(value) => setAttributes({ lightbox: value })}
+            label="Lien vers l'article"
+            help="Ajouter un lien vers l'article"
+            checked={!!linkedToPost}
+            onChange={(value) => {setAttributes({ linkedToPost: value, lightbox: false })}}
           />
-          {lightbox && (
-            <SelectControl
-              label="Transition ouverture lightbox"
-              help="Choisir une transition"
-              value={lightboxTransition}
-              options={LIGHTBOX_TRANSITIONS.map((transition) => ({
-                label: transition,
-                value: transition,
-              }))}
-              onChange={(value) => setAttributes({ lightboxTransition: value })}
-            />
-          )}
-          {featuredImage && (
+          {
+            /**
+             * 
+             * If is not in a query loop, be able to open the image in a lightbox on click
+             * 
+             */
+            !isDescendentOfQueryLoop &&
+            <>
+              {
+                /**
+                 * 
+                 * If linked to post is checked, this option is disabled
+                 * 
+                 */
+                !linkedToPost &&
+                <ToggleControl
+                  label="Agrandir au clic"
+                  help="Agrandissez l'image dans une lightbox au clic"
+                  checked={!!lightbox}
+                  onChange={(value) => setAttributes({ lightbox: value, linkedToPost: false })}
+                />
+              }
+              {
+                /**
+                 * 
+                 * If lightbox option is on, be able to choose a transition
+                 * 
+                 */
+                !!lightbox &&
+                <SelectControl
+                  label="Transition ouverture lightbox"
+                  help="Choisir une transition"
+                  value={lightboxTransition}
+                  options={LIGHTBOX_TRANSITIONS.map((transition) => ({
+                    label: transition,
+                    value: transition,
+                  }))}
+                  onChange={(value) => setAttributes({ lightboxTransition: value })}
+                />
+              }
+            </>
+          }
+          {
+            /**
+             * 
+             * If an image has been selected, be able to set the focal point 
+             * (object position saved in the post meta)
+             * 
+             */
+            !!featuredImage &&
             <PanelRow>
               <h3>Modifier le point de focus :</h3>
               <FocalPointPicker
-                url={featuredImage.media_details.sizes['medium'].source_url}
+                url={featuredImage.media_details.sizes["medium"]?.source_url ?? featuredImage.media_details.source_url}
                 onChange={(value) => setFeaturedImagePosition(value)}
                 value={featuredImagePosition}
                 // @ts-ignore
                 onDrag={(value) => setFeaturedImagePosition(value)}
               />
             </PanelRow>
-          )}
+          }
+
           <SpacingPanel
             attributes={attributes}
             setAttributes={setAttributes}
             spacingsOptions={SPACING_OPTIONS}
           />
+
           <PanelHeader label="Responsive design" />
           <BreakpointTabs>
             {(tab) => {
@@ -205,7 +244,12 @@ const Edit = ({ attributes, setAttributes }) => {
                       max={100}
                       step={5}
                       onChange={(value) =>
-                        setAttributes({ sizes: { ...sizes, [breakpoints[tab.name].toString()]: value } })
+                        setAttributes({
+                          sizes: {
+                            ...sizes,
+                            [breakpoints[tab.name].toString()]: value,
+                          },
+                        })
                       }
                     />
                   </PanelRow>
@@ -222,74 +266,112 @@ const Edit = ({ attributes, setAttributes }) => {
         </PanelBody>
       </InspectorControls>
       <div {...blockProps}>
-        {featuredImage && (
-          <figure className="sg-image sg-featured-image sg-lazy-image">
-            <img
-              src={
-                imageSource && featuredImage.media_details.sizes[imageSource]
-                  ? featuredImage.media_details.sizes[imageSource].source_url
-                  : featuredImage.source_url
-              }
-              width={imageSource && featuredImage.media_details.sizes[imageSource] 
-                ? featuredImage.media_details.sizes[imageSource].width
-                : featuredImage.media_details.width 
-              }
-              height={imageSource && featuredImage.media_details.sizes[imageSource] 
-                ? featuredImage.media_details.sizes[imageSource].height
-                : featuredImage.media_details.height 
-              }
-              sizes={generateImagesSizes(sizes)}
-              srcSet={generateSrcset(
-                featuredImage.media_details.sizes,
-                [],
-                sizes.default ?? undefined
-              )}
-              alt={featuredImage.alt_text}
-              style={{ aspectRatio: aspectRatio, objectPosition: `${featuredImagePosition.x * 100}% ${featuredImagePosition.y * 100}%` }}
-            />
-            <MediaUploadCheck>
-              <MediaUpload
-                onSelect={setNewFeaturedImage}
-                value={featuredImage.id}
-                render={({ open }) => (
-                  <Button
-                    variant="secondary"
-                    className="sg-featured-image__edit-btn"
-                    onClick={open}
-                    icon="edit"
-                  ></Button>
+        {
+          /**
+           *
+           * If the is a featured image display it
+           *
+           */
+
+          !!featuredImage ?
+            <figure className={`sg-image sg-featured-image sg-lazy-image${!!fullWidth ? " sg-image--full-width" : ""}`}>
+              <img
+                src={
+                  imageSource && featuredImage.media_details.sizes[imageSource]
+                    ? featuredImage.media_details.sizes[imageSource].source_url
+                    : featuredImage.source_url
+                }
+                width={
+                  imageSource && featuredImage.media_details.sizes[imageSource]
+                    ? featuredImage.media_details.sizes[imageSource].width
+                    : featuredImage.media_details.width
+                }
+                height={
+                  imageSource && featuredImage.media_details.sizes[imageSource]
+                    ? featuredImage.media_details.sizes[imageSource].height
+                    : featuredImage.media_details.height
+                }
+                sizes={generateImagesSizes(sizes)}
+                srcSet={generateSrcset(
+                  featuredImage.media_details.sizes,
+                  [],
+                  sizes.default ?? undefined
                 )}
+                alt={featuredImage.alt_text}
+                style={{
+                  aspectRatio: aspectRatio,
+                  objectPosition: `${featuredImagePosition.x * 100}% ${featuredImagePosition.y * 100
+                    }%`,
+                }}
               />
-            </MediaUploadCheck>
-            <Button
-              isDestructive
-              className="sg-featured-image__remove-btn"
-              onClick={removeFeaturedImage}
-              icon="trash"
-            />
-          </figure>
-        )}
-        {!featuredImage && (
-          <div className="sg-featured-image no-image">
-            <p>Pas d'image de couverture selectionnée</p>
-            <p>
-              <MediaUploadCheck>
-                <MediaUpload
-                  onSelect={setNewFeaturedImage}
-                  render={({ open }) => (
-                    <Button
-                      variant="secondary"
-                      className="sg-featured-image__add-btn"
-                      onClick={open}
-                    >
-                      Sélectionner
-                    </Button>
-                  )}
-                />
-              </MediaUploadCheck>
-            </p>
-          </div>
-        )}
+              {
+                /**
+                 * Display edit and remove buttons only when image block is selected
+                 */
+                isSelected &&
+                <>
+                  <MediaUploadCheck>
+                    <MediaUpload
+                      onSelect={setNewFeaturedImage}
+                      value={featuredImage.id}
+                      render={({ open }) => (
+                        <Button
+                          variant="secondary"
+                          className="sg-featured-image__edit-btn"
+                          onClick={open}
+                          icon="edit"
+                        ></Button>
+                      )}
+                    />
+                  </MediaUploadCheck>
+                  {
+                    /**
+                     * Display the remove button only if it's not in a query loop
+                     *
+                     */
+
+                    !isDescendentOfQueryLoop && (
+                      <Button
+                        isDestructive
+                        className="sg-featured-image__remove-btn"
+                        onClick={removeFeaturedImage}
+                        icon="trash"
+                      />
+                    )
+                  }
+                </>
+              }
+            </figure> : null
+        }
+        {
+          /**
+           *
+           * Placeholder when no image is selected
+           *
+           */
+
+          !featuredImage && postId && (
+            <div className="sg-featured-image no-image">
+              <p>Pas d'image de couverture selectionnée</p>
+              <p>
+                <MediaUploadCheck>
+                  <MediaUpload
+                    onSelect={setNewFeaturedImage}
+                    render={({ open }) => (
+                      <Button
+                        variant="secondary"
+                        className="sg-featured-image__add-btn"
+                        onClick={open}
+                      >
+                        Sélectionner
+                      </Button>
+                    )}
+                  />
+                </MediaUploadCheck>
+              </p>
+            </div>
+          )
+        }
       </div>
     </>
   );

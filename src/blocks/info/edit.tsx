@@ -56,7 +56,7 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes, clie
   const titleTagName = `h${level}`;
 
   const blockProps = useBlockProps();
-  blockProps.className = `${blockProps.className.replace(attributes.className, '')}${!info_id || currentEntryIndex === null ? ' is-empty' : ''}`;
+  blockProps.className = `${blockProps.className.replace(attributes.className ?? '', '')}${!info_id || currentEntryIndex === null ? ' is-empty' : ''}`;
 
   const onTitleChange = (value: string) => {
     if (currentEntryIndex === null) return;
@@ -82,7 +82,7 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes, clie
     if (deleteIndex !== -1) setInfo([...info.slice(0, deleteIndex), ...info.slice(deleteIndex + 1)]);
   }
 
-  const onChangeInfo = (newId?: string) => {
+  const onChangeInfo = (newId?) => {
     if (!title && !content) {
       removeInfo(info_id);
     }
@@ -95,7 +95,7 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes, clie
 
   return (
     <>
-      <BlockControls group="block">
+      <BlockControls>
         <HeadingLevelDropdown
           value={level}
           onChange={(newLevel) =>
@@ -145,7 +145,7 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes, clie
             <tr>
               <td colSpan={2}>
                 <RichText
-                  tagName={titleTagName}
+                  tagName={titleTagName as any}
                   value={title}
                   onChange={onTitleChange}
                   placeholder={__('Titre de l\'info')}

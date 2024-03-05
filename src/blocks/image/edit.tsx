@@ -66,7 +66,8 @@ const Edit = ({ attributes, setAttributes }) => {
     height,
     width,
     image_id,
-    imagePosition
+    imagePosition,
+    fullWidth
   } = attributes;
 
   const classNames = getClassNames(attributes);
@@ -85,6 +86,7 @@ const Edit = ({ attributes, setAttributes }) => {
   );
 
   const setImageSource = (value: string) => {
+    if(!value || !selectedImage) return;
     setAttributes({
       imageSource: value,
       src: selectedImage.media_details.sizes[value]?.source_url,
@@ -113,6 +115,12 @@ const Edit = ({ attributes, setAttributes }) => {
     }
 
   }, [imageSource, selectedImage]);
+
+  useEffect(() => {
+    if(image_id && !src || !srcSet || !height || !width || !alt || !sizes.default || !imageSource) {
+      setImageSource(imageSource || "full");
+    }
+  }, [image_id, src, srcSet, height, width, alt, sizes.default, imageSource]);
 
   const removeImage = () => {
     setAttributes({
@@ -149,7 +157,12 @@ const Edit = ({ attributes, setAttributes }) => {
   return (
     <>
       <InspectorControls>
-        <PanelBody title="Image de couverture">
+        <PanelBody title="Image">
+        <ToggleControl
+            label="Occuper toute la largeur"
+            checked={!!fullWidth}
+            onChange={(value) => setAttributes({ fullWidth: value })}
+          />
           <SelectControl
             label="Ratio de l'image"
             placeholder="Choisir un ratio"
@@ -191,7 +204,7 @@ const Edit = ({ attributes, setAttributes }) => {
               onChange={(value) => setAttributes({ lightboxTransition: value })}
             />
           )}
-          {selectedImage && (
+          {!!selectedImage && (
             <PanelRow>
               <h3>Modifier le point de focus :</h3>
               <FocalPointPicker
@@ -241,8 +254,11 @@ const Edit = ({ attributes, setAttributes }) => {
         </PanelBody>
       </InspectorControls>
       <div {...blockProps}>
-        {selectedImage && (
-          <figure className="sg-image sg-lazy-image">
+        {!!selectedImage && (
+          <figure 
+          className={`sg-image sg-lazy-image${!!fullWidth ? " sg-image--full-width" : ""}`}
+          style={{ aspectRatio: aspectRatio}}
+          >
             <img
               src={src}
               width={width}
@@ -250,7 +266,7 @@ const Edit = ({ attributes, setAttributes }) => {
               sizes={generateImagesSizes(sizes)}
               srcSet={srcSet}
               alt={alt}
-              style={{ aspectRatio: aspectRatio, objectPosition: imagePosition ? `${imagePosition.x * 100}% ${imagePosition.y * 100}%` : undefined }}
+              style={{ objectPosition: imagePosition ? `${imagePosition.x * 100}% ${imagePosition.y * 100}%` : undefined }}
             />
             <MediaUploadCheck>
               <MediaUpload

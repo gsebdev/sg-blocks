@@ -36,7 +36,7 @@ const Edit = (props) => {
     separator,
     fontHeading,
     linked,
-    centered
+    centerItems
   } = attributes;
 
   let tax_name;
@@ -81,6 +81,8 @@ const Edit = (props) => {
     }
   }, [taxonomy]);
 
+  const TermsTag = linked ? 'a' : 'span';
+
   const blockProps = useBlockProps();
   return (
     <>
@@ -121,9 +123,9 @@ const Edit = (props) => {
           />
           <ToggleControl
             label="Texte centré"
-            checked={centered}
+            checked={centerItems}
             onChange={(newValue) => {
-              setAttributes({ centered: newValue });
+              setAttributes({ centerItems: newValue });
             }}
           />
           <ToggleControl
@@ -188,7 +190,7 @@ const Edit = (props) => {
         <ul
           {...blockProps}
           className={`${blockProps.className} sg-term-list f-${fontSize} ${horizontalLayout ? "flx flx-wrap" : ""
-            } ${centered ? "flx-ctr txt-ctr" : ""} ${getSpacingClassname(attributes)}${fontHeading ? " f-heading" : ""
+            } ${centerItems ? "flx-ctr txt-ctr" : ""} ${getSpacingClassname(attributes)}${fontHeading ? " f-heading" : ""
             }`}
         >
           {terms.map((term, index) => (
@@ -196,12 +198,12 @@ const Edit = (props) => {
               key={term + index}
               className={`${separator && index > 0 ? "separator" : ""}`}
             >
-              <span
+              <TermsTag
                 className={`sg-tags-${taxonomy}`}
                 style={term.meta.color ? { color: term.meta.color } : undefined}
               >
                 {term.name}
-              </span>
+              </TermsTag>
             </li>
           ))}
         </ul>

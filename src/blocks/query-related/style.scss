@@ -1,13 +1,101 @@
-.sg-slider {
-    &-started & {
-    &__wrapper {
-            display: flex;
-            flex-wrap: nowrap;
-
-            .sg-slider__slide {
-                flex: 0 0 45%;
-            }
-        }
+.sg-query-related {
+  &__list {
+    display: grid;
+    width: 100%;
+    > li {
+      display: grid;
+      width: 100%;
+      > a {
+        position: absolute;
+        z-index: 3;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+      }
     }
-    
+  }
+}
+
+.sg-swiper {
+  &--started & {
+    &.is-first & {
+      &__nav[data-direction="prev"] {
+        display: none;
+      }
+    }
+    &.is-last & {
+      &__nav[data-direction="next"] {
+        display: none;
+      }
+    }
+
+    &.no-translate & {
+      &__wrapper {
+        justify-content: center;
+      }
+    }
+
+    &__nav {
+      position: absolute;
+      width: 10%;
+      height: 100%;
+      top: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+      z-index: 3;
+
+      &::before {
+        font-size: 50px;
+      }
+
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+
+      &[data-direction="prev"] {
+        justify-content: start;
+        left: 0;
+      }
+      &[data-direction="next"] {
+        justify-content: end;
+        right: 0;
+      }
+    }
+
+    &__wrapper {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+    }
+
+    &__slide {
+      position: relative;
+      flex: 0 0 35%;
+      overflow: hidden;
+    }
+  }
+  &--started {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    cursor: grab;
+    user-select: none;
+    &:hover {
+      .sg-swiper__nav {
+        opacity: 1;
+      }
+    }
+  }
+  &:not(.sg-swiper--started) & {
+    &__nav {
+      display: none;
+    }
+  }
 }

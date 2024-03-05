@@ -15,9 +15,10 @@ const Save = ({ attributes }) => {
         imagePosition,
         image_id,
         className,
-        align
+        align,
+        fullWidth
     } = attributes;
-    
+
     const classNames = `${getClassNames(attributes)}${className ? ' ' + className : ''}${align === 'center' ? ' txt-ctr' : ''}`;
 
     const ImageWrapper = ({ children, active }) => (
@@ -41,10 +42,11 @@ const Save = ({ attributes }) => {
     return (
         <div className={classNames ? classNames : undefined}>
             <figure
-                className={`sg-image sg-lazy-image${lightbox ? " sg-lightbox-image" : ""}`}
+                className={`sg-image sg-lazy-image${lightbox ? " sg-lightbox-image" : ""}${!!fullWidth ? " sg-image--full-width" : ""}`}
                 data-transition={lightbox ? lightboxTransition ?? "none" : undefined}
-                id={'sg-image-' + image_id.toString(36)}
+                id={'img-' + image_id?.toString(36)}
                 data-loaded="false"
+                style={{aspectRatio: aspectRatio}}
             >
                 <ImageWrapper active={lightbox}>
                     <img
@@ -54,7 +56,7 @@ const Save = ({ attributes }) => {
                         sizes={generateImagesSizes(sizes)}
                         data-srcset={srcSet}
                         alt={alt}
-                        style={{ aspectRatio: aspectRatio, objectPosition: imagePosition ? `${imagePosition.x * 100}% ${imagePosition.y * 100}%` : undefined }}
+                        style={{ objectPosition: imagePosition ? `${imagePosition.x * 100}% ${imagePosition.y * 100}%` : undefined }}
                     />
                 </ImageWrapper>
             </figure>
