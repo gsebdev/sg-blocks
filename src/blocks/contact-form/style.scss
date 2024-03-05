@@ -1,0 +1,171 @@
+.sg-contact-form {
+  position: relative;
+  * {
+    box-sizing: border-box;
+  }
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  align-items: center;
+  gap: 2rem;
+  border: 2px dashed var(--sg--preset--color--grey-2, grey);
+
+  &:has(form[data-submit="error"]) {
+    border-color: var(--sg--preset--color--error, red);
+  }
+  &.closing {
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0;
+  }
+  .sg-icon-cancel {
+    position: absolute;
+    z-index: 5;
+    top: 1rem;
+    right: 1rem;
+    font-size: 25px;
+    color: var(--sg--preset--color--text, grey);
+    cursor: pointer;
+  }
+  
+  form {
+    padding-bottom: 2.5rem;
+
+    &[data-submit] {
+      position: relative;
+      &::before {
+        text-align: center;
+        position: absolute;
+        font-size: var(--sg--preset--font-size--s, 0.85rem);
+        color: var(--sg--preset--color--primary, black);
+        padding: var(--sg--preset--spacing--2, 0.5rem);
+        transition: opacity 0.3s ease-in-out;
+        z-index: 3;
+        opacity: 0;
+        display: block;
+      }
+  
+      [type="submit"] {
+        visibility: hidden;
+      }
+    }
+  
+    &[data-submit="loading"] {
+      .i-grp {
+        opacity: 0.5;
+      }
+      &::before {
+        opacity: 1;
+      }
+    }
+  
+    &[data-submit="success"] {
+      .i-grp {
+        visibility: hidden;
+        opacity: 0;
+      }
+      &::before {
+        content: "Message envoyé avec succès, nous allons en prendre connaissance";
+        opacity: 1;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      &::after {
+        content: '\e902';
+        font-family: 'sg-icons';
+        font-size: 35px;
+        color: var(--sg--preset--color--text, grey);
+        position: absolute;
+        top: calc(50% - 5rem);
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    
+    }
+  
+    &[data-submit="error"] {
+      &::before {
+        content: "Une erreur s'est produite dans l'envoi du message, merci de réessayer";
+        color: red;
+        opacity: 1;
+        bottom: 0;
+        width: 100%;
+      }
+      [type="submit"] {
+        visibility: visible;
+      }
+    }
+
+    &[data-valid="false"] {
+      *[type="submit"] {
+        cursor: not-allowed;
+        opacity: 0.3;
+        filter: grayscale(1);
+      }
+    }
+  }
+
+  .i-grp {
+    text-align: left;
+    position: relative;
+    width: calc(100% - 2px);
+    padding: min(1.25rem, 5vw);
+    font-size: var(--sg--preset--font-size--s);
+    z-index: 1;
+    transition: opacity 0.3s ease-in-out;
+
+    &[data-test="true"] {
+      position: absolute;
+      opacity: 0;
+      height: 0;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+
+      &::before,
+      &::after {
+        content: none;
+      }
+    }
+    label {
+      font-family: var(--sg--preset--font-family--heading);
+    }
+    input,
+    textarea {
+      width: 100%;
+      display: block;
+      padding: 1rem;
+      &::placeholder {
+        color: var(--sg--preset--color--grey-2, lightgrey);
+        font-size: var(--sg--preset--font-size--xs, "small");
+      }
+
+      &:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0px 1000px var(--sg--preset--color--bg, white)
+          inset;
+      }
+    }
+
+    textarea {
+      resize: none;
+      padding-top: 1rem;
+    }
+
+    &[data-error] {
+      &::before {
+        content: attr(data-error);
+        color: red;
+        position: absolute;
+        bottom: 0;
+        left: min(1.25rem, 5vw);
+        width: 100%;
+        text-align: left;
+        font-size: var(--sg--preset--font-size--xxs, 0.65rem);
+      }
+      &::after {
+        outline: none;
+      }
+    }
+  }
+
+}

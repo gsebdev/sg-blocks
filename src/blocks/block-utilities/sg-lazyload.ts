@@ -58,19 +58,19 @@ export const loadImage = (
         _placeholderElement = document.createElement("img");
 
         if (srcset) {
-          _placeholderElement.sizes = "30px";
+          _placeholderElement.sizes = "50px";
           _placeholderElement.srcset = srcset;
           _placeholderElement.style.objectPosition = image.style.objectPosition;
-          _placeholderElement.addEventListener("load", () => {
-            (_placeholderElement as HTMLImageElement).className = "sg-lazyload-placeholder";
-            // load real image when placeholder has loaded
-            if (src) {
-              image.src = src;
-            }
-            if (srcset) {
+
+          const loadRealImage = () => {
+            if(_placeholderElement) {
+              _placeholderElement.className = "sg-lazyload-placeholder";
+              image.src = src ?? '';
               image.srcset = srcset;
             }
-          });
+          }
+          _placeholderElement.addEventListener("error", loadRealImage);
+          _placeholderElement.addEventListener("load", loadRealImage);
           imgParent?.appendChild(_placeholderElement);
         }
       }
