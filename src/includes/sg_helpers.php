@@ -122,6 +122,23 @@ if (!function_exists('sg_get_spacing_classname')) {
     }
 }
 
+/**
+ * Generates a classname based on the provided columns object.
+ * @param $columns - The columns object to generate the classname from.
+ * @return string - The generated classname.
+ */
+if (!function_exists('sg_get_columns_classname')) {
+    function sg_get_columns_classname($columns): string
+    {
+        if ($columns) {
+            return implode(' ', array_map(function ($key, $val) {
+                return (isset($val) && $val) ? "columns-" . ($key !== "default" ? $key . "-" : "") . $val . " " : "";
+            }, array_keys($columns), $columns));
+        } else {
+            return "";
+        }
+    }
+}
 
 
 
@@ -137,6 +154,14 @@ if (!function_exists('sg_get_spacing_classname')) {
 if (!function_exists('sg_get_most_relevant_posts_by_taxonomy')) {
     function sg_get_most_relevant_posts_by_taxonomy($post_id, $post_types, $taxonomy, $number = null, $excluded_ids = [])
     {
+
+        if (!$post_types || !$taxonomy || !$post_id) return null;
+
+        if (!is_array($excluded_ids)) {
+            $excluded_ids = [];
+        }
+
+
         if (!function_exists('get_term_id')) {
             function get_term_id($term)
             {
@@ -180,7 +205,7 @@ if (!function_exists('sg_get_most_relevant_posts_by_taxonomy')) {
                 });
             }
 
-            if ($number && $number > 0 && $number < $related_query->post_count) {
+            if (is_numeric($number) && $number > 0 && $number < $related_query->post_count) {
                 $related_query->posts = array_slice($related_query->posts, 0, $number);
                 $related_query->post_count = $number;
             }

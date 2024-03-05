@@ -1,0 +1,17 @@
+.breakpoints-tab-panel {
+    .components-tab-panel__tabs-item {
+      flex: 1 1 100%;
+      transition: all 0.3s ease-in-out;
+      &:not(.active-tab) {
+        opacity: 0.5;
+      }
+      &.active-tab {
+        background-color: var(--wp-admin-theme-color, rgb(87, 87, 87));
+        color: var(--wp-components-color-accent-inverted,#fff);
+      }
+    }
+  
+    .components-tab-panel__tabs {
+      justify-content: space-between;
+    }
+  }

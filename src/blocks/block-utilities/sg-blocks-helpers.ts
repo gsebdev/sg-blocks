@@ -1,5 +1,5 @@
 type Attributes = {
-  layout: string;
+  layout?: string;
   columns: Record<string, number | null | undefined>;
   gap?: Record<string, number>;
   padding?: Record<string, Record<string, number | { x: number; y: number }>>;

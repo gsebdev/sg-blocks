@@ -66,10 +66,10 @@ const QueryRelatedQueryControls = ({
 
   // set default values when options changes
   useEffect(() => {
-    if (!relatedPostType || !postTypesOptions?.map(({ slug }) => slug).includes(relatedPostType)) {
+    if (postTypesOptions?.length > 0 && (!relatedPostType || !postTypesOptions.map(({ slug }) => slug).includes(relatedPostType))) {
       setAttributes({ relatedPostType: postTypesOptions ? postTypesOptions[0]?.slug : undefined });
     }
-    if (!relatedTaxonomy || !taxonomiesOptions?.includes(relatedTaxonomy)) {
+    if (taxonomiesOptions?.length > 0 && (!relatedTaxonomy || !taxonomiesOptions.includes(relatedTaxonomy))) {
       setAttributes({ relatedTaxonomy: taxonomiesOptions ? taxonomiesOptions[0] : undefined });
     }
   }, [postTypesOptions, taxonomiesOptions]);

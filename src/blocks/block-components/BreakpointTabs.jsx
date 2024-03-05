@@ -1,6 +1,7 @@
 
 import { TabPanel } from "@wordpress/components";
 import breakpoints from "../breakpoints";
+import('./breakpoint-tabs.scss');
 
 const tabs = Object.keys(breakpoints).map((breakpoint) => ({
     name: breakpoint,
