@@ -1,0 +1,52 @@
+//breakpoints
+$breakpoints: (   
+    xl: 1280px,
+    l: 1024px,
+    m: 850px,
+    sm: 768px,
+    s: 576px,
+    xs: 480px,
+);
+
+$layout-columns: 6;
+
+/// spacing
+$spacings: (
+    6: var(--sg--preset--spacing--6, 4rem),
+    5: var(--sg--preset--spacing--5, 3rem),
+    4: var(--sg--preset--spacing--4, 2.5rem),
+    3: var(--sg--preset--spacing--3, 2rem),
+    2: var(--sg--preset--spacing--2, 1.5rem),
+    1: var(--sg--preset--spacing--1, 1rem),
+    0: var(--sg--preset--spacing--0, 0),
+);
+
+///fontsizes
+$font-sizes: (
+    xxxs: var(--sg--preset--font-size--xxxs, 0.5rem),
+    xxs: var(--sg--preset--font-size--xxs, 0.75rem),
+    xs: var(--sg--preset--font-size--xs, 0.85rem),
+    s: var(--sg--preset--font-size--s, 1rem),
+    sm: var(--sg--preset--font-size--sm, 1.25rem),
+    m: var(--sg--preset--font-size--m, 1.5rem),
+    l: var(--sg--preset--font-size--l, 1.75rem),
+    xl: var(--sg--preset--font-size--xl, 2rem),
+    xxl: var(--sg--preset--font-size--xxl, 3rem),
+);
+
+$colors: (
+    text: var(--sg--preset--color--text, --wp--preset--color--text),
+    primary: var(--sg--preset--color--primary, --wp--preset--color--primary),
+    accent: var(--sg--preset--color--accent, --wp--preset--color--accent),
+    bg: var(--sg--preset--color--bg, --wp--preset--color--bg),
+    secondary: var(--sg--preset--color--secondary, --wp--preset--color--secondary),
+    bg-2: var(--sg--preset--color--bg-2, --wp--preset--color--bg-2),
+    grey-1: var(--sg--preset--color--grey-1, #E6E6E6),
+    grey-2: var(--sg--preset--color--grey-2, #87888a),
+    grey-3: var(--sg--preset--color--grey-3, #545454)
+);
+
+$font-families: (
+    body: var(--sg--preset--font-family--body, --wp--preset--font-family--body),
+    heading: var(--sg--preset--font-family--heading, --wp--preset--font-family--heading),
+);

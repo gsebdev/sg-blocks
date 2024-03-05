@@ -1,0 +1,220 @@
+@import "./variables";
+///
+///
+/// columns layout
+///
+/// .columns-#{number-of-columns}-#{spacing}
+/// .columns-#{number-of-columns}-#{spacing-x}-#{spacing-y}
+/// .columns-#{max-screen-size}-#{number-of-columns}-#{spacing}
+/// .columns-#{max-screen-size}-#{number-of-columns}-#{spacing-x}-#{spacing-y}
+///
+.grid {
+  display: grid;
+}
+
+@for $i from 1 to $layout-columns {
+  .columns {
+    &-#{$i} {
+      grid-template-columns: repeat(#{$i}, 1fr);
+    }
+  }
+}
+@each $breakpoint-key, $breakpoint in $breakpoints {
+  @for $i from 1 to $layout-columns {
+    .columns-#{$breakpoint-key} {
+      &-#{$i} {
+        @media screen and (max-width: $breakpoint) {
+          grid-template-columns: repeat(#{$i}, 1fr);
+        }
+      }
+    }
+  }
+}
+
+///
+///
+/// Alignement classes
+///
+///
+///
+///
+///
+///
+.justify-start {
+  justify-content: start;
+}
+.justify-end {
+  justify-content: end;
+}
+.justify-ctr {
+  justify-content: center;
+}
+.justify-sp-btn {
+  justify-content: space-between;
+}
+.align-start {
+  align-items: start;
+}
+.align-end {
+  align-items: end;
+}
+.align-ctr {
+  align-items: center;
+}
+
+.flx {
+  display: flex;
+}
+.flx-ctr {
+  justify-content: center;
+  align-items: center;
+}
+.flx-col {
+  flex-direction: column;
+}
+.flx-wrap {
+  flex-wrap: wrap;
+}
+.hide-text {
+  position: absolute !important;
+  clip: rect(1px, 1px, 1px, 1px);
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.txt-ctr {
+  text-align: center;
+}
+.f-up {
+  text-transform: uppercase;
+}
+.f-b {
+  font-weight: 700;
+}
+.f-sb {
+  font-weight: 500;
+}
+.no-deco {
+  text-decoration: none;
+}
+
+///
+///
+/// SPACING UTILITIES
+/// p-#{spacing}
+/// px-#{spacing}
+/// py-#{spacing}
+/// p-#{max-screen-size}-#{spacing}
+/// px-#{max-screen-size}-#{spacing}
+/// py-#{max-screen-size}-#{spacing}
+/// same with margins
+/// m....
+///
+///
+@each $key, $spacing in $spacings {
+  $properties: (
+    p: padding,
+    m: margin,
+    g: gap,
+  );
+
+  @each $prop-key, $prop in $properties {
+    .#{$prop-key} {
+      &-#{$key} {
+        #{$prop}: $spacing;
+      }
+
+      &x-#{$key} {
+        @if ($prop ==gap) {
+          column-gap: $spacing;
+        } @else {
+          #{$prop}-left: $spacing;
+          #{$prop}-right: $spacing;
+        }
+      }
+
+      &y-#{$key} {
+        @if ($prop ==gap) {
+          row-gap: $spacing;
+        } @else {
+          #{$prop}-top: $spacing;
+          #{$prop}-bottom: $spacing;
+        }
+      }
+    }
+  }
+}
+@each $key, $spacing in $spacings {
+  $properties: (
+    p: padding,
+    m: margin,
+    g: gap,
+  );
+  @each $prop-key, $prop in $properties {
+    @each $breakpoint-key, $breakpoint in $breakpoints {
+      .#{$prop-key} {
+        &-#{$breakpoint-key}-#{$key} {
+          @media screen and (max-width: $breakpoint) {
+            #{$prop}: $spacing;
+          }
+        }
+
+        &x-#{$breakpoint-key}-#{$key} {
+          @media screen and (max-width: $breakpoint) {
+            @if ($prop ==gap) {
+              column-gap: $spacing;
+            } @else {
+              #{$prop}-left: $spacing;
+              #{$prop}-right: $spacing;
+            }
+          }
+        }
+
+        &y-#{$breakpoint-key}-#{$key} {
+          @media screen and (max-width: $breakpoint) {
+            @if ($prop ==gap) {
+              row-gap: $spacing;
+            } @else {
+              #{$prop}-top: $spacing;
+              #{$prop}-bottom: $spacing;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+////
+///
+/// FONT SIZES
+/// .ft-#{size-slug}
+///
+///
+@each $key, $font-size in $font-sizes {
+  .f-#{$key} {
+    font-size: #{$font-size};
+  }
+}
+
+@each $key, $font-family in $font-families {
+  .f-#{$key} {
+    font-family: #{$font-family};
+  }
+}
+
+@each $key, $color in $colors {
+  .color-#{$key} {
+    color: $color;
+  }
+
+  .bg-color-#{$key} {
+    background-color: $color;
+  }
+}
