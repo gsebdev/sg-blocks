@@ -27,7 +27,7 @@ export const ImageWrapper = ({ children, condition, height, width, src, srcset }
 
 const Save = ({ attributes }) => {
   const { images, slideshow, imagesOptions } = attributes;
-  const processedImages = images.map((image, index) => {
+  const processedImages = images?.map((image, index) => {
     return {
         ...image,
         ...imagesOptions[index]
