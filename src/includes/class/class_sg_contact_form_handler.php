@@ -1,8 +1,11 @@
 <?php
 
+namespace gsebdev\sg_blocks;
+
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
+
 if (!class_exists('SG_Contact_Form_Handler')) {
     class SG_Contact_Form_Handler
     {
@@ -20,7 +23,7 @@ if (!class_exists('SG_Contact_Form_Handler')) {
 
         public function localize_script()
         {
-            wp_localize_script(SG_BLOCKS_SCRIPTS_NAME, 'ajax_object', array(
+            wp_localize_script(SG_BLOCKS_PREFIX . '-scripts', 'ajax_object', array(
                 'ajax_url' => admin_url('admin-ajax.php'),
                 'nonce' => wp_create_nonce('contact-form-nonce'),
             ));

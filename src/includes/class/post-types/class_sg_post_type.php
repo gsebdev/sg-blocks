@@ -1,10 +1,15 @@
 <?php
 
+namespace gsebdev\sg_blocks\post_types;
+
+
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
+include_once(SG_BLOCKS_DIR . 'dist/includes/class/post-types/class_sg_post_type_meta_box.php');
+include_once(SG_BLOCKS_DIR . 'dist/includes/class/post-types/class_sg_post_type_activity.php');
+include_once(SG_BLOCKS_DIR . 'dist/includes/class/post-types/class_sg_post_type_guide.php');
 
-include_once SG_BLOCKS_DIR . 'dist/includes/class/class_sg_meta_box.php';
 class SG_Post_Type
 {
     public $post_type;

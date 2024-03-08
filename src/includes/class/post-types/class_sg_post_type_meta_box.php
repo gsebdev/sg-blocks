@@ -1,5 +1,7 @@
 <?php
 
+namespace gsebdev\sg_blocks\post_types;
+
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }

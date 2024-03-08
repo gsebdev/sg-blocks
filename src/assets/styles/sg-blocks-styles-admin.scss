@@ -1,0 +1,23 @@
+@import "./partials/admin/image-selectors";
+@import "./partials/admin/switch-box";
+@import "./partials/admin/color-picker";
+
+.sg_inline_auto_save {
+  input[type="text"],
+  input[type="number"] {
+    width: 100%;
+  }
+}
+.table-view-list.tags {
+  td {
+    vertical-align: middle;
+    &[data-colname="Description"] {
+      p {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 15vh;
+      }
+    }
+  }
+}

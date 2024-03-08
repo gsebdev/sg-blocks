@@ -1,11 +1,11 @@
 <?php
 
+namespace gsebdev\sg_blocks\post_types;
+use gsebdev\sg_blocks\custom_fields\SG_Switch_Box;
+
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
-
-include_once SG_BLOCKS_DIR . 'dist/includes/class/post-types/class_sg_post_type.php';
-include_once SG_BLOCKS_DIR . 'dist/includes/class/custom-fields/class_sg_switch_box.php';
 
 class SG_Post_Type_Activity extends SG_Post_Type
 {

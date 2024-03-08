@@ -33,11 +33,13 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "@thednp/color-picker": "^2.0.0-alpha10",
     "leaflet": "^1.9.4",
     "leaflet-geosearch": "^3.11.0",
     "photoswipe": "^5.4.3",
     "photoswipe-dynamic-caption-plugin": "^1.2.7",
     "react-leaflet": "^4.2.1",
-    "sg-swiper": "^1.0.5"
+    "sg-swiper": "^1.0.5",
+    "simple-color-picker": "^1.0.5"
   }
 }
