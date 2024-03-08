@@ -2,9 +2,9 @@
   "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
   "apiVersion": 3,
   "name": "sg/map",
-  "title": "Carte intégrée",
+  "title": "SG Carte intégrée",
   "description": "Afficher une carte avec un point de localisation",
-  "category": "common",
+  "category": "sg-blocks",
   "icon": "location",
   "textdomain": "sg-blocks",
   "attributes": {

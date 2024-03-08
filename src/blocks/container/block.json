@@ -3,7 +3,7 @@
   "apiVersion": 3,
   "name": "sg/container",
   "title": "SG Container",
-  "category": "SG Blocks",
+  "category": "sg-blocks",
   "icon": "grid-view",
   "attributes": {
     "Tag": {

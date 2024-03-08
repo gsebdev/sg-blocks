@@ -2,9 +2,9 @@
   "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
   "apiVersion": 3,
   "name": "sg/query-related",
-  "title": "SG Post Liés",
+  "title": "SG Boucle Post",
   "description": "Enregistrer les infos pratiques",
-  "category": "common",
+  "category": "sg-blocks",
   "attributes": {
     "queryId": {
       "type": "number"

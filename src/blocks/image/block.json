@@ -2,9 +2,9 @@
   "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
   "apiVersion": 3,
   "name": "sg/image",
-  "title": "SG Lazy Image",
+  "title": "SG Image avec chargement différé",
   "description": "Insérer une image avec chargement différé",
-  "category": "common",
+  "category": "sg-blocks",
   "icon": "format-image",
   "attributes": {
     "image_id": {

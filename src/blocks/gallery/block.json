@@ -2,8 +2,8 @@
   "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
   "apiVersion": 3,
   "name": "sg/gallery",
-  "title": "SG Gallerie",
-  "category": "common",
+  "title": "SG Gallerie d'images",
+  "category": "sg-blocks",
   "icon": "smiley",
   "attributes": {
     "imagesOptions": {

@@ -2,9 +2,9 @@
   "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
   "apiVersion": 3,
   "name": "sg/featured-image",
-  "title": "SG Lazy Featured Image",
+  "title": "SG Image Mise en Avant",
   "description": "Insérer une image de couverture avec chargement différé",
-  "category": "common",
+  "category": "sg-blocks",
   "icon": "format-image",
   "attributes": {
     "imageSource": {

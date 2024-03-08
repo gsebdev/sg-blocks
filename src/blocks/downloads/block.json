@@ -2,9 +2,9 @@
   "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
   "apiVersion": 3,
   "name": "sg/downloads",
-  "title": "Téléchargements",
+  "title": "SG Téléchargements",
   "description": "Sélectinnoez en affichez des téléchargements",
-  "category": "common",
+  "category": "sg-blocks",
   "attributes": {
     "info_id": {
       "type": "string"

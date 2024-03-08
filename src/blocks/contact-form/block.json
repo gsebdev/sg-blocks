@@ -2,8 +2,8 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "sg/contact",
-  "title": "SG Contact Form",
-  "category": "common",
+  "title": "SG Formulaire de contact",
+  "category": "sg-blocks",
   "icon": "email",
   "attributes": {
     "form_id": {

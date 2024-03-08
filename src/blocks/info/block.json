@@ -2,9 +2,9 @@
   "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
   "apiVersion": 3,
   "name": "sg/info",
-  "title": "Block Meta Info",
+  "title": "SG Info pratique",
   "description": "Enregistrer les infos pratiques",
-  "category": "common",
+  "category": "sg-blocks",
   "attributes": {
     "info_id": {
       "type": "string"
