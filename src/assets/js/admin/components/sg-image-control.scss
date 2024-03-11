@@ -4,6 +4,9 @@
   overflow: hidden;
   max-width: 320px;
   border-radius: 10px;
+  * {
+    box-sizing: border-box;
+  }
 
   &__container {
     cursor: pointer;
@@ -65,7 +68,12 @@
   .dashicons {
     display: contents;
     margin-bottom: 10px;
-    font-size: 4rem;
+    font-size: 3rem;
     color: lightgrey;
+  }
+  p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
