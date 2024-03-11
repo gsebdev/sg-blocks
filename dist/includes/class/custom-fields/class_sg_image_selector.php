@@ -15,26 +15,26 @@ if (!class_exists('SG_Image_Selector')) {
                         wp_enqueue_media();
                     }
                 });
-                if (!did_action('wp_admin_print_footer_scripts') && !did_action('init')) {
-                    add_action('admin_print_footer_scripts', function () {
-                        wp_add_inline_script(
-                            SG_BLOCKS_PREFIX . '-scripts-admin',
-                            'window.sg.customFields.imageField("' . $this->id . '-image-field");',
-                            'after'
-                        );
-                    });
-                } else {
-                    wp_add_inline_script(
-                        SG_BLOCKS_PREFIX . '-scripts-admin',
-                        'window.sg.customFields.imageField("' . $this->id . '-image-field");',
-                        'after'
-                    );
-                }
             }
         }
 
         public function render(int|string $image)
         {
+            if (!did_action('wp_admin_print_footer_scripts') && !did_action('init')) {
+                add_action('admin_print_footer_scripts', function () {
+                    wp_add_inline_script(
+                        SG_BLOCKS_PREFIX . '-scripts-admin',
+                        'window.sg.customFields.imageField("' . $this->id . '-image-field");',
+                        'after'
+                    );
+                });
+            } else {
+                wp_add_inline_script(
+                    SG_BLOCKS_PREFIX . '-scripts-admin',
+                    'window.sg.customFields.imageField("' . $this->id . '-image-field");',
+                    'after'
+                );
+            }
 ?>
             <div id="<?php echo esc_html($this->id) . '-image-field' ?>" class="sg-custom-field-wrapper">
                 <div class="sg-image-field">
