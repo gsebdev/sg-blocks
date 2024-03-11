@@ -1,0 +1,55 @@
+{
+  "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
+  "apiVersion": 3,
+  "name": "sg/featured-image",
+  "title": "SG Image Mise en Avant",
+  "description": "Insérer une image de couverture avec chargement différé",
+  "category": "sg-blocks",
+  "icon": "format-image",
+  "attributes": {
+    "imageSource": {
+      "type": "string",
+      "default": "full"
+    },
+    "aspectRatio": {
+      "type": "string",
+      "default": ""
+    },
+    "sizes": {
+      "type": "object",
+      "default": {}
+    },
+    "lightbox": {
+      "type": "boolean",
+      "default": false
+    },
+    "lightboxTransition": {
+      "type": "string",
+      "default": "fade"
+    },
+    "linkedToPost": {
+      "type": "boolean",
+      "default": false
+    },
+    "margin": {
+      "type": "object"
+    },
+    "padding": {
+      "type": "object"
+    },
+    "align": {
+      "type": "string"
+    },
+    "fullWidth": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "supports": {
+    "align": ["center"]
+  },
+  "usesContext": ["postId", "postType", "queryId"],
+  "textdomain": "sg-blocks",
+  "editorStyle": "file:./editor.css",
+  "render": "file:./render.php"
+}

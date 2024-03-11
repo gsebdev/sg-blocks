@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksg_blocks=self.webpackChunksg_blocks||[]).push([[335],{8335:(e,n,s)=>{s.r(n),s.d(n,{default:()=>u});var t=s(9196),c=s.n(t),l=s(2175);const u=function(){return c().createElement(l.InnerBlocks.Content,null)}}}]);

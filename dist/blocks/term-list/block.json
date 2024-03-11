@@ -1,0 +1,47 @@
+{
+  "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
+  "apiVersion": 3,
+  "name": "sg/custom-tags-list",
+  "title": "SG Liste des Tags",
+  "category": "sg-blocks",
+  "icon": "smiley",
+  "attributes": {
+    "taxonomy": {
+      "type": "string",
+      "default": ""
+    },
+    "fontSize": {
+      "type": "string",
+      "default": "m"
+    },
+    "horizontalLayout": {
+      "type": "boolean",
+      "default": true
+    },
+    "centerItems": {
+      "type": "boolean",
+      "default": false
+    },
+    "gap": {
+      "type": "object",
+      "default": {
+        "default": 2
+      }
+    },
+    "separator": {
+      "type": "boolean",
+      "default": false
+    },
+    "fontHeading": {
+      "type": "boolean",
+      "default": true
+    },
+    "linked": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "textdomain": "sg-blocks",
+  "render": "file:./render.php",
+  "style": "file:./style.css"
+}

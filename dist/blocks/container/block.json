@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "sg/container",
+  "title": "SG Container",
+  "category": "sg-blocks",
+  "icon": "grid-view",
+  "attributes": {
+    "Tag": {
+      "type": "string",
+      "default": "div"
+    },
+    "layout": {
+      "type": "string",
+      "enum": ["grid", "flex", "none"],
+      "default": "none"
+    },
+    "gap": {
+      "type": "object",
+      "default": {}
+    },
+    "margin": {
+      "type": "object",
+      "default": {}
+    },
+    "padding": {
+      "type": "object",
+      "default": {}
+    },
+    "columns": {
+      "type": "object",
+      "default": {}
+    },
+    "contentAlignement": {
+      "type":"string",
+      "default": ""
+    }
+  },
+  "textdomain": "sg-blocks",
+  "editorStyle": "file:./editor.css"
+}
