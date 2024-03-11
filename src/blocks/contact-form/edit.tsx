@@ -22,7 +22,7 @@ const Edit = ({ attributes, setAttributes }) => {
       setAttributes({ form_id: `sg-form-${Math.random().toString(36).substring(5, 12)}` })
     }
   }, []);
-  console.log(attributes);
+  
   return (
     <>
       <BlockControls>
@@ -39,7 +39,7 @@ const Edit = ({ attributes, setAttributes }) => {
         <RichText
           tagName={('h' + titleLevel) as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'}
           value={title}
-          onChange={(value) => { console.log(value); setAttributes({ title: value }) }}
+          onChange={(value) => { setAttributes({ title: value }) }}
           placeholder="Titre du formulaire"
         />
         <RichText

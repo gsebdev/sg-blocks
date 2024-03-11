@@ -21,7 +21,6 @@ const CustomMediaUploader: React.FC<MediaUploadProps> = (props) => {
                 type: allowedTypes
             }
         });
-        console.log(m)
         return m;
     }, [multiple, allowedTypes]);
 
@@ -35,7 +34,6 @@ const CustomMediaUploader: React.FC<MediaUploadProps> = (props) => {
 
 
     const open = () => {
-        console.log(mediaUpload)
         mediaUpload.open(value);
     }
 
