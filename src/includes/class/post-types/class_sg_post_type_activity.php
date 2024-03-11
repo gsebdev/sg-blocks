@@ -1,7 +1,7 @@
 <?php
 
 namespace gsebdev\sg_blocks\post_types;
-use gsebdev\sg_blocks\custom_fields\SG_Switch_Box;
+use gsebdev\CustomFields\SG_Switch_Box;
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly

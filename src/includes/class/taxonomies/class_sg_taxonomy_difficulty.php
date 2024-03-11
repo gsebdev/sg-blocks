@@ -2,9 +2,7 @@
 
 namespace gsebdev\sg_blocks\taxonomies;
 
-use gsebdev\sg_blocks\custom_fields\SG_Color_Picker;
-
-use function PHPSTORM_META\type;
+use gsebdev\CustomFields\SG_Color_Picker;
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly

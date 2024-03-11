@@ -2,10 +2,10 @@
 
 namespace gsebdev\sg_blocks\taxonomies;
 
-use gsebdev\sg_blocks\custom_fields\SG_Image_Selector;
-use gsebdev\sg_blocks\custom_fields\SG_Number_Input;
-use gsebdev\sg_blocks\custom_fields\SG_Switch_Box;
-use gsebdev\sg_blocks\custom_fields\SG_Text_Input;
+use gsebdev\CustomFields\SG_Image_Selector;
+use gsebdev\CustomFields\SG_Number_Input;
+use gsebdev\CustomFields\SG_Switch_Box;
+use gsebdev\CustomFields\SG_Text_Input;
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly

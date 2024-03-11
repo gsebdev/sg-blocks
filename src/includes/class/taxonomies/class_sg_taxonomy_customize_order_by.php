@@ -2,11 +2,11 @@
 
 namespace gsebdev\sg_blocks\taxonomies;
 
-use gsebdev\sg_blocks\custom_fields\SG_Color_Picker;
-use gsebdev\sg_blocks\custom_fields\SG_Image_Selector;
-use gsebdev\sg_blocks\custom_fields\SG_Number_Input;
-use gsebdev\sg_blocks\custom_fields\SG_Switch_Box;
-use gsebdev\sg_blocks\custom_fields\SG_Text_Input;
+use gsebdev\CustomFields\SG_Color_Picker;
+use gsebdev\CustomFields\SG_Image_Selector;
+use gsebdev\CustomFields\SG_Number_Input;
+use gsebdev\CustomFields\SG_Switch_Box;
+use gsebdev\CustomFields\SG_Text_Input;
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
@@ -169,10 +169,10 @@ class SG_Taxonomy_Customize_Order_By
         if ($is_meta) {
             $meta_key = sanitize_key($_POST['meta']);
             $meta_value = $_POST[$meta_key];
-            error_log($meta_key . $meta_value);
+            
             if ($meta_value && $meta_value !== '') {
                 $updated = update_term_meta($id, $meta_key, $meta_value);
-                error_log('update' . $updated);
+             
                 if ($updated && !is_wp_error($updated)) {
                     $term_meta = get_term_meta($id, $meta_key, true);
                     if (!$term_meta) {
@@ -193,7 +193,6 @@ class SG_Taxonomy_Customize_Order_By
                     'value' => $term_meta
                 ]);
             } else {
-                error_log('delete');
                 $updated = delete_term_meta($id, $meta_key);
                 if ($updated) {
                     wp_send_json([
