@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":["../../../src/blocks/info/editor.scss"],"names":[],"mappings":"AAAA;EACE;EACA;;AACA;EACE;;AAGA;EACE;EACA;EACA;EACA;EACA;EACA;;AAKF;EACE;;AACA;EACE;;AAIN;EACE;EACA;;AACA;EACE;;AAEF;EACE","file":"editor.css"}
+{"version":3,"sourceRoot":"","sources":["../../../src/blocks/info/editor.scss"],"names":[],"mappings":"AAAA,kBACE,WACA,YACA,8BACE,+DAGA,+BACE,aACA,qBACA,qBACA,8DACA,YACA,aAKF,4CACE,eACA,oDACE,eAIN,wBACE,yBACA,WACA,2BACE,8DAEF,2BACE","file":"editor.css"}

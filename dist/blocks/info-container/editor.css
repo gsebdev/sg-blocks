@@ -1,9 +1,1 @@
-.wp-block-sg-info-container {
-  width: 100%;
-  padding: 5px;
-}
-.wp-block-sg-info-container.is-selected {
-  box-shadow: inset 0 0 2px 1px var(--wp-admin-theme-color, grey);
-}
-
-/*# sourceMappingURL=editor.css.map */
+.wp-block-sg-info-container{width:100%;padding:5px}.wp-block-sg-info-container.is-selected{box-shadow:inset 0 0 2px 1px var(--wp-admin-theme-color, grey)}/*# sourceMappingURL=editor.css.map */

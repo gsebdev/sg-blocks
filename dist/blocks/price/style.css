@@ -1,18 +1,1 @@
-.sg-price__list {
-  border-collapse: collapse;
-  width: 100%;
-}
-.sg-price__list tr th,
-.sg-price__list tr td {
-  border: dashed var(--sg--preset--color--secondary-2, grey) 1px;
-  padding: 10px 5px;
-}
-.sg-price__list tr .comment {
-  font-style: italic;
-  margin-top: -10px;
-}
-.sg-price__list tr:nth-child(2n) {
-  background-color: var(--sg--preset--color--secondary-3);
-}
-
-/*# sourceMappingURL=style.css.map */
+.sg-price__list{border-collapse:collapse;width:100%}.sg-price__list tr th,.sg-price__list tr td{border:dashed var(--sg--preset--color--secondary-2, grey) 1px;padding:10px 5px}.sg-price__list tr .comment{font-style:italic;margin-top:-10px}.sg-price__list tr:nth-child(2n){background-color:var(--sg--preset--color--secondary-3)}/*# sourceMappingURL=style.css.map */
