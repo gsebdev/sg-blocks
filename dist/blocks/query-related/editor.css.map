@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":["../../../src/blocks/query-related/editor.scss"],"names":[],"mappings":"AACE,qDACE,gCACA,mBACA,sFACE,cACA,uBACA,uGACE,WAEF,iGACE,qEACA,yCACA,iBAMR,2BACE,gBACA,uCACE,+DAIA,8GACE,oDACA,eACA,aACA,sBACA,uBACA,mBACA","file":"editor.css"}
+{"version":3,"sourceRoot":"","sources":["../../../src/blocks/query-related/editor.scss"],"names":[],"mappings":"AACE;EACE;EACA;;AACA;EACE;EACA;;AACA;EACE;;AAEF;EACE;EACA;EACA;;;AAMR;EACE;;AACA;EACE;;AAIA;EACE;EACA;EACA;EACA;EACA;EACA;EACA","file":"editor.css"}

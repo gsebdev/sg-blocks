@@ -12,6 +12,7 @@
       "default": "à partir de"
     }
   },
+  "usesContext": ["postId", "postType", "queryId"],
   "textdomain": "sg-blocks",
   "render": "file:./render.php",
   "editorStyle": "file:./editor.css"

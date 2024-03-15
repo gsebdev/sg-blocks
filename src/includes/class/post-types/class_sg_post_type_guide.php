@@ -19,7 +19,7 @@ class SG_Post_Type_Guide extends SG_Post_Type
         'show_in_rest' => true,
         'rewrite' => true,
         'menu_icon' => 'dashicons-groups',
-        'supports' => array('title', 'excerpt', 'thumbnail'),
+        'supports' => array('title', 'excerpt', 'thumbnail', 'custom-fields'),
     );
 
     public function __construct()

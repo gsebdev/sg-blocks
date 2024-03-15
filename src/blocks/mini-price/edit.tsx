@@ -4,12 +4,13 @@ import { useBlockProps, InspectorControls } from "@wordpress/block-editor";
 // @ts-ignore
 import { PanelBody, TextControl, SelectControl, Modal, __experimentalNumberControl as NumberControl, Button } from "@wordpress/components";
 // @ts-ignore
-import { select } from '@wordpress/data';
+import { useSelect } from '@wordpress/data';
 // @ts-ignore
 import { __ } from '@wordpress/i18n';
 import usePostMeta from '../block-components/usePostMeta';
 import { getMinPrice } from '../block-utilities/sg-blocks-helpers';
-
+// @ts-ignore
+import { useEntityProp } from '@wordpress/core-data';
 
 interface Price {
   name: string;
@@ -21,15 +22,16 @@ interface EditProps {
   isSelected: boolean;
   attributes: { className: string, text_before: string };
   setAttributes: (attributes: any) => void;
+  context: any;
 }
 
-const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes }) => {
+const Edit: React.FC<EditProps> = ({ attributes, setAttributes, context }) => {
   const { text_before } = attributes;
-  const postId = select('core/editor').getEditedPostAttribute('id')
-  const postType = select('core/editor').getEditedPostAttribute('type')
+  const { postId, postType } = context;
 
-  const [prices] = usePostMeta(postType, postId, 'price') as [Price[]];
+  const [prices, setPrices] = usePostMeta(postType, postId, 'price') as [Price[], any];
 
+  console.log(postId, postType, prices);
   const blockProps = useBlockProps({
     className: "sg-mini-price"
   });
@@ -49,7 +51,7 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes }) =>
       <p {...blockProps}>
         {Array.isArray(prices) && prices.length > 0 ?
           <>
-            {text_before + ' ' + getMinPrice(prices) + prices[0].currency}
+            {getMinPrice(prices) ? text_before + ' ' + getMinPrice(prices) + prices[0].currency : 'Erreur dans les prix'}
           </> :
           <div>
             {__('Aucun prix disponible')}

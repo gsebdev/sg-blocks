@@ -1,1 +1,82 @@
-.sg-query-related__list{display:grid;width:100%;position:relative}.sg-query-related__list>li{display:grid;width:100%}.sg-query-related__list>li>a{position:absolute;z-index:3;width:100%;height:100%;top:0;left:0}.sg-swiper--started .sg-swiper.is-first .sg-swiper--started .sg-swiper__nav[data-direction=prev]{display:none}.sg-swiper--started .sg-swiper.is-last .sg-swiper--started .sg-swiper__nav[data-direction=next]{display:none}.sg-swiper--started .sg-swiper.no-translate .sg-swiper--started .sg-swiper__wrapper{justify-content:center}.sg-swiper--started .sg-swiper__nav{position:absolute;width:10%;height:100%;top:0;cursor:pointer;display:flex;align-items:center;opacity:0;transition:opacity .3s ease-in-out;z-index:3;-webkit-tap-highlight-color:rgba(0,0,0,0);-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.sg-swiper--started .sg-swiper__nav::before{font-size:50px}.sg-swiper--started .sg-swiper__nav[data-direction=prev]{justify-content:start;left:0}.sg-swiper--started .sg-swiper__nav[data-direction=next]{justify-content:end;right:0}.sg-swiper--started .sg-swiper__wrapper{display:flex !important;flex-wrap:nowrap !important}.sg-swiper--started .sg-swiper__slide{position:relative;flex:0 0 35%;overflow:hidden}.sg-swiper--started{width:100%;overflow:hidden;position:relative;cursor:grab;user-select:none}.sg-swiper--started:hover .sg-swiper__nav{opacity:1}.sg-swiper:not(.sg-swiper--started) .sg-swiper__nav{display:none}/*# sourceMappingURL=style.css.map */
+.sg-query-related__list {
+  display: grid;
+  width: 100%;
+  position: relative;
+}
+.sg-query-related__list > li {
+  display: grid;
+  width: 100%;
+  position: relative;
+}
+.sg-query-related__list > li > a {
+  position: absolute;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.sg-swiper--started .sg-swiper.is-first .sg-swiper--started .sg-swiper__nav[data-direction=prev] {
+  display: none;
+}
+.sg-swiper--started .sg-swiper.is-last .sg-swiper--started .sg-swiper__nav[data-direction=next] {
+  display: none;
+}
+.sg-swiper--started .sg-swiper.no-translate .sg-swiper--started .sg-swiper__wrapper {
+  justify-content: center;
+}
+.sg-swiper--started .sg-swiper__nav {
+  position: absolute;
+  width: 10%;
+  height: 100%;
+  top: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 3;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.sg-swiper--started .sg-swiper__nav::before {
+  font-size: 50px;
+}
+.sg-swiper--started .sg-swiper__nav[data-direction=prev] {
+  justify-content: start;
+  left: 0;
+}
+.sg-swiper--started .sg-swiper__nav[data-direction=next] {
+  justify-content: end;
+  right: 0;
+}
+.sg-swiper--started .sg-swiper__wrapper {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+}
+.sg-swiper--started .sg-swiper__slide {
+  position: relative;
+  flex: 0 0 35%;
+  overflow: hidden;
+}
+.sg-swiper--started {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  cursor: grab;
+  user-select: none;
+}
+.sg-swiper--started:hover .sg-swiper__nav {
+  opacity: 1;
+}
+.sg-swiper:not(.sg-swiper--started) .sg-swiper__nav {
+  display: none;
+}
+
+/*# sourceMappingURL=style.css.map */

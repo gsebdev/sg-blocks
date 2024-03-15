@@ -12,7 +12,7 @@ if (!function_exists('get_post_lowest_price')) {
          * @param int|string $post_id The ID of the post
          * @return int|null The lowest price or null if no valid prices are found
          */
-        if (!is_string($post_id) && !is_int($post_id)) {
+        if (!is_numeric($post_id)) {
             return null;
         }
 

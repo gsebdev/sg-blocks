@@ -52,7 +52,7 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes }) => {
 
   }
   const addNewPrice = () => {
-    setPrices([...prices, { name: '', amount: 0, currency: currency }])
+    setPrices((prices || []).concat({ name: '', amount: 0, currency: currency }))
   }
 
   const removePrice = (i: number) => {

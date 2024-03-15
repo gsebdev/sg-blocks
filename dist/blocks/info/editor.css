@@ -1,1 +1,33 @@
-.wp-block-sg-info{width:100%;padding:5px}.wp-block-sg-info.is-selected{box-shadow:inset 0 0 2px 1px var(--wp-admin-theme-color, grey)}.wp-block-sg-info.is-empty>div{display:grid;justify-items:center;align-content:center;border:dashed var(--sg--preset--color--secondary-2, grey) 1px;height:100%;padding:1rem}.wp-block-sg-info .sg-info__list-item:hover{transform:none}.wp-block-sg-info .sg-info__list-item:hover::before{transform:none}.wp-block-sg-info table{border-collapse:collapse;width:100%}.wp-block-sg-info table tr{border:dashed var(--sg--preset--color--secondary-2, grey) 1px}.wp-block-sg-info table td{padding:15px 10px}/*# sourceMappingURL=editor.css.map */
+.wp-block-sg-info {
+  width: 100%;
+  padding: 5px;
+}
+.wp-block-sg-info.is-selected {
+  box-shadow: inset 0 0 2px 1px var(--wp-admin-theme-color, grey);
+}
+.wp-block-sg-info.is-empty > div {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  border: dashed var(--sg--preset--color--secondary-2, grey) 1px;
+  height: 100%;
+  padding: 1rem;
+}
+.wp-block-sg-info .sg-info__list-item:hover {
+  transform: none;
+}
+.wp-block-sg-info .sg-info__list-item:hover::before {
+  transform: none;
+}
+.wp-block-sg-info table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.wp-block-sg-info table tr {
+  border: dashed var(--sg--preset--color--secondary-2, grey) 1px;
+}
+.wp-block-sg-info table td {
+  padding: 15px 10px;
+}
+
+/*# sourceMappingURL=editor.css.map */

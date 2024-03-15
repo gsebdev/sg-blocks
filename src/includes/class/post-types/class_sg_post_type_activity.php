@@ -20,7 +20,7 @@ class SG_Post_Type_Activity extends SG_Post_Type
         'show_in_rest' => true,
         'rewrite' => true,
         'menu_icon' => 'dashicons-media-document',
-        'supports' => array('title', 'thumbnail', 'excerpt', 'editor', 'menu_order')
+        'supports' => array('title', 'thumbnail', 'excerpt', 'editor', 'custom-fields')
     );
 
     public function __construct()

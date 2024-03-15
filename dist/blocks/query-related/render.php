@@ -85,7 +85,7 @@ if (!function_exists('render_block_sg_query_related')) {
         }
 
         $list_classNames = sg_get_spacing_classname(['margin' => $margin, 'padding' => $padding, 'gap' => $gap]) . sg_get_columns_classname($columns) . $additionnal_classname . ($slider ? ' sg-swiper__wrapper' : '');
-        $container_classNames = 'sg-query-related' . $slider ? ' sg-swiper' : '';
+        $container_classNames = 'sg-query-related' . ($slider ? ' sg-swiper' : '');
         $container_attr = $slider && !!$sliderBreakpoint ? 'data-breakpoint="' . $sliderBreakpoint . '"' : '';
         $container_attr .= $slider && !!$slider_autoplay ? ' data-autoplay="' . $slider_autoplay . '"' : '';
         $item_classNames = $slider ? 'sg-swiper__slide' : '';
@@ -115,11 +115,16 @@ if (!function_exists('render_block_sg_query_related')) {
             // `render_callback` and ensure that no wrapper markup is included.
             $block_content = (new WP_Block($block_instance))->render(array('dynamic' => false));
             remove_filter('render_block_context', $filter_block_context, 1);
-            $content .= '<li class="' . $item_classNames . '"><a href="' . get_the_permalink() . '" aria-label="' . get_the_title() . '" rel="noopener noreferrer"></a>' . $block_content . '</li>';
+            $class = $item_classNames ? " class=\"{$item_classNames}\"" : '';
+            $content .= "<li{$class}>"
+                . "<a href=\"" . esc_url(get_the_permalink()) . "\" "
+                . "aria-label=\"" . esc_attr(get_the_title()) . "\" "
+                . "rel=\"noopener noreferrer\"></a>"
+                . $block_content
+                . '</li>';
         }
-
         $nav_elements = '';
-        if($slider && $slider_display_nav) {
+        if ($slider && $slider_display_nav) {
             $nav_elements = '<button class="sg-swiper__nav sg-icon-cheveron-left" data-direction="prev"></button><button class="sg-swiper__nav sg-icon-cheveron-right" data-direction="next"></button>';
         }
 

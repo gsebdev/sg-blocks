@@ -1,23 +1,23 @@
 <?php
-$post_id = get_the_ID();
-$custom_classnames = $attributes['className'] ?? '';
-$prices = get_post_meta($post_id, 'price', true);
+$postId = get_the_ID();
+$classNames = $attributes['className'] ?? '';
+$textBefore = $attributes['text_before'] ?? '';
 
-if (empty($prices)) {
+$minPrice = get_post_lowest_price($postId);
+
+if (!$minPrice) {
+    printf(
+        '<p class="sg-mini-price%s">Tarifs sur demande</p>',
+        $classNames ? " $classNames" : ''
+    );
     return;
 }
-$text_before = get_post_meta($post_id, 'text_before', true);
-$min_price = get_post_lowest_price($prices);
 
-if (!$min_price) {
-    return;
-}
-
-$currency = $prices[0]['currency'] ?? '€';
-?>
-<p class='sg-mini-price<?php echo $custom_classnames ? ' ' . esc_attr($custom_classnames) : ''; ?>'>
-    <?php if ($text_before) : ?>
-        <span><?php echo esc_html($text_before); ?></span>
-    <?php endif; ?>
-    <span><?php echo esc_html($min_price) . esc_html($currency); ?></span>
-</p>
+$currency = $minPrice['currency'] ?? '€';
+printf(
+    '<p class="sg-mini-price%s">%s%s%s</p>',
+    $classNames ? " $classNames" : '',
+    $textBefore ? "<span>{$textBefore}</span> " : '',
+    esc_html($minPrice),
+    esc_html($currency)
+);

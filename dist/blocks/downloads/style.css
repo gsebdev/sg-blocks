@@ -1,1 +1,20 @@
-.sg-downloads{position:relative}.sg-downloads ul{position:relative}.sg-downloads ul li{list-style:none}.sg-downloads ul li a{text-decoration:none}.sg-downloads ul li a::before{font-size:1.25em;margin-right:.65em;vertical-align:middle;color:var(--sg--preset--color--accent, #f50057)}/*# sourceMappingURL=style.css.map */
+.sg-downloads {
+  position: relative;
+}
+.sg-downloads ul {
+  position: relative;
+}
+.sg-downloads ul li {
+  list-style: none;
+}
+.sg-downloads ul li a {
+  text-decoration: none;
+}
+.sg-downloads ul li a::before {
+  font-size: 1.25em;
+  margin-right: 0.65em;
+  vertical-align: middle;
+  color: var(--sg--preset--color--accent, #f50057);
+}
+
+/*# sourceMappingURL=style.css.map */

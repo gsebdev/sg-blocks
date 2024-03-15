@@ -1,1 +1,12 @@
-.wp-block-sg-map{width:100%;padding:15px}.wp-block-sg-map.is-selected{box-shadow:inset 0 0 2px 1px var(--wp-admin-theme-color, grey)}.wp-block-sg-map .leaflet-container{aspect-ratio:4/3}/*# sourceMappingURL=editor.css.map */
+.wp-block-sg-map {
+  width: 100%;
+  padding: 15px;
+}
+.wp-block-sg-map.is-selected {
+  box-shadow: inset 0 0 2px 1px var(--wp-admin-theme-color, grey);
+}
+.wp-block-sg-map .leaflet-container {
+  aspect-ratio: 4/3;
+}
+
+/*# sourceMappingURL=editor.css.map */

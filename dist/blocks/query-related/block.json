@@ -35,7 +35,8 @@
       "default": []
     },
     "postNumber": {
-      "type": "string"
+      "type": "string",
+      "default": "5"
     },
     "excludedIds": {
       "type": "array"

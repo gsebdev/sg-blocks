@@ -2,9 +2,10 @@
 import { useSelect, dispatch } from '@wordpress/data';
 import { useEffect, useMemo, useState } from 'react';
 
+
 const usePostMeta = (postType: string, postId: number, metaKey: string) => {
-    const metaStore = useSelect(select => select('core/editor').getEditedPostAttribute('meta'), [postType, postId]);
-    const [metaEntry, setHookState] = useState(metaStore[metaKey]);
+    const metaStore = useSelect(select => (select('core') as any).getEntityRecord('postType', postType, postId)?.meta, [postType, postId]);
+    const [metaEntry, setHookState] = useState( metaStore?.[metaKey]);
 
     const isEqual = useMemo(() => (a, b) => {
         if (a === b) {
@@ -32,14 +33,14 @@ const usePostMeta = (postType: string, postId: number, metaKey: string) => {
     }, []);
 
     useEffect(() => {
-        if(!isEqual(metaEntry, metaStore[metaKey])) {
-            setHookState(metaStore[metaKey]);
+        if(!isEqual(metaEntry, metaStore?.[metaKey])) {
+            setHookState(metaStore?.[metaKey]);
         }      
     }, [metaStore]);
 
     const setMetaEntry = (editedMetaEntry: any) => {
         setHookState(editedMetaEntry);
-        dispatch('core').editEntityRecord('postType', postType, postId, { meta: { [metaKey]: editedMetaEntry } })
+        (dispatch('core') as any).editEntityRecord('postType', postType, postId, { meta: { [metaKey]: editedMetaEntry } })
         .catch((error) => {
             console.error(error);
             setHookState(metaStore[metaKey]);

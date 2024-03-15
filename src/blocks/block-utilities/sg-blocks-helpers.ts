@@ -22,19 +22,16 @@ export const getSpacingClassname = (attributes: {}): string => {
         (result, [key, val]) => {
           if (val !== null && val !== undefined) {
             if (typeof val === "number") {
-              result += `${shortHand}-${
-                key !== "default" ? key + "-" : ""
-              }${val} `;
+              result += `${shortHand}-${key !== "default" ? key + "-" : ""
+                }${val} `;
             } else if (typeof val === "object" && ("x" in val || "y" in val)) {
               const x = val["x"]
-                ? `${shortHand}x-${key !== "default" ? key + "-" : ""}${
-                    val["x"]
-                  } `
+                ? `${shortHand}x-${key !== "default" ? key + "-" : ""}${val["x"]
+                } `
                 : "";
               const y = val["y"]
-                ? `${shortHand}y-${key !== "default" ? key + "-" : ""}${
-                    val["y"]
-                  } `
+                ? `${shortHand}y-${key !== "default" ? key + "-" : ""}${val["y"]
+                } `
                 : "";
               result += x + y;
             }
@@ -150,27 +147,9 @@ export const generateReservationSrc = (
   }
 };
 
-export const getMinPrice = (
-  prices: ([string, string] | { amount: number })[]
-) => {
-  if (!prices || prices.length === 0) {
-    return null;
-  }
-  if (Array.isArray(prices)) {
-    return Math.min(
-      ...prices.map((item) => {
-        if (Array.isArray(item) && item[1]) {
-          return parseInt(item[1]);
-        } else if (item["amount"]) {
-          return item["amount"];
-        } else {
-          return undefined;
-        }
-      })
-    );
-  }
-
-  return null;
+export const getMinPrice = (prices: ({ amount: number } | null | undefined)[] = []) => {
+  const validPrices = prices.map((item) => Number(item?.amount)).filter(number => Number.isFinite(number) && number > 0);
+  return validPrices.length > 0 ? Math.min(...validPrices) : null;
 };
 
 // Function to generate the srcset attribute
@@ -193,8 +172,7 @@ export const generateSrcset = (sizes: Sizes, excludeSizes?: string[], maxWidth?:
     }
     const widthDescriptor = sizes[size].width.toString();
     srcsetArray.push(
-      `${
-        sizes[size].url ? sizes[size].url : sizes[size].source_url
+      `${sizes[size].url ? sizes[size].url : sizes[size].source_url
       } ${widthDescriptor}w`
     );
   });
