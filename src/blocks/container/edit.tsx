@@ -67,13 +67,15 @@ const MAX_COLUMNS = 5;
 const Edit = (props) => {
   const { attributes, setAttributes, isSelected, clientId } = props;
   const { columns, layout, Tag, className, contentAlignement } = attributes;
-
-  const blockProps = useBlockProps();
-  blockProps.className = blockProps.className.replace(className, "");
-
+  
   const classNames = getClassNames(attributes);
+  const blockProps = useBlockProps( {
+    className: classNames
+  });
+
+
   const { children, ...innerBlockProps } = useInnerBlocksProps({
-    className: classNames + " " + className,
+    className: "sg-container__inner"
   }) as any;
 
   const blockCount = useSelect(

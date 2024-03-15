@@ -95,6 +95,7 @@ if (!function_exists('register_sg_blocks')) {
         register_block_type(__DIR__ . '/dist/blocks/featured-image');
         register_block_type(__DIR__ . '/dist/blocks/image');
         register_block_type(__DIR__ . '/dist/blocks/contact-form');
+        register_block_type(__DIR__ . '/dist/blocks/mini-price');
     }
 }
 

@@ -39,14 +39,21 @@ const Save = ({ attributes }) => {
         </>
 
     );
+    
     return (
-        <div className={classNames ? classNames : undefined}>
+        <div className={`sg-image-container${classNames ? ' ' +classNames : undefined}`}>
             <figure
                 className={`sg-image sg-lazy-image${lightbox ? " sg-lightbox-image" : ""}${!!fullWidth ? " sg-image--full-width" : ""}`}
                 data-transition={lightbox ? lightboxTransition ?? "none" : undefined}
                 id={'img-' + image_id?.toString(36)}
                 data-loaded="false"
-                style={{aspectRatio: aspectRatio}}
+                style={{
+                    aspectRatio: !aspectRatio
+                      ? undefined
+                      : aspectRatio === "original"
+                      ? `${width}/${height}`
+                      : aspectRatio
+                  }}
             >
                 <ImageWrapper active={lightbox}>
                     <img

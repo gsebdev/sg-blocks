@@ -55,15 +55,22 @@ const SPACING_OPTIONS = [
 ];
 
 const Edit = ({ attributes, setAttributes, context, isSelected }) => {
-  const { aspectRatio, sizes, imageSource, lightbox, lightboxTransition, fullWidth, linkedToPost } =
-    attributes;
+  const {
+    aspectRatio,
+    sizes,
+    imageSource,
+    lightbox,
+    lightboxTransition,
+    fullWidth,
+    linkedToPost,
+  } = attributes;
 
   const { postId, postType: postTypeSlug, queryId } = context;
 
   const isDescendentOfQueryLoop = Number.isFinite(queryId);
 
   const classNames = getClassNames(attributes);
-  const blockProps = useBlockProps({ className: classNames });
+  const blockProps = useBlockProps({ className: classNames + " sg-image-container" });
 
   const { imageSizes } = useSelect(
     (select) => (select("core/block-editor") as any).getSettings(),
@@ -85,9 +92,8 @@ const Edit = ({ attributes, setAttributes, context, isSelected }) => {
 
   const featuredImage = useSelect(
     (select) => {
-      const { getMedia } =
-        select('core') as any;
-      return featuredImageId && getMedia(featuredImageId, { context: 'view' })
+      const { getMedia } = select("core") as any;
+      return featuredImageId && getMedia(featuredImageId, { context: "view" });
     },
     [featuredImageId]
   );
@@ -136,7 +142,8 @@ const Edit = ({ attributes, setAttributes, context, isSelected }) => {
             placeholder="Choisir un ratio"
             value={aspectRatio ?? undefined}
             options={[
-              { label: "original", value: "" },
+              { label: "aucun", value: "" },
+              { label: "original", value: "original" },
               ...ASPECT_RATIO_CHOICES.map((ratio) => ({
                 label: ratio,
                 value: ratio,
@@ -158,68 +165,81 @@ const Edit = ({ attributes, setAttributes, context, isSelected }) => {
             label="Lien vers l'article"
             help="Ajouter un lien vers l'article"
             checked={!!linkedToPost}
-            onChange={(value) => {setAttributes({ linkedToPost: value, lightbox: false })}}
+            onChange={(value) => {
+              setAttributes({ linkedToPost: value, lightbox: false });
+            }}
           />
           {
             /**
-             * 
+             *
              * If is not in a query loop, be able to open the image in a lightbox on click
-             * 
+             *
              */
-            !isDescendentOfQueryLoop &&
-            <>
-              {
-                /**
-                 * 
-                 * If linked to post is checked, this option is disabled
-                 * 
-                 */
-                !linkedToPost &&
-                <ToggleControl
-                  label="Agrandir au clic"
-                  help="Agrandissez l'image dans une lightbox au clic"
-                  checked={!!lightbox}
-                  onChange={(value) => setAttributes({ lightbox: value, linkedToPost: false })}
-                />
-              }
-              {
-                /**
-                 * 
-                 * If lightbox option is on, be able to choose a transition
-                 * 
-                 */
-                !!lightbox &&
-                <SelectControl
-                  label="Transition ouverture lightbox"
-                  help="Choisir une transition"
-                  value={lightboxTransition}
-                  options={LIGHTBOX_TRANSITIONS.map((transition) => ({
-                    label: transition,
-                    value: transition,
-                  }))}
-                  onChange={(value) => setAttributes({ lightboxTransition: value })}
-                />
-              }
-            </>
+            !isDescendentOfQueryLoop && (
+              <>
+                {
+                  /**
+                   *
+                   * If linked to post is checked, this option is disabled
+                   *
+                   */
+                  !linkedToPost && (
+                    <ToggleControl
+                      label="Agrandir au clic"
+                      help="Agrandissez l'image dans une lightbox au clic"
+                      checked={!!lightbox}
+                      onChange={(value) =>
+                        setAttributes({ lightbox: value, linkedToPost: false })
+                      }
+                    />
+                  )
+                }
+                {
+                  /**
+                   *
+                   * If lightbox option is on, be able to choose a transition
+                   *
+                   */
+                  !!lightbox && (
+                    <SelectControl
+                      label="Transition ouverture lightbox"
+                      help="Choisir une transition"
+                      value={lightboxTransition}
+                      options={LIGHTBOX_TRANSITIONS.map((transition) => ({
+                        label: transition,
+                        value: transition,
+                      }))}
+                      onChange={(value) =>
+                        setAttributes({ lightboxTransition: value })
+                      }
+                    />
+                  )
+                }
+              </>
+            )
           }
           {
             /**
-             * 
-             * If an image has been selected, be able to set the focal point 
+             *
+             * If an image has been selected, be able to set the focal point
              * (object position saved in the post meta)
-             * 
+             *
              */
-            !!featuredImage &&
-            <PanelRow>
-              <h3>Modifier le point de focus :</h3>
-              <FocalPointPicker
-                url={featuredImage.media_details.sizes["medium"]?.source_url ?? featuredImage.media_details.source_url}
-                onChange={(value) => setFeaturedImagePosition(value)}
-                value={featuredImagePosition}
-                // @ts-ignore
-                onDrag={(value) => setFeaturedImagePosition(value)}
-              />
-            </PanelRow>
+            !!featuredImage && (
+              <PanelRow>
+                <h3>Modifier le point de focus :</h3>
+                <FocalPointPicker
+                  url={
+                    featuredImage.media_details.sizes["medium"]?.source_url ??
+                    featuredImage.media_details.source_url
+                  }
+                  onChange={(value) => setFeaturedImagePosition(value)}
+                  value={featuredImagePosition}
+                  // @ts-ignore
+                  onDrag={(value) => setFeaturedImagePosition(value)}
+                />
+              </PanelRow>
+            )
           }
 
           <SpacingPanel
@@ -273,8 +293,19 @@ const Edit = ({ attributes, setAttributes, context, isSelected }) => {
            *
            */
 
-          !!featuredImage ?
-            <figure className={`sg-image sg-featured-image sg-lazy-image${!!fullWidth ? " sg-image--full-width" : ""}`}>
+          !!featuredImage ? (
+            <figure
+              className={`sg-image sg-featured-image sg-lazy-image${
+                !!fullWidth ? " sg-image--full-width" : ""
+              }`}
+              style={{
+                aspectRatio: !aspectRatio
+                  ? undefined
+                  : aspectRatio === "original"
+                  ? `${featuredImage.media_details.width}/${featuredImage.media_details.height}`
+                  : aspectRatio
+              }}
+            >
               <img
                 src={
                   imageSource && featuredImage.media_details.sizes[imageSource]
@@ -299,49 +330,51 @@ const Edit = ({ attributes, setAttributes, context, isSelected }) => {
                 )}
                 alt={featuredImage.alt_text}
                 style={{
-                  aspectRatio: aspectRatio,
-                  objectPosition: `${featuredImagePosition.x * 100}% ${featuredImagePosition.y * 100
-                    }%`,
+                  objectPosition: `${featuredImagePosition.x * 100}% ${
+                    featuredImagePosition.y * 100
+                  }%`,
                 }}
               />
               {
                 /**
                  * Display edit and remove buttons only when image block is selected
                  */
-                isSelected &&
-                <>
-                  <MediaUploadCheck>
-                    <MediaUpload
-                      onSelect={setNewFeaturedImage}
-                      value={featuredImage.id}
-                      render={({ open }) => (
-                        <Button
-                          variant="secondary"
-                          className="sg-featured-image__edit-btn"
-                          onClick={open}
-                          icon="edit"
-                        ></Button>
-                      )}
-                    />
-                  </MediaUploadCheck>
-                  {
-                    /**
-                     * Display the remove button only if it's not in a query loop
-                     *
-                     */
-
-                    !isDescendentOfQueryLoop && (
-                      <Button
-                        isDestructive
-                        className="sg-featured-image__remove-btn"
-                        onClick={removeFeaturedImage}
-                        icon="trash"
+                isSelected && (
+                  <>
+                    <MediaUploadCheck>
+                      <MediaUpload
+                        onSelect={setNewFeaturedImage}
+                        value={featuredImage.id}
+                        render={({ open }) => (
+                          <Button
+                            variant="secondary"
+                            className="sg-featured-image__edit-btn"
+                            onClick={open}
+                            icon="edit"
+                          ></Button>
+                        )}
                       />
-                    )
-                  }
-                </>
+                    </MediaUploadCheck>
+                    {
+                      /**
+                       * Display the remove button only if it's not in a query loop
+                       *
+                       */
+
+                      !isDescendentOfQueryLoop && (
+                        <Button
+                          isDestructive
+                          className="sg-featured-image__remove-btn"
+                          onClick={removeFeaturedImage}
+                          icon="trash"
+                        />
+                      )
+                    }
+                  </>
+                )
               }
-            </figure> : null
+            </figure>
+          ) : null
         }
         {
           /**

@@ -7,6 +7,18 @@
   input[type="number"] {
     width: 100%;
   }
+  &[data-field=featured] {
+    label span.dashicons {
+      &::before {
+        content: "\f154";
+      }
+    }
+    label input[type=checkbox]:checked + span.dashicons {
+      &::before {
+        content: "\f155";
+      }
+    }
+  }
 }
 .table-view-list.tags {
   td {

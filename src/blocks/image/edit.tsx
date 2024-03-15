@@ -71,7 +71,7 @@ const Edit = ({ attributes, setAttributes }) => {
   } = attributes;
 
   const classNames = getClassNames(attributes);
-  const blockProps = useBlockProps({ className: classNames });
+  const blockProps = useBlockProps({ className: classNames + ' sg-image-container' });
 
   const { selectedImage } = useSelect(select => {
     const { getEntityRecord } = select("core") as any;
@@ -168,7 +168,8 @@ const Edit = ({ attributes, setAttributes }) => {
             placeholder="Choisir un ratio"
             value={aspectRatio ?? undefined}
             options={[
-              { label: "original", value: "" },
+              { label: "aucun", value: "" },
+              { label: "original", value: "original" },
               ...ASPECT_RATIO_CHOICES.map((ratio) => ({
                 label: ratio,
                 value: ratio,
@@ -257,7 +258,13 @@ const Edit = ({ attributes, setAttributes }) => {
         {!!selectedImage && (
           <figure 
           className={`sg-image sg-lazy-image${!!fullWidth ? " sg-image--full-width" : ""}`}
-          style={{ aspectRatio: aspectRatio}}
+          style={{
+            aspectRatio: !aspectRatio
+              ? undefined
+              : aspectRatio === "original"
+              ? `${width}/${height}`
+              : aspectRatio
+          }}
           >
             <img
               src={src}

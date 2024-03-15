@@ -33,7 +33,7 @@ $alt = get_post_meta($thumbnail, '_wp_attachment_image_alt', true);
  * 
  */
 
-$figure_style_html = 'style="aspect-ratio:' . ($aspect_ratio ? $aspect_ratio : $src[1] . '/' . $src[2]) . ';"';
+$figure_style_html = !$aspect_ratio ? '' : 'style="aspect-ratio:' . ($aspect_ratio === 'original' ? $src[1] . '/' . $src[2] : $aspect_ratio) . ';"';
 $figure_id = 'id="img-' . substr(md5($thumbnail), 0, 5). '"';
 
 $figure_classname = 'class="sg-image';
@@ -52,9 +52,10 @@ $figure_data .= $lightbox && !$linked_to_post ? 'data-transition="' . ($attribut
  * Define the image attributes
  * 
  */
-$width = 'width="' . $src[1] . '"';
-$height = 'height="' . $src[2] . '"';
-$data_src = 'data-src="' . esc_attr($src[0]) . '"';
+
+$width = isset($src[1]) ? 'width="' . $src[1] . '"' : '';
+$height = isset($src[2]) ? 'height="' . $src[2] . '"' : '';
+$data_src = isset($src[0]) ? 'data-src="' . esc_attr($src[0]) . '"' : '';
 $alt = 'alt="' . esc_attr($alt) . '"';
 $sizes = 'sizes="' . esc_attr(sg_generate_image_sizes($sizes)) . '"';
 $data_srcset = 'data-srcset="' . esc_attr($srcset ?? '') . '"';
@@ -66,13 +67,15 @@ $image_style_html = $image_position ? 'style="object-position:' . $image_positio
  * Get the utility block classNames 
  * 
  */
-$classNames = sg_get_spacing_classname(['margin' => $margin, 'padding' => $padding]) . $additionnal_classname . ($align === 'center' ? ' txt-ctr' : '');
+$classNames = sg_get_spacing_classname(['margin' => $margin, 'padding' => $padding]);
+$classNames .= $additionnal_classname;
+$classNames .= ($align === 'center' ? ' txt-ctr' : '');
 
 //
 // start of the html
 //
 ?>
-<div <?php echo ($classNames ? 'class="' . esc_attr($classNames) . '"' : '') ?>>
+<div class="sg-image-container<?php echo ($classNames ? ' ' . esc_attr($classNames) . '"' : '') ?>">
     <?php
     /**
      * 

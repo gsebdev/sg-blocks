@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { InspectorControls, useBlockProps } from "@wordpress/block-editor";
 import { useSelect } from "@wordpress/data";
 
@@ -28,7 +28,7 @@ const SPACING_OPTIONS = [
 ];
 
 const Edit = (props) => {
-  const { attributes, setAttributes } = props;
+  const { attributes, setAttributes, context } = props;
   const {
     taxonomy,
     fontSize,
@@ -38,6 +38,8 @@ const Edit = (props) => {
     linked,
     centerItems
   } = attributes;
+
+  const { postId, postType } = context;
 
   let tax_name;
 
@@ -52,38 +54,33 @@ const Edit = (props) => {
       tax_name = taxonomy;
   }
 
-  const { post, taxOptions } = useSelect(select => {
+  const taxOptions = useSelect(select => {
     const { getPostType } = select("core") as any;
-    const { getCurrentPost } = select("core/editor") as any;
-    const post = getCurrentPost();
-    const taxOptions = getPostType(post?.type)?.taxonomies;
-    return {
-      post,
-      taxOptions
-    }
+    const taxOptions = getPostType(postType)?.taxonomies;
+    return taxOptions
   }, []);
 
-  const { terms, isLoading } = useSelect((select) => {
-    const { getEditedPostAttribute } = select("core/editor") as any;
-    const { getEntityRecords } = select("core") as any;
-    const ids = getEditedPostAttribute(tax_name);
+  const terms = useSelect((select) => {
+    const { getEntityRecords, getEntityRecord } = select("core") as any;
+    const ids = getEntityRecord("postType", postType, postId)?.[tax_name];
+
     const entities = getEntityRecords("taxonomy", taxonomy, {
       includes: ids,
     });
-
-    if (entities && ids) {
-      return {
-        isLoading: false,
-        terms: entities.filter((t) => ids.includes(t.id)),
-      };
-    } else {
-      return { isLoading: true, terms: null };
-    }
+    return entities?.filter((t) => ids?.includes(t.id));
   }, [taxonomy]);
 
   const TermsTag = linked ? 'a' : 'span';
+  const blockProps = useBlockProps({
+    className: `sg-term-list f-${fontSize}${horizontalLayout ? " flx flx-wrap" : ""}${centerItems ? " flx-ctr txt-ctr" : ""}${separator ? " has-separator" : " " + getSpacingClassname(attributes)}${fontHeading ? " f-heading" : "" }`
+  });
 
-  const blockProps = useBlockProps();
+  useEffect(() => {
+    if (taxOptions && !taxonomy) {
+      setAttributes({ taxonomy: taxOptions[0] });
+    }
+  }, [taxOptions]);
+
   return (
     <>
       <InspectorControls>
@@ -174,29 +171,15 @@ const Edit = (props) => {
           }}
         </BreakpointTabs>
       </InspectorControls>
-      {isLoading && (
-        <div>
-          <Spinner />
-        </div>
-      )}
 
-      {!isLoading && terms.length === 0 && (
-        <div {...blockProps}>
-          <p>Ce block est vide car il n'y a aucun(e) {taxonomy}...</p>
-        </div>
-      )}
-
-      {terms && !isLoading && (
-        <ul
-          {...blockProps}
-          className={`${blockProps.className} sg-term-list f-${fontSize} ${horizontalLayout ? "flx flx-wrap" : ""
-            } ${centerItems ? "flx-ctr txt-ctr" : ""} ${getSpacingClassname(attributes)}${fontHeading ? " f-heading" : ""
-            }`}
-        >
+      {!!terms ?
+        <ul {...blockProps} >
           {terms.map((term, index) => (
             <li
               key={term + index}
-              className={`${separator && index > 0 ? "separator" : ""}`}
+              className={`${separator && getSpacingClassname({
+                padding: attributes.gap,
+              })}`}
             >
               <TermsTag
                 className={`sg-tags-${taxonomy}`}
@@ -206,8 +189,10 @@ const Edit = (props) => {
               </TermsTag>
             </li>
           ))}
-        </ul>
-      )}
+        </ul> :
+        <div {...blockProps}>
+          <p>Aucun tag disponible...</p>
+        </div>}
     </>
   );
 };

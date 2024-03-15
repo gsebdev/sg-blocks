@@ -39,17 +39,7 @@ class SG_Post_Type_Activity extends SG_Post_Type
         );
 
         $this->args['labels'] = $labels;
-        $this->metaboxes = array(
-            array(
-                'id' => 'first',
-                'title' => __('Options d\'affichage', 'sg-theme'),
-                'fields' => array(
-                    new SG_Switch_Box('featured', __('Mis en Avant', 'sg-theme'), __('Permet d\'afficher l\'activité en priorité dans la liste', 'sg-theme')),
-                ),
-                'panel' => 'side',
-                'priority' => 'high'
-            ),
-        );
+
 
         parent::__construct();
         add_filter('manage_' . $this->post_type . '_posts_columns', [$this, 'add_custom_columns'], 10, 2);

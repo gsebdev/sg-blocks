@@ -28,14 +28,24 @@ if (!function_exists('render_list_of_terms')) {
         }
 
         // Generate gap class names based on provided values
-        $gap_classNames = sg_get_spacing_classname($attributes);
+        $gap_classNames = '';
+        if ($separator) {
+            $gap_classNames = sg_get_spacing_classname([
+                'padding' => $attributes['gap'] ?? [
+                    'default' => 1
+                ]
+            ]);
+        } else {
+            $gap_classNames = sg_get_spacing_classname($attributes);
+        }
 
         // Generate class names based on attributes
         $className = 'sg-term-list';
         $className .= $horizontalLayout ? ' flx flx-wrap' : '';
         $className .= $fontSize ? ' f-' . esc_attr($fontSize) : '';
-        $className .= ' ' . $custom_classNames . ' ' . $gap_classNames;
+        $className .= ' ' . $custom_classNames . ' ' . $separator ? ' has-separator' : $gap_classNames;
         $className .= $centerItems ? ' flx-ctr txt-ctr' : '';
+
 
 
         if ($font_heading) {
@@ -43,9 +53,9 @@ if (!function_exists('render_list_of_terms')) {
         }
 
         $content = '';
-        foreach ($terms as $index => $term) {
+        foreach ($terms as $term) {
             $a_class = 'sg-tags-' . esc_attr($taxonomy);
-            $li_class = $index > 0 && $separator ? 'class="separator"' : '';
+            $li_class = $separator ? 'class="'.$gap_classNames.'"' : '';
 
             $href = $linked ? ' href="' . get_term_link($term->term_id) . '"' : '';
             $text = esc_html($term->name);

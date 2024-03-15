@@ -1,3 +1,14 @@
 .sg-term-list {
-    list-style: none;
+  list-style: none;
+  &.has-separator {
+    li:first-child {
+        padding-left: 0;
+    }
+    li:last-child {
+        padding-right: 0;
+    }
+    li:not(:first-child) {
+      border-left: 1px solid var(--sg--preset--color--accent);
+    }
+  }
 }

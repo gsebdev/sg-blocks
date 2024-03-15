@@ -58,7 +58,10 @@
     }
   }
 }
-
+.sg-image-container {
+  overflow: hidden;
+  width: 100%;
+}
 .sg-image {
   max-width: 100%;
   display: inline-block;
