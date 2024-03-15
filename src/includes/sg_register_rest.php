@@ -1,30 +1,31 @@
 <?php
 
-function sg_get_related_posts_endpoint()
+function sg_get_posts_endpoint()
 {
     register_rest_route(
         'sg/v1',
         '/related_posts',
         array(
             'methods'             => 'GET',
-            'callback'            => 'sg_related_posts_callback',
+            'callback'            => 'sg_get_posts_endpoint_callback',
             'args'                => array(
-                'post_id' => array(
-                    'required'    => true,
+                'related_post_id' => array(
+                    'required'    => false,
                     'validate_callback' => function ($param) {
                         return is_numeric($param);
                     }
                 ),
-                'related_taxonomy' => array(
-                    'required'    => true,
+                'query_taxonomy' => array(
+                    'required'    => false,
                     'validate_callback' => function ($param) {
                         return is_string($param);
                     }
                 ),
-                'related_post_type' => array(
+                'query_post_type' => array(
                     'required'    => true,
                 ),
-                'post_number' => array(
+
+                'number_of_posts' => array(
                     'required'    => false,
                     'validate_callback' => function ($param) {
                         return is_numeric($param);
@@ -34,6 +35,24 @@ function sg_get_related_posts_endpoint()
                     'required'    => false,
                     'validate_callback' => function ($param) {
                         return is_array($param);
+                    }
+                ),
+                'orderby' => array(
+                    'required'    => false,
+                    'validate_callback' => function ($param) {
+                        return is_string($param) && in_array($param, ['date', 'title', 'rand', 'featured']);
+                    }
+                ),
+                'order' => array(
+                    'required'    => false,
+                    'validate_callback' => function ($param) {
+                        return is_string($param) && in_array($param, ['asc', 'desc']);
+                    }
+                ),
+                'query_taxonomy_terms' => array(
+                    'required'    => false,
+                    'validate_callback' => function ($param) {
+                        return is_array($param) && array_filter($param, 'is_string') == $param;
                     }
                 ),
             ),
@@ -48,14 +67,19 @@ function sg_get_related_posts_endpoint()
     );
 }
 
-function sg_related_posts_callback($request)
+function sg_get_posts_endpoint_callback($request)
 {
-    $response = sg_get_most_relevant_posts_by_taxonomy(
-        $request->get_param('post_id'),
-        $request->get_param('related_post_type'),
-        $request->get_param('related_taxonomy'),
-        $request->get_param('post_number') ?? null,
-        $request->get_param('excluded_ids') ?? []
+    $response = sg_get_posts(
+        $request->get_param('query_post_type'),
+        array(
+            'number_of_posts' => $request->get_param('number_of_posts') ?? -1,
+            'order_by' => $request->get_param('orderby') ?? 'date',
+            'order' => $request->get_param('order') ?? 'desc',
+            'excluded_ids' => $request->get_param('excluded_ids') ?? [],
+            'query_taxonomy' => $request->get_param('query_taxonomy') ?? null,
+            'query_taxonomy_terms' => $request->get_param('query_taxonomy_terms') ?? null,
+            'related_post_id' => $request->get_param('related_post_id') ?? null
+        )
     );
 
     $response = $response && is_array($response->posts) ? array_map(function ($post) { return [
@@ -67,4 +91,4 @@ function sg_related_posts_callback($request)
     return $response;
 }
 
-add_action('rest_api_init', 'sg_get_related_posts_endpoint');
+add_action('rest_api_init', 'sg_get_posts_endpoint');

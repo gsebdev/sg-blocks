@@ -6,14 +6,13 @@ import {
 } from "@wordpress/components";
 
 
-const QueryRelatedSliderControls = ({ attributes, setAttributes }) => {
+const LoopSliderControls = ({ attributes, setAttributes }) => {
   const { sliderAutoplay, sliderDisplayNavElements, slider, sliderBreakpoint } =
     attributes;
     
   const [ autoplay, setAutoplay ] = useState<boolean>(!!sliderAutoplay);
 
   return (
-    <>
       <PanelBody>
         <ToggleControl
           label="Slider"
@@ -55,9 +54,7 @@ const QueryRelatedSliderControls = ({ attributes, setAttributes }) => {
           }}
         />
       </PanelBody>
-   
-    </>
   );
 };
 
-export default QueryRelatedSliderControls;
+export default LoopSliderControls;

@@ -1,19 +1,38 @@
 {
   "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
   "apiVersion": 3,
-  "name": "sg/query-related",
-  "title": "SG Boucle Post",
-  "description": "Enregistrer les infos pratiques",
+  "name": "sg/query",
+  "title": "SG Boucle Publications",
+  "description": "Récupérer des publications",
   "category": "sg-blocks",
   "attributes": {
     "queryId": {
       "type": "number"
     },
-    "relatedPostType": {
+    "relatedQuery": {
+      "type": "boolean",
+      "default": false
+    },
+    "orderBy": {
+      "type": "string",
+      "enum": ["date", "title", "rand", "featured"],
+      "default": "date"
+    },
+    "order": {
+      "type": "string",
+      "enum": ["asc", "desc"],
+      "default": "desc"
+    },
+    "queryPostType": {
+      "type": "string",
+      "default": "post"
+    },
+    "queryTaxonomy": {
       "type": "string"
     },
-    "relatedTaxonomy": {
-      "type": "string"
+    "queryTaxonomyTerms": {
+      "type": "array",
+      "default": []
     },
     "postNumber": {
       "type": "string"

@@ -4,15 +4,19 @@ if (!defined('ABSPATH')) {
 }
 
 if (!function_exists('get_post_lowest_price')) {
-    function get_post_lowest_price(int $post_id): ?int
+    function get_post_lowest_price($post_id): ?int
     {
         /**
          * Retrieve the prices associated with the post from the 'price' custom field
          * 
-         * @param int $post_id The ID of the post
+         * @param int|string $post_id The ID of the post
          * @return int|null The lowest price or null if no valid prices are found
          */
-        $post_prices = get_post_meta($post_id, 'price', true);
+        if (!is_string($post_id) && !is_int($post_id)) {
+            return null;
+        }
+
+        $post_prices = get_post_meta((int) $post_id, 'price', true);
         $post_prices = gettype($post_prices) === 'string' ? json_decode($post_prices) : $post_prices;
 
         if (is_array($post_prices) && !empty($post_prices)) {
@@ -151,67 +155,97 @@ if (!function_exists('sg_get_columns_classname')) {
  *
  * @return WP_Query The query result containing the most relevant posts.
  */
-if (!function_exists('sg_get_most_relevant_posts_by_taxonomy')) {
-    function sg_get_most_relevant_posts_by_taxonomy($post_id, $post_types, $taxonomy, $number = null, $excluded_ids = [])
+if (!function_exists('sg_get_posts')) {
+    function sg_get_posts($post_type, array $args = array())
     {
 
-        if (!$post_types || !$taxonomy || !$post_id) return null;
+        $post_id = $args['related_post_id'] ?? null;
+        $taxonomy = $args['query_taxonomy'] ?? null;
+        $excluded_ids = $args['excluded_ids'] ?? [];
+        $taxonomy_term = $args['query_taxonomy_terms'] ?? null;
+        $number_of_posts = $args['number_of_posts'] ?? -1;
+        $orderby = $args['order_by'] ?? 'date';
+        $order = $args['order'] ?? 'desc';
+
+        $is_related_query = !!$post_id && $args['related_query'];
+
+        // Can't get any post if no post type provided
+        if (!$post_type || ($is_related_query && !$taxonomy)) return null;
 
         if (!is_array($excluded_ids)) {
             $excluded_ids = [];
         }
 
+        // Get term IDs associated with the reference post.
+        $terms = $is_related_query && $taxonomy ? get_the_terms($post_id, $taxonomy) : null;
 
+        $post_term_ids = [];
+
+        if (is_array($terms)) {
+            $post_term_ids = array_map(function ($term) {
+                return $term->term_id;
+            }, $terms);
+        }
+        // Query.
+        $query_args = array(
+            'post_type'      => $post_type,
+            'post_status'    => 'publish',
+            'post__not_in'   => array_merge($excluded_ids, $is_related_query ? [$post_id] : []),
+            'posts_per_page' => !$is_related_query ? $number_of_posts : -1,
+            'page'           => 1,
+        )
+
+            + ($order && $orderby ? array(
+                'orderby' => $orderby === 'featured' ? array('menu_order' => $order, 'modified' => $order) : $orderby,
+                'order' => $order
+            ) : [])
+            + ($taxonomy && ($post_term_ids || $taxonomy_term) ? array(
+                'tax_query' => array(
+                    array(
+                        'taxonomy' => $taxonomy,
+                        'field'    => 'slug',
+                        'terms'    => $is_related_query ? $post_term_ids : $taxonomy_term,
+                    )
+                )
+            ) : []);
+
+        $query = new WP_Query($query_args);
+
+        if (!$query->have_posts()) {
+            return null;
+        }
+
+        if (!$is_related_query) {
+            return $query;
+        }
+
+        //Define a mapping function to get the term ID.
         if (!function_exists('get_term_id')) {
             function get_term_id($term)
             {
                 return $term->term_id;
             };
         }
-        // Get term IDs associated with the reference post.
-        $terms = get_the_terms($post_id, $taxonomy);
 
-        if (is_array($terms)) {
-            $post_term_ids = array_map(function ($term) {
-                return $term->term_id;
-            }, $terms);
+        // Sort the related posts based on the number of match terms.
+        usort(
+            $query->posts,
+            function ($a, $b) use ($post_term_ids, $taxonomy) {
+                $a_terms = get_the_terms($a->ID, $taxonomy);
+                $b_terms = get_the_terms($b->ID, $taxonomy);
+                $apos = count(array_intersect(array_map('get_term_id',  is_array($a_terms) ? $a_terms : []), $post_term_ids));
+                $bpos = count(array_intersect(array_map('get_term_id',  is_array($b_terms) ? $b_terms : []), $post_term_ids));
 
-            // Query.
-            $related_args = array(
-                'post_type'      => $post_types,
-                'post_status'    => 'publish',
-                'tax_query'      => array(
-                    array(
-                        'taxonomy' => $taxonomy,
-                        'field'    => 'id',
-                        'terms'    => $post_term_ids,
-                    ),
-                ),
-                'post__not_in'   => array($post_id, ...$excluded_ids),
-                'posts_per_page' => -1,
-            );
-
-            $related_query = new WP_Query($related_args);
-
-            // Sort the related posts based on the number of match terms.
-            if ($related_query->have_posts()) {
-                usort($related_query->posts, function ($a, $b) use ($post_term_ids) {
-                    $a_terms = get_the_terms($a->ID, 'sport');
-                    $b_terms = get_the_terms($b->ID, 'sport');
-                    $apos = count(array_intersect(array_map('get_term_id',  is_array($a_terms) ? $a_terms : []), $post_term_ids));
-                    $bpos = count(array_intersect(array_map('get_term_id',  is_array($b_terms) ? $b_terms : []), $post_term_ids));
-
-                    return ($apos < $bpos) ? 1 : -1;
-                });
+                return ($apos < $bpos) ? 1 : -1;
             }
+        );
 
-            if (is_numeric($number) && $number > 0 && $number < $related_query->post_count) {
-                $related_query->posts = array_slice($related_query->posts, 0, $number);
-                $related_query->post_count = $number;
-            }
-
-            return $related_query;
+        if (is_numeric($number_of_posts) && $number_of_posts > 0 && $number_of_posts < $query->post_count) {
+            $query->posts = array_slice($query->posts, 0, $number_of_posts);
+            $query->post_count = $number_of_posts;
         }
-        return null;
+
+        return $query;
     }
+    return null;
 }

@@ -23,7 +23,7 @@ const SPACING_OPTIONS = [
 
 const MAX_COLUMNS = 5;
 
-const QueryRelatedLayoutControls = ({ attributes, setAttributes }) => {
+const LoopLayoutControls = ({ attributes, setAttributes }) => {
   const { columns, slider, sliderBreakpoint } =
     attributes;
   return (
@@ -116,4 +116,4 @@ const QueryRelatedLayoutControls = ({ attributes, setAttributes }) => {
   );
 };
 
-export default QueryRelatedLayoutControls;
+export default LoopLayoutControls;

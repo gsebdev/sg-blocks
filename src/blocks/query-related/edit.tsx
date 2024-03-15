@@ -14,7 +14,7 @@ import {
   __experimentalUseBlockPreview as useBlockPreview,
   useInnerBlocksProps,
 } from "@wordpress/block-editor";
-import { PanelBody, TabPanel } from "@wordpress/components";
+import { PanelBody, PanelHeader, TabPanel } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { useInstanceId } from '@wordpress/compose';
@@ -26,16 +26,16 @@ import { useInstanceId } from '@wordpress/compose';
  * Internal dependencies
  * 
  */
-import QueryRelatedLayoutControls from "./inspector-controls/QueryRelatedLayoutControls";
-import QueryRelatedQueryControls from "./inspector-controls/QueryRelatedQueryControls";
-import QueryRelatedSliderControls from "./inspector-controls/QueryRelatedSliderControls";
 import { getClassNames } from "../block-utilities/sg-blocks-helpers";
 import Swiper from "sg-swiper";
+import LoopLayoutControls from "./inspector-controls/LoopLayoutControls";
+import LoopQueryControls from "./inspector-controls/LoopQueryControls";
+import LoopSliderControls from "./inspector-controls/LoopSliderControls";
 
 
-export interface Attributes {
-  relatedPostType: string;
-  relatedTaxonomy: string;
+export interface SGQueryBlockAttributes {
+  queryPostType: string;
+  queryTaxonomy: string;
   postNumber: number;
   excludedIds: string[];
   gap: Record<string, number>;
@@ -49,6 +49,10 @@ export interface Attributes {
   sliderDisplayNavElements: boolean;
   className: string;
   queryId: number;
+  order: string;
+  relatedQuery: boolean;
+  orderBy: string;
+  queryTaxonomyTerms: any[];
 }
 
 export interface CoreStore {
@@ -68,8 +72,8 @@ export interface CoreStore {
 
 interface EditProps {
   isSelected: boolean;
-  attributes: Attributes;
-  setAttributes: (attribute: Partial<Attributes>) => void;
+  attributes: SGQueryBlockAttributes;
+  setAttributes: (attribute: Partial<SGQueryBlockAttributes>) => void;
   clientId: string;
   innerBlocks: any[];
 }
@@ -156,14 +160,18 @@ const MemoizedPostTemplateBlockPreview = memo(PostTemplateBlockPreview);
 const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
   const {
     className,
-    relatedPostType,
-    relatedTaxonomy,
+    queryPostType,
+    queryTaxonomy,
     postNumber,
     excludedIds,
     slider,
     sliderBreakpoint,
     sliderAutoplay,
-    sliderDisplayNavElements
+    sliderDisplayNavElements,
+    order,
+    orderBy,
+    relatedQuery,
+    queryTaxonomyTerms
   } = attributes;
   const instanceId = useInstanceId(Edit);
 
@@ -189,32 +197,42 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
     ""
   )}`;
 
-  const queriedRelatedPosts = useSelect(
+  /***
+   * 
+   * Retrieve the posts based on block settings
+   * 
+   */
+
+  const queriedPosts = useSelect(
     (select: (store: string) => CoreStore) => {
       const { getEntityRecords } = select("core");
 
-      if (!relatedPostType || !relatedTaxonomy || !currentPost) return [];
+      if (!queryPostType || (relatedQuery && !currentPost)) return [];
 
       return getEntityRecords("sg", "related_posts", {
-        related_post_type: relatedPostType,
-        related_taxonomy: relatedTaxonomy,
-        post_number: postNumber ? postNumber : -1,
-        post_id: currentPost.id,
+        query_post_type: queryPostType,
+        query_taxonomy: queryTaxonomy,
+        number_of_posts: postNumber ? postNumber : -1,
+        related_post_id: relatedQuery && currentPost.id ? currentPost.id : undefined,
+        order: order,
+        orderby: orderBy,
         excluded_ids: excludedIds,
+        query_taxonomy_terms: queryTaxonomyTerms,
+        per_page: postNumber ? postNumber : -1,
       });
     },
-    [relatedPostType, relatedTaxonomy, postNumber, currentPost.id, excludedIds]
+    [queryPostType, queryTaxonomy, postNumber, currentPost.id, excludedIds, order, orderBy, relatedQuery, queryTaxonomyTerms]
   );
 
   const postContexts = useMemo(
     () =>
-      queriedRelatedPosts?.map((post: any) => ({
+      queriedPosts?.map((post: any) => ({
         postType: post.type,
         postId: post.id,
         postTitle: post.title,
         queryId: post.query_id,
       })),
-    [queriedRelatedPosts]
+    [queriedPosts]
   );
 
   useEffect(() => {
@@ -223,8 +241,13 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
     })
   })
 
+  /**
+   * 
+   * Handle the init of the slider if activated and update it on change settings
+   * 
+   * 
+   */
   useEffect(() => {
-
     const toggleSlider = () => {
       const { innerWidth: size } = window;
       if (size <= sliderBreakpoint || sliderBreakpoint === 0) {
@@ -266,7 +289,6 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
   return (
     <>
       <InspectorControls>
-        <PanelBody>
           <TabPanel
             className="query-related-tab-panel"
             activeClass="active-tab"
@@ -287,15 +309,14 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
           >
             {(tab) => (
               <div>
-                <h3>{tab.title}</h3>
                 {tab.name === "layout" && (
-                  <QueryRelatedLayoutControls
+                  <LoopLayoutControls
                     attributes={attributes}
                     setAttributes={setAttributes}
                   />
                 )}
                 {tab.name === "query" && (
-                  <QueryRelatedQueryControls
+                  <LoopQueryControls
                     attributes={attributes}
                     setAttributes={setAttributes}
                     currentPost={currentPost}
@@ -303,7 +324,7 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
                   />
                 )}
                 {tab.name === "slider" && (
-                  <QueryRelatedSliderControls
+                  <LoopSliderControls
                     attributes={attributes}
                     setAttributes={setAttributes}
                   />
@@ -311,7 +332,6 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
               </div>
             )}
           </TabPanel>
-        </PanelBody>
       </InspectorControls>
       <div {...blockProps}>
         {postContexts && postContexts.length > 0 ?
@@ -379,11 +399,10 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
           <div className="sg-query-related__empty">
             <h3>{__('SG Boucle de Post liés')}</h3>
             <p>{__('Aucun post trouvé')}</p>
-            <QueryRelatedQueryControls
+            <LoopQueryControls
               attributes={attributes}
               setAttributes={setAttributes}
               currentPost={currentPost}
-              posts={postContexts}
             />
           </div>
         }

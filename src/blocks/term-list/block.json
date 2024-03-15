@@ -7,8 +7,7 @@
   "icon": "smiley",
   "attributes": {
     "taxonomy": {
-      "type": "string",
-      "default": ""
+      "type": "string"
     },
     "fontSize": {
       "type": "string",
@@ -41,6 +40,7 @@
       "default": false
     }
   },
+  "usesContext": ["postId", "postType", "queryId"],
   "textdomain": "sg-blocks",
   "render": "file:./render.php",
   "style": "file:./style.css"

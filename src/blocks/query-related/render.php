@@ -43,10 +43,15 @@ if (!function_exists('render_block_sg_query_related')) {
     function render_block_sg_query_related($attributes, $content, $block)
     {
         $post_id = get_the_ID();
-        $relatedPostType = $attributes['relatedPostType'] ?? null;
-        $relatedTaxonomy = $attributes['relatedTaxonomy'] ?? null;
-        $postNumber = $attributes['postNumber'] ?? -1;
+        $queryPostType = $attributes['queryPostType'] ?? null;
+        $queryTaxonomy = $attributes['queryTaxonomy'] ?? null;
+        $queryTaxonomyTerms = $attributes['queryTaxonomyTerms'] ?? null;
+        $postNumber = $attributes['postNumber'];
         $excluded_ids = $attributes['excludedIds'] ?? [];
+        $order_by = $attributes['orderBy'] ?? 'date';
+        $order = $attributes['order'] ?? 'desc';
+        $related_query = $attributes['relatedQuery'];
+
         $columns = $attributes['columns'] ?? null;
         $gap = $attributes['gap'] ?? null;
         $margin = $attributes['margin'] ?? null;
@@ -59,7 +64,16 @@ if (!function_exists('render_block_sg_query_related')) {
         $slider_display_nav = $attributes['sliderDisplayNavElements'] ?? null;
 
 
-        $query = sg_get_most_relevant_posts_by_taxonomy($post_id, $relatedPostType, $relatedTaxonomy, $postNumber, $excluded_ids);
+        $query = sg_get_posts($queryPostType, array(
+            'number_of_posts' => $postNumber ? $postNumber : -1,
+            'order_by' => $order_by,
+            'order' => $order,
+            'excluded_ids' => $excluded_ids,
+            'query_taxonomy' => $queryTaxonomy,
+            'query_taxonomy_terms' => $queryTaxonomyTerms,
+            'related_post_id' => $post_id,
+            'related_query' => $related_query
+        ));
 
 
         if (!$query || !$query->have_posts()) {

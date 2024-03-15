@@ -2,6 +2,7 @@
   &__list {
     display: grid;
     width: 100%;
+    position: relative;
     > li {
       display: grid;
       width: 100%;
