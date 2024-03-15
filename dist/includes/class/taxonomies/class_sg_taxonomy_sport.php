@@ -67,8 +67,6 @@ class SG_Sport_Taxonomy extends SG_Taxonomy
         ),
     );
 
-    protected $custom_checkbox_display = true;
-
     public function __construct($post_types)
     {
         $this->custom_fields = array(

@@ -52,7 +52,6 @@ class SG_Difficulty_Taxonomy extends SG_Taxonomy
         ],
     );
 
-    protected $custom_checkbox_display = true;
     protected $auto_save = true;
 
     public function __construct($post_types)

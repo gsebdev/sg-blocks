@@ -35,7 +35,7 @@ class SG_Post_Type
     {
         if ($this->metaboxes) {
             foreach ($this->metaboxes as $metabox) {
-                $metabox_object = new SG_Meta_Box($metabox['id'], $metabox['title']);
+                $metabox_object = new SG_Meta_Box($metabox['id'], $metabox['title'], $metabox['panel'] ?? 'advanced', $metabox['priority'] ?? 'default');
                 foreach ($metabox['fields'] as $field) {
                     $metabox_object->add_field($field);
                 }

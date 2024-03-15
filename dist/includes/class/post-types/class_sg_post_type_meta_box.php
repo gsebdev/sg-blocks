@@ -11,11 +11,15 @@ class SG_Meta_Box
     private $title = '';
     private $id = '';
     private $screens = [];
+    private $panel;
+    private $priority;
 
-    public function __construct(string $id, string $title)
+    public function __construct(string $id, string $title, string $panel = 'advanced', string $priority = 'default')
     {
         $this->title = $title;
         $this->id = $id;
+        $this->panel = $panel;
+        $this->priority = $priority;
     }
 
     public function add_field(object $field_object)
@@ -37,8 +41,8 @@ class SG_Meta_Box
             $this->screens = array_merge($this->screens, $screens);
         }
 
-        add_action('add_meta_boxes', [$this, 'add_sg_meta_box']);
-        //add_action('save_post', [$this, 'save_sg_meta_box']);
+        add_action('admin_menu', [$this, 'add_sg_meta_box']);
+        add_action('save_post', [$this, 'save_sg_meta_box']);
     }
 
     /**
@@ -61,7 +65,9 @@ class SG_Meta_Box
                 'sg_box_' . $this->title,
                 $this->title,
                 [$this, 'render'],
-                $screen
+                $screen,
+                $this->panel,
+                $this->priority
             );
         }
     }

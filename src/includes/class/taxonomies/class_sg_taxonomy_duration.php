@@ -33,8 +33,6 @@ class SG_Duration_Taxonomy extends SG_Taxonomy
         )
     );
 
-    protected $custom_checkbox_display = true;
-
     public function __construct($post_types)
     {
         $this->config['labels'] = array(
