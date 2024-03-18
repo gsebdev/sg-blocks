@@ -28,13 +28,27 @@ if (!function_exists('render_list_of_terms')) {
         }
 
         // Generate gap class names based on provided values
-        $gap_classNames = '';
+        $gap_classNames = $li_padding_classNames = '';
+
         if ($separator) {
-            $gap_classNames = sg_get_spacing_classname([
-                'padding' => $attributes['gap'] ?? [
+            if (!isset($attributes['gap'])) {
+                $attributes['gap'] = [
                     'default' => 1
-                ]
-            ]);
+                ];
+            }
+            $padding_array = array(
+                'padding' => array()
+            );
+            $gap_array = array(
+                'gap' => array()
+            );
+            foreach ($attributes['gap'] as $key => $val) {
+                $padding_array['padding'][$key]['x'] = $val['x'] ?? $val;
+                $gap_array['gap'][$key]['y'] = $val['y'] ?? $val;
+            }
+
+            $li_padding_classNames = sg_get_spacing_classname($padding_array);
+            $gap_classNames = sg_get_spacing_classname($gap_array);
         } else {
             $gap_classNames = sg_get_spacing_classname($attributes);
         }
@@ -43,7 +57,7 @@ if (!function_exists('render_list_of_terms')) {
         $className = 'sg-term-list';
         $className .= $horizontalLayout ? ' flx flx-wrap' : '';
         $className .= $fontSize ? ' f-' . esc_attr($fontSize) : '';
-        $className .= ' ' . $custom_classNames . ' ' . $separator ? ' has-separator' : $gap_classNames;
+        $className .= ($custom_classNames ? ' ' . $custom_classNames : '') . ($gap_classNames ? ' ' . $gap_classNames : '') . ($separator ? ' has-separator' : '');
         $className .= $centerItems ? ' flx-ctr txt-ctr' : '';
 
 
@@ -55,7 +69,7 @@ if (!function_exists('render_list_of_terms')) {
         $content = '';
         foreach ($terms as $term) {
             $a_class = 'sg-tags-' . esc_attr($taxonomy);
-            $li_class = $separator ? 'class="'.$gap_classNames.'"' : '';
+            $li_class = $separator ? 'class="' . $li_padding_classNames . '"' : '';
 
             $href = $linked ? ' href="' . get_term_link($term->term_id) . '"' : '';
             $text = esc_html($term->name);

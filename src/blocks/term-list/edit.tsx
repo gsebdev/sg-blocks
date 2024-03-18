@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { InspectorControls, useBlockProps } from "@wordpress/block-editor";
 import { useSelect } from "@wordpress/data";
 
@@ -36,44 +36,65 @@ const Edit = (props) => {
     separator,
     fontHeading,
     linked,
-    centerItems
+    centerItems,
+    gap,
   } = attributes;
 
   const { postId, postType } = context;
 
-  let tax_name;
+  const [spacingClassname, setSpacingClassname] = useState("");
 
-  switch (taxonomy) {
-    case "category":
-      tax_name = "categories";
-      break;
-    case "post_tag":
-      tax_name = "tags";
-      break;
-    default:
-      tax_name = taxonomy;
-  }
-
-  const taxOptions = useSelect(select => {
-    const { getPostType } = select("core") as any;
-    const taxOptions = getPostType(postType)?.taxonomies;
-    return taxOptions
-  }, []);
-
-  const terms = useSelect((select) => {
-    const { getEntityRecords, getEntityRecord } = select("core") as any;
-    const ids = getEntityRecord("postType", postType, postId)?.[tax_name];
-
-    const entities = getEntityRecords("taxonomy", taxonomy, {
-      includes: ids,
-    });
-    return entities?.filter((t) => ids?.includes(t.id));
+  const tax_name = useMemo(() => {
+    return taxonomy === "category"
+      ? "categories"
+      : taxonomy === "post_tag"
+        ? "tags"
+        : taxonomy;
   }, [taxonomy]);
 
-  const TermsTag = linked ? 'a' : 'span';
+  const taxOptions = useSelect((select) => {
+    const { getPostType } = select("core") as any;
+    const taxOptions = getPostType(postType)?.taxonomies;
+    return taxOptions;
+  }, []);
+
+  const terms = useSelect(
+    (select) => {
+      const { getEntityRecords, getEntityRecord } = select("core") as any;
+      const ids = getEntityRecord("postType", postType, postId)?.[tax_name];
+
+      const entities = getEntityRecords("taxonomy", taxonomy, {
+        includes: ids,
+      });
+      return entities?.filter((t) => ids?.includes(t.id));
+    },
+    [taxonomy]
+  );
+
+  const TermsTag = linked ? "a" : "span";
+
   const blockProps = useBlockProps({
-    className: `sg-term-list f-${fontSize}${horizontalLayout ? " flx flx-wrap" : ""}${centerItems ? " flx-ctr txt-ctr" : ""}${separator ? " has-separator" : " " + getSpacingClassname(attributes)}${fontHeading ? " f-heading" : "" }`
+    className: `sg-term-list f-${fontSize}${horizontalLayout ? " flx flx-wrap" : ""
+      }${centerItems ? " flx-ctr txt-ctr" : ""}${separator ? " has-separator" : " " + getSpacingClassname(attributes)
+      }${fontHeading ? " f-heading" : ""}`,
   });
+
+
+  useEffect(() => {
+    let spacingClassname = "";
+
+    if (separator) {
+      const classNameObject = {};
+      Object.entries(gap).forEach(([key, val]) => {
+        classNameObject['gap'][key]['y'] = val?.['y'] ?? val;
+        classNameObject['padding'][key]['x'] = val?.['x'] ?? val;
+      });
+    } else {
+      spacingClassname = getSpacingClassname(gap);
+    }
+    setSpacingClassname(spacingClassname);
+  }, [gap]);
+
 
   useEffect(() => {
     if (taxOptions && !taxonomy) {
@@ -172,14 +193,12 @@ const Edit = (props) => {
         </BreakpointTabs>
       </InspectorControls>
 
-      {!!terms ?
-        <ul {...blockProps} >
+      {!!terms ? (
+        <ul {...blockProps}>
           {terms.map((term, index) => (
             <li
               key={term + index}
-              className={`${separator && getSpacingClassname({
-                padding: attributes.gap,
-              })}`}
+              className={`${spacingClassname}`}
             >
               <TermsTag
                 className={`sg-tags-${taxonomy}`}
@@ -189,10 +208,12 @@ const Edit = (props) => {
               </TermsTag>
             </li>
           ))}
-        </ul> :
+        </ul>
+      ) : (
         <div {...blockProps}>
           <p>Aucun tag disponible...</p>
-        </div>}
+        </div>
+      )}
     </>
   );
 };
