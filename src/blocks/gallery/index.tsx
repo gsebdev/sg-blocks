@@ -1,16 +1,12 @@
 import metadata from "./block.json";
-// @ts-ignore
 import { registerBlockType } from "@wordpress/blocks";
+import Edit from "./components/Edit";
+import Save from "./components/Save";
 
-const dynamicRegisterBlockType = async () => {
-    const { default: Edit } = await import('./components/Edit');
-    const { default: Save } = await import('./components/Save');
+registerBlockType(metadata.name, {
+    title: metadata.title,
+    edit: Edit,
+    save: Save
+} as any);
 
-    registerBlockType(metadata.name, {
-        title: metadata.title,
-        edit: Edit,
-        save: Save
-      } as any);
-}
 
-dynamicRegisterBlockType();

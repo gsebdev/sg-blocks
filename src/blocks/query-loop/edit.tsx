@@ -130,20 +130,22 @@ function PostTemplateBlockPreview({
     setActiveBlockContextId(blockContextId);
   };
 
-  const style = {
-    display: isHidden ? "none" : undefined,
-  };
-
   return (
-    <li
-      {...blockPreviewProps}
-      className={blockPreviewProps.className + " " + className}
-      tabIndex={0}
-      role="button"
-      onClick={handleOnClick}
-      onKeyDown={handleOnClick}
-      style={style}
-    />
+    <>
+      {
+        isHidden ?
+          null :
+          <li
+            {...blockPreviewProps}
+            className={blockPreviewProps.className + " " + className}
+            tabIndex={0}
+            role="button"
+            onClick={handleOnClick}
+            onKeyDown={handleOnClick}
+          />
+      }
+    </>
+
   );
 }
 
@@ -289,49 +291,49 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
   return (
     <>
       <InspectorControls>
-          <TabPanel
-            className="query-related-tab-panel"
-            activeClass="active-tab"
-            tabs={[
-              {
-                name: "query",
-                title: "Requête",
-              },
-              {
-                name: "layout",
-                title: "Affichage",
-              },
-              {
-                name: "slider",
-                title: "Slider",
-              },
-            ]}
-          >
-            {(tab) => (
-              <div>
-                {tab.name === "layout" && (
-                  <LoopLayoutControls
-                    attributes={attributes}
-                    setAttributes={setAttributes}
-                  />
-                )}
-                {tab.name === "query" && (
-                  <LoopQueryControls
-                    attributes={attributes}
-                    setAttributes={setAttributes}
-                    currentPost={currentPost}
-                    posts={postContexts}
-                  />
-                )}
-                {tab.name === "slider" && (
-                  <LoopSliderControls
-                    attributes={attributes}
-                    setAttributes={setAttributes}
-                  />
-                )}
-              </div>
-            )}
-          </TabPanel>
+        <TabPanel
+          className="query-related-tab-panel"
+          activeClass="active-tab"
+          tabs={[
+            {
+              name: "query",
+              title: "Requête",
+            },
+            {
+              name: "layout",
+              title: "Affichage",
+            },
+            {
+              name: "slider",
+              title: "Slider",
+            },
+          ]}
+        >
+          {(tab) => (
+            <div>
+              {tab.name === "layout" && (
+                <LoopLayoutControls
+                  attributes={attributes}
+                  setAttributes={setAttributes}
+                />
+              )}
+              {tab.name === "query" && (
+                <LoopQueryControls
+                  attributes={attributes}
+                  setAttributes={setAttributes}
+                  currentPost={currentPost}
+                  posts={postContexts}
+                />
+              )}
+              {tab.name === "slider" && (
+                <LoopSliderControls
+                  attributes={attributes}
+                  setAttributes={setAttributes}
+                />
+              )}
+            </div>
+          )}
+        </TabPanel>
       </InspectorControls>
       <div {...blockProps}>
         {postContexts && postContexts.length > 0 ?

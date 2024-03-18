@@ -35,15 +35,16 @@ $font-sizes: (
 );
 
 $colors: (
-    text: var(--sg--preset--color--text, --wp--preset--color--text),
-    primary: var(--sg--preset--color--primary, --wp--preset--color--primary),
-    accent: var(--sg--preset--color--accent, --wp--preset--color--accent),
-    bg: var(--sg--preset--color--bg, --wp--preset--color--bg),
-    secondary: var(--sg--preset--color--secondary, --wp--preset--color--secondary),
-    bg-2: var(--sg--preset--color--bg-2, --wp--preset--color--bg-2),
+    text: var(--sg--preset--color--text),
+    primary: var(--sg--preset--color--primary),
+    primary-dark: var(--sg--preset--color--primary-dark),
+    primary-light: var(--sg--preset--color--primary-light),
+    accent: var(--sg--preset--color--accent),
+    accent-light: var(--sg--preset--color--accent-light),
+    accent-xlight: var(--sg--preset--color--accent-xlight),
+    bg: var(--sg--preset--color--bg),
     grey-1: var(--sg--preset--color--grey-1, #E6E6E6),
-    grey-2: var(--sg--preset--color--grey-2, #87888a),
-    grey-3: var(--sg--preset--color--grey-3, #545454)
+    grey-2: var(--sg--preset--color--grey-2, #87888a)
 );
 
 $font-families: (

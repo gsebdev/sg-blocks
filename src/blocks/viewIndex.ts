@@ -2,7 +2,7 @@ import { lazyLoad } from "./block-utilities/sg-lazyload";
 import initMaps from "./map/map";
 import sgReservationLinksInit from "./reservation/reservation";
 import sgGalleryInit from "./gallery/gallery";
-import sgQueryRelatedInit from "./query-related/slide";
+import sgQueryRelatedInit from "./query-loop/slide";
 import lightboxImageInit from "./block-utilities/sg-lightbox";
 import { sgContactFormHandle } from "./contact-form/contact-form";
 

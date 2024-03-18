@@ -8,7 +8,7 @@
         padding-right: 0;
     }
     li:not(:first-child) {
-      border-left: 1px solid var(--sg--preset--color--accent);
+      border-left: 1px solid var(--sg-term-list-color, lightgrey);
     }
   }
 }

@@ -6,7 +6,7 @@ module.exports = {
   entry: {
     "sg-blocks-scripts-editor": "./src/blocks/editorIndex.ts",
     "sg-blocks-scripts": "./src/blocks/viewIndex.ts",
-    "sg-blocks-scripts-admin": "./src/assets/js/admin/index.js",
+    "sg-blocks-scripts-admin": "./src/assets/js/admin/index.js"
   },
   output: {
     path: path.resolve(__dirname, "dist/"),
@@ -39,4 +39,9 @@ module.exports = {
       patterns: [{ from: "src", to: "./", globOptions: { ignore: ["**/*.ts", "**/*.tsx", "**/*.scss", "**/*.jsx", "**/*.js"] } }],
     }),
   ],
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
+  }
 };

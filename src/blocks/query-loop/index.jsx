@@ -1,24 +1,16 @@
 import metadata from "./block.json";
-// @ts-ignore
 import { registerBlockType } from "@wordpress/blocks";
-// @ts-ignore
+import { dispatch } from '@wordpress/data';
 import { addFilter } from '@wordpress/hooks';
-// @ts-ignore
-import { useSelect, dispatch } from '@wordpress/data';
+import Edit from "./edit";
+import Save from "./save";
 
+registerBlockType(metadata.name, {
+  title: metadata.title,
+  edit: Edit,
+  save: Save,
+});
 
-const dynamicRegisterBlockType = async () => {
-  const { default: Edit } = await import("./edit");
-  const { default: Save } = await import("./save");
-
-  registerBlockType(metadata.name, {
-    title: metadata.title,
-    edit: Edit,
-    save: Save,
-  });
-};
-
-dynamicRegisterBlockType();
 
 
 addFilter('editor.BlockEdit', 'sg', (BlockEdit) => (props) => {

@@ -16,7 +16,7 @@ export const getSpacingClassname = (attributes: {}): string => {
   const properties = ["gap", "padding", "margin"];
   let classNames = "";
   properties.forEach((property) => {
-    if (attributes[property]) {
+    if (attributes?.[property]) {
       const shortHand = property.slice(0, 1);
       classNames += Object.entries(attributes[property]).reduce(
         (result, [key, val]) => {
@@ -25,11 +25,11 @@ export const getSpacingClassname = (attributes: {}): string => {
               result += `${shortHand}-${key !== "default" ? key + "-" : ""
                 }${val} `;
             } else if (typeof val === "object" && ("x" in val || "y" in val)) {
-              const x = val["x"]
+              const x = val?.["x"]
                 ? `${shortHand}x-${key !== "default" ? key + "-" : ""}${val["x"]
                 } `
                 : "";
-              const y = val["y"]
+              const y = val?.["y"]
                 ? `${shortHand}y-${key !== "default" ? key + "-" : ""}${val["y"]
                 } `
                 : "";

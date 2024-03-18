@@ -3,6 +3,7 @@
   "apiVersion": 3,
   "name": "sg/custom-tags-list",
   "title": "SG Liste des Tags",
+  "description": "Liste des tags",
   "category": "sg-blocks",
   "icon": "smiley",
   "attributes": {
