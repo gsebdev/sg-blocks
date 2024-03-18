@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 // @ts-ignore
 import { useBlockProps, InspectorControls } from "@wordpress/block-editor";
 // @ts-ignore
-import { PanelBody, TextControl, SelectControl, Modal, __experimentalNumberControl as NumberControl, Button } from "@wordpress/components";
-// @ts-ignore
-import { useSelect } from '@wordpress/data';
-// @ts-ignore
+import { PanelBody, TextControl } from "@wordpress/components";
 import { __ } from '@wordpress/i18n';
 import usePostMeta from '../block-components/usePostMeta';
 import { getMinPrice } from '../block-utilities/sg-blocks-helpers';
-// @ts-ignore
-import { useEntityProp } from '@wordpress/core-data';
+
+
 
 interface Price {
   name: string;
@@ -29,9 +26,8 @@ const Edit: React.FC<EditProps> = ({ attributes, setAttributes, context }) => {
   const { text_before } = attributes;
   const { postId, postType } = context;
 
-  const [prices, setPrices] = usePostMeta(postType, postId, 'price') as [Price[], any];
+  const [prices] = usePostMeta(postType, postId, 'price') as [Price[]];
 
-  (postId, postType, prices);
   const blockProps = useBlockProps({
     className: "sg-mini-price"
   });
@@ -51,7 +47,14 @@ const Edit: React.FC<EditProps> = ({ attributes, setAttributes, context }) => {
       <p {...blockProps}>
         {Array.isArray(prices) && prices.length > 0 ?
           <>
-            {getMinPrice(prices) ? text_before + ' ' + getMinPrice(prices) + prices[0].currency : 'Erreur dans les prix'}
+            {getMinPrice(prices) ?
+              (<>
+                {`${text_before} `}
+                <span>
+                  {getMinPrice(prices) + prices[0].currency}
+                </span>
+              </>)
+              : <>{__('Erreur dans les prix')}</>}
           </> :
           <div>
             {__('Aucun prix disponible')}
