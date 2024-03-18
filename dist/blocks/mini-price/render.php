@@ -17,7 +17,7 @@ $currency = $minPrice['currency'] ?? '€';
 printf(
     '<p class="sg-mini-price%s">%s%s%s</p>',
     $classNames ? " $classNames" : '',
-    $textBefore ? "<span>{$textBefore}</span> " : '',
-    esc_html($minPrice),
-    esc_html($currency)
+    $textBefore ? "{$textBefore} " : '',
+    "<span>" . esc_html($minPrice),
+    esc_html($currency) .  "</span>"
 );
