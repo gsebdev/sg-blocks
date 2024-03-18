@@ -2,12 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { InspectorControls, useBlockProps } from "@wordpress/block-editor";
 import { useSelect } from "@wordpress/data";
 
-import {
-  SelectControl,
-  PanelBody,
-  ToggleControl,
-  Spinner,
-} from "@wordpress/components";
+import { SelectControl, PanelBody, ToggleControl } from "@wordpress/components";
 import {
   // @ts-ignore
   __experimentalToggleGroupControl as ToggleGroupControl,
@@ -42,14 +37,15 @@ const Edit = (props) => {
 
   const { postId, postType } = context;
 
-  const [spacingClassname, setSpacingClassname] = useState("");
+  const [gapClassname, setGapClassname] = useState("");
+  const [paddingClassname, setPaddingClassname] = useState("");
 
   const tax_name = useMemo(() => {
     return taxonomy === "category"
       ? "categories"
       : taxonomy === "post_tag"
-        ? "tags"
-        : taxonomy;
+      ? "tags"
+      : taxonomy;
   }, [taxonomy]);
 
   const taxOptions = useSelect((select) => {
@@ -74,34 +70,57 @@ const Edit = (props) => {
   const TermsTag = linked ? "a" : "span";
 
   const blockProps = useBlockProps({
-    className: `sg-term-list f-${fontSize}${horizontalLayout ? " flx flx-wrap" : ""
-      }${centerItems ? " flx-ctr txt-ctr" : ""}${separator ? " has-separator" : " " + getSpacingClassname(attributes)
-      }${fontHeading ? " f-heading" : ""}`,
+    className: `sg-term-list f-${fontSize}${
+      horizontalLayout ? " flx flx-wrap" : ""
+    }${centerItems ? " flx-ctr txt-ctr" : ""}${
+      separator ? " has-separator" : ""
+    }${gapClassname ? " " + gapClassname : ""}${
+      fontHeading ? " f-heading" : ""
+    }`,
   });
 
-
   useEffect(() => {
-    let spacingClassname = "";
-
     if (separator) {
-      const classNameObject = {};
-      Object.entries(gap).forEach(([key, val]) => {
-        classNameObject['gap'][key]['y'] = val?.['y'] ?? val;
-        classNameObject['padding'][key]['x'] = val?.['x'] ?? val;
-      });
+      setGapClassname(
+        getSpacingClassname({
+          gap: Object.fromEntries(
+            Object.entries(gap).map(([key, val]) => {
+              return [
+                key,
+                {
+                  y: val?.["y"] ?? val,
+                },
+              ];
+            })
+          ),
+        })
+      );
+      setPaddingClassname(
+        getSpacingClassname({
+          padding: Object.fromEntries(
+            Object.entries(gap).map(([key, val]) => {
+              return [
+                key,
+                {
+                  x: val?.["x"] ?? val,
+                },
+              ];
+            })
+          ),
+        })
+      );
     } else {
-      spacingClassname = getSpacingClassname(gap);
+      setGapClassname(getSpacingClassname(gap));
+      setPaddingClassname("");
     }
-    setSpacingClassname(spacingClassname);
-  }, [gap]);
-
+  }, [gap, separator]);
 
   useEffect(() => {
     if (taxOptions && !taxonomy) {
       setAttributes({ taxonomy: taxOptions[0] });
     }
   }, [taxOptions]);
-
+  
   return (
     <>
       <InspectorControls>
@@ -196,10 +215,7 @@ const Edit = (props) => {
       {!!terms ? (
         <ul {...blockProps}>
           {terms.map((term, index) => (
-            <li
-              key={term + index}
-              className={`${spacingClassname}`}
-            >
+            <li key={term + index} className={`${paddingClassname}`}>
               <TermsTag
                 className={`sg-tags-${taxonomy}`}
                 style={term.meta.color ? { color: term.meta.color } : undefined}
