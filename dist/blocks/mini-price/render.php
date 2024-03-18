@@ -20,4 +20,5 @@ printf(
     $textBefore ? "{$textBefore} " : '',
     "<span>" . esc_html($minPrice),
     esc_html($currency) .  "</span>"
+    
 );
