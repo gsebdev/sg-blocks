@@ -3,7 +3,6 @@ import {
   RangeControl,
   PanelHeader,
   PanelBody,
-  ToggleControl,
   // @ts-ignore
   __experimentalDivider as Divider,
 } from "@wordpress/components";
@@ -43,10 +42,10 @@ const LoopLayoutControls = ({ attributes, setAttributes }) => {
               value={columns?.default}
               onChange={(value) => {
                 setAttributes({
-                  columns: { ...columns, default: value },
+                  columns: { ...columns, default: value === 0 ? undefined : value },
                 });
               }}
-              min={1}
+              min={0}
               max={MAX_COLUMNS}
             />
           </>
@@ -83,10 +82,10 @@ const LoopLayoutControls = ({ attributes, setAttributes }) => {
                       value={columns?.[tab.name]}
                       onChange={(value) => {
                         setAttributes({
-                          columns: { ...columns, [tab.name]: value },
+                          columns: { ...columns, [tab.name]: value === 0 ? undefined : value },
                         });
                       }}
-                      min={1}
+                      min={0}
                       max={MAX_COLUMNS}
                     />
                   </PanelBody>
