@@ -31,7 +31,7 @@ const Edit: React.FC<EditProps> = ({ attributes, setAttributes, context }) => {
 
   const [prices, setPrices] = usePostMeta(postType, postId, 'price') as [Price[], any];
 
-  console.log(postId, postType, prices);
+  (postId, postType, prices);
   const blockProps = useBlockProps({
     className: "sg-mini-price"
   });

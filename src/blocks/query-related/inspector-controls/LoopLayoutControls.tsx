@@ -36,11 +36,11 @@ const LoopLayoutControls = ({ attributes, setAttributes }) => {
            * If the block is not a slider be able to set number of columns
            * 
            */
-          !slider || (!!slider && !!sliderBreakpoint && sliderBreakpoint > 0) &&
+          (!slider || (!!slider && !!sliderBreakpoint && sliderBreakpoint > 0)) &&
           <>
             <RangeControl
               label="Colonnes"
-              value={columns.default ?? 0}
+              value={columns?.default}
               onChange={(value) => {
                 setAttributes({
                   columns: { ...columns, default: value },
@@ -76,11 +76,11 @@ const LoopLayoutControls = ({ attributes, setAttributes }) => {
             return (
               <div>
                 {
-                  !slider || (slider && sliderBreakpoint && sliderBreakpoint > 0) &&
+                  (!slider || (slider && sliderBreakpoint && sliderBreakpoint > 0)) &&
                   <PanelBody>
                     <RangeControl
                       label="Colonnes"
-                      value={columns[tab.name] ?? 0}
+                      value={columns?.[tab.name]}
                       onChange={(value) => {
                         setAttributes({
                           columns: { ...columns, [tab.name]: value },

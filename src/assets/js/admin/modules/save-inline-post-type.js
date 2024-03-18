@@ -62,7 +62,7 @@ export default class SgSaveInlinePostType {
     for (const line in data) {
       formData.append(line, data[line]);
     }
-    console.log("save", ajaxurl);
+    ("save", ajaxurl);
     fetch(ajaxurl, {
       method: "POST",
       body: formData,
