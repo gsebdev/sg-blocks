@@ -33,6 +33,15 @@
     },
     "contentAlignement": {
       "type":"string"
+    },
+    "transition": {
+      "type": "boolean"
+    },
+    "depth": {
+      "type": "string",
+      "source": "attribute",
+      "attribute": "data-depth",
+      "selector": "[data-depth]"
     }
   },
   "textdomain": "sg-blocks",

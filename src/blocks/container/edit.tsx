@@ -19,6 +19,7 @@ import {
   // @ts-ignore
   __experimentalAlignmentMatrixControl as AlignmentMatrixControl,
   Button,
+  CheckboxControl
 } from "@wordpress/components";
 
 /**
@@ -66,10 +67,10 @@ const MAX_COLUMNS = 5;
 
 const Edit = (props) => {
   const { attributes, setAttributes, isSelected, clientId } = props;
-  const { columns, layout, Tag, className, contentAlignement } = attributes;
-  
+  const { columns, layout, Tag, className, contentAlignement, transition, depth } = attributes;
+
   const classNames = getClassNames(attributes);
-  const blockProps = useBlockProps( {
+  const blockProps = useBlockProps({
     className: classNames
   });
 
@@ -105,6 +106,33 @@ const Edit = (props) => {
               setAttributes({ layout: value });
             }}
           />
+          <CheckboxControl
+            label="Transition d'apparition ?"
+            checked={!!transition}
+            onChange={(t) => setAttributes({ transition: t })}
+          />
+          <RangeControl
+            label="Profondeur de persective"
+            value={parseInt(depth) || depth}
+            onChange={(value) => {
+              setAttributes({ depth: value?.toString() });
+            }}
+            min={0}
+            max={100}
+          />
+
+          <Button
+            style={{ marginBottom: "15px" }}
+            size={"small" as any}
+            variant="secondary"
+            onClick={() => {
+              setAttributes({ depth: undefined });
+            }
+            }
+          >Réinitialiser la Profondeur
+          </Button>
+
+
           {layout === "flex" && (
             <>
               <AlignmentMatrixControl
@@ -138,6 +166,9 @@ const Edit = (props) => {
               max={MAX_COLUMNS}
             />
           )}
+
+
+
         </PanelBody>
 
         <SpacingPanel
@@ -146,12 +177,12 @@ const Edit = (props) => {
           spacingsOptions={
             layout === "grid" || layout === "flex"
               ? [
-                  ...SPACING_OPTIONS,
-                  {
-                    title: "Espacement interne",
-                    attribute: "gap",
-                  },
-                ]
+                ...SPACING_OPTIONS,
+                {
+                  title: "Espacement interne",
+                  attribute: "gap",
+                },
+              ]
               : SPACING_OPTIONS
           }
         />
@@ -182,12 +213,12 @@ const Edit = (props) => {
                   spacingsOptions={
                     layout === "grid" || layout === "flex"
                       ? [
-                          ...SPACING_OPTIONS,
-                          {
-                            title: "Espacement interne",
-                            attribute: "gap",
-                          },
-                        ]
+                        ...SPACING_OPTIONS,
+                        {
+                          title: "Espacement interne",
+                          attribute: "gap",
+                        },
+                      ]
                       : SPACING_OPTIONS
                   }
                 />
@@ -198,9 +229,8 @@ const Edit = (props) => {
       </InspectorControls>
       <div
         {...blockProps}
-        data-info={`${Tag}${
-          classNames.length > 0 && isSelected ? " - " + classNames : ""
-        } ${className ?? ""}`}
+        data-info={`${Tag}${classNames.length > 0 && isSelected ? " - " + classNames : ""
+          } ${className ?? ""}`}
       >
         <Tag {...innerBlockProps}>
           {children}

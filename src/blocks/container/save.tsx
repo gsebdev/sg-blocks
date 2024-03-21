@@ -4,17 +4,21 @@ import { getClassNames } from "../block-utilities/sg-blocks-helpers";
 
 const Save = ({ attributes }) => {
   const { Tag } = attributes;
-  const className = getClassNames(attributes);
   
+  let classList = [
+    getClassNames(attributes),
+    attributes.transition ? 'sg-transition' : '',
+    attributes.className ?? ''
+  ];
+
+  classList = classList.filter(Boolean).map(item => item.trim());
+
+  const className = classList.join(' ');
+
   return (
     <Tag
-      className={
-        className || attributes.className
-          ? `${className}${
-              attributes?.className ? " " + attributes.className : ""
-            }`
-          : undefined
-      }
+      className={className ? className : undefined }
+      data-depth={attributes.depth}
     >
       <InnerBlocks.Content />
     </Tag>
