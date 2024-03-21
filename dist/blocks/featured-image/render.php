@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 
  * Retrive the block attributes
@@ -6,7 +7,6 @@
  */
 $aspect_ratio = array_key_exists('aspectRatio', $attributes) ? $attributes['aspectRatio'] : '';
 $sizes = array_key_exists('sizes', $attributes) ? $attributes['sizes'] : null;
-$full_width = array_key_exists('fullWidth', $attributes) ? $attributes['fullWidth'] : false;
 $image_source = array_key_exists('imageSource', $attributes) ? $attributes['imageSource'] : 'full';
 $lightbox = array_key_exists('lightbox', $attributes) ? $attributes['lightbox'] : false;
 $linked_to_post = array_key_exists('linkedToPost', $attributes) ? $attributes['linkedToPost'] : false;
@@ -14,6 +14,9 @@ $additionnal_classname = array_key_exists('className', $attributes) ? $attribute
 $padding = array_key_exists('padding', $attributes) ? $attributes['padding'] : null;
 $margin = array_key_exists('margin', $attributes) ? $attributes['margin'] : null;
 $align = array_key_exists('align', $attributes) ? $attributes['align'] : null;
+
+$fixed_width = array_key_exists('fixedWidth', $attributes) ? $attributes['fixedWidth'] : null;
+$fixed_height = array_key_exists('fixedHeight', $attributes) ? $attributes['fixedHeight'] : null;
 
 /**
  * 
@@ -33,13 +36,18 @@ $alt = get_post_meta($thumbnail, '_wp_attachment_image_alt', true);
  * 
  */
 
-$figure_style_html = !$aspect_ratio ? '' : 'style="aspect-ratio:' . ($aspect_ratio === 'original' ? $src[1] . '/' . $src[2] : $aspect_ratio) . ';"';
-$figure_id = 'id="img-' . substr(md5($thumbnail), 0, 5). '"';
+$figure_aspect_ratio = !$aspect_ratio ? '' : 'aspect-ratio:' . ($aspect_ratio === 'original' ? $src[1] . '/' . $src[2] : $aspect_ratio) . ';';
+$figure_width = $fixed_width ? 'width:' . $fixed_width . ';' : '';
+$figure_height = $fixed_height ? 'height:' . $fixed_height . ';' : '';
+$figure_style_html = $figure_aspect_ratio || $figure_width || $figure_height ? 'style="' . $figure_aspect_ratio . $figure_width . $figure_height . '"' : '';
+
+
+$figure_id = 'id="img-' . substr(md5($thumbnail), 0, 5) . '"';
 
 $figure_classname = 'class="sg-image';
-$figure_classname .= $full_width ? ' sg-image--full-width' : '';
 $figure_classname .= ' sg-featured-image sg-lazy-image';
 $figure_classname .= $lightbox && !$linked_to_post ? ' sg-lightbox-image' : '';
+$figure_classname .= $align === 'center' ? ' align-ctr' : '';
 $figure_classname .= '"';
 
 $figure_data = 'data-loaded="false"';
@@ -69,7 +77,6 @@ $image_style_html = $image_position ? 'style="object-position:' . $image_positio
  */
 $classNames = sg_get_spacing_classname(['margin' => $margin, 'padding' => $padding]);
 $classNames .= $additionnal_classname;
-$classNames .= ($align === 'center' ? ' txt-ctr' : '');
 
 //
 // start of the html

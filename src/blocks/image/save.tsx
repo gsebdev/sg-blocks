@@ -16,10 +16,12 @@ const Save = ({ attributes }) => {
         image_id,
         className,
         align,
-        fullWidth
+        fullWidth,
+        fixedHeight,
+        fixedWidth,
     } = attributes;
 
-    const classNames = `${getClassNames(attributes)}${className ? ' ' + className : ''}${align === 'center' ? ' txt-ctr' : ''}`;
+    const classNames = `${getClassNames(attributes)}${className ? ' ' + className : ''}`;
 
     const ImageWrapper = ({ children, active }) => (
         <>
@@ -39,21 +41,23 @@ const Save = ({ attributes }) => {
         </>
 
     );
-    
+
     return (
-        <div className={`sg-image-container${classNames ? ' ' +classNames : undefined}`}>
+        <div className={`sg-image-container${classNames ? ' ' + classNames : undefined}`}>
             <figure
-                className={`sg-image sg-lazy-image${lightbox ? " sg-lightbox-image" : ""}${!!fullWidth ? " sg-image--full-width" : ""}`}
+                className={`sg-image sg-lazy-image${lightbox ? " sg-lightbox-image" : ""}${align === 'center' ? ' align-ctr' : ''}`}
                 data-transition={lightbox ? lightboxTransition ?? "none" : undefined}
                 id={'img-' + image_id?.toString(36)}
                 data-loaded="false"
                 style={{
                     aspectRatio: !aspectRatio
-                      ? undefined
-                      : aspectRatio === "original"
-                      ? `${width}/${height}`
-                      : aspectRatio
-                  }}
+                        ? undefined
+                        : aspectRatio === "original"
+                            ? `${width}/${height}`
+                            : aspectRatio,
+                    width: fixedWidth ? fixedWidth : undefined,
+                    height: fixedHeight ? fixedHeight : undefined,
+                }}
             >
                 <ImageWrapper active={lightbox}>
                     <img

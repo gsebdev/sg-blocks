@@ -11,7 +11,7 @@
       "type": "string"
     },
     "termId": {
-      "type": "number"
+      "type": "string"
     },
     "imageSource": {
       "type": "string",
@@ -49,12 +49,14 @@
     "align": {
       "type": "string"
     },
-    "fullWidth": {
-      "type": "boolean",
-      "default": false
-    },
     "imagePosition": {
       "type": "object"
+    },
+    "fixedWidth": {
+      "type": "string"
+    },
+    "fixedHeight": {
+      "type": "string"
     }
   },
   "supports": {

@@ -1,14 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelect } from "@wordpress/data";
 import {
-  Button,
-  FocalPointPicker,
-  PanelBody,
-  PanelHeader,
-  PanelRow,
-  RangeControl,
-  SelectControl,
-  ToggleControl,
+  Button
 } from "@wordpress/components";
 import {
   InspectorControls,
@@ -16,50 +9,20 @@ import {
   MediaUploadCheck,
   useBlockProps,
 } from "@wordpress/block-editor";
-import BreakpointTabs from "../block-components/BreakpointTabs";
+
 import {
   generateImagesSizes,
   generateSrcset,
   getClassNames,
 } from "../block-utilities/sg-blocks-helpers";
 
+import ImageInspectorControls from "../block-components/ImageInspectorControls";
 
-import breakpoints from "../breakpoints";
-import SpacingPanel from "../block-components/SpacingPanel";
-
-
-const ASPECT_RATIO_CHOICES = [
-  "16 / 9",
-  "4 / 3",
-  "3 / 2",
-  "1 / 1",
-  "2 / 3",
-  "3 / 4",
-  "9 / 16",
-  "1 / 2",
-  "2 / 1",
-];
-
-const LIGHTBOX_TRANSITIONS = ["none", "fade", "zoom"];
-
-const SPACING_OPTIONS = [
-  {
-    title: "Marges externes",
-    attribute: "margin",
-  },
-  {
-    title: "Marges internes",
-    attribute: "padding",
-  },
-];
 
 const Edit = ({ attributes, setAttributes }) => {
   const {
     aspectRatio,
     sizes,
-    imageSource,
-    lightbox,
-    lightboxTransition,
     src,
     srcSet,
     alt,
@@ -67,7 +30,8 @@ const Edit = ({ attributes, setAttributes }) => {
     width,
     image_id,
     imagePosition,
-    fullWidth
+    fixedHeight,
+    fixedWidth,
   } = attributes;
 
   const classNames = getClassNames(attributes);
@@ -79,48 +43,6 @@ const Edit = ({ attributes, setAttributes }) => {
       selectedImage: image_id ? getEntityRecord("postType", "attachment", image_id) : null
     }
   }, [image_id]);
-
-  const { imageSizes } = useSelect(
-    (select) => (select("core/block-editor") as any).getSettings(),
-    []
-  );
-
-  const setImageSource = (value: string) => {
-    if(!value || !selectedImage) return;
-    setAttributes({
-      imageSource: value,
-      src: selectedImage.media_details.sizes[value]?.source_url,
-      srcSet: generateSrcset(
-        selectedImage.media_details.sizes,
-        [],
-        selectedImage.media_details.sizes[value]?.width
-      ),
-      width: selectedImage.media_details.sizes[value]?.width,
-      height: selectedImage.media_details.sizes[value]?.height,
-      sizes: {
-        ...sizes,
-        default: selectedImage.media_details.sizes[value]?.width,
-      },
-    });
-  };
-
-  useEffect(() => {
-    if (imageSource && !sizes['default'] && selectedImage) {
-      setAttributes({
-        sizes: {
-          ...sizes,
-          default: selectedImage.media_details.sizes[imageSource]?.width,
-        },
-      });
-    }
-
-  }, [imageSource, selectedImage]);
-
-  useEffect(() => {
-    if(image_id && !src || !srcSet || !height || !width || !alt || !sizes.default || !imageSource) {
-      setImageSource(imageSource || "full");
-    }
-  }, [image_id, src, srcSet, height, width, alt, sizes.default, imageSource]);
 
   const removeImage = () => {
     setAttributes({
@@ -157,114 +79,26 @@ const Edit = ({ attributes, setAttributes }) => {
   return (
     <>
       <InspectorControls>
-        <PanelBody title="Image">
-        <ToggleControl
-            label="Occuper toute la largeur"
-            checked={!!fullWidth}
-            onChange={(value) => setAttributes({ fullWidth: value })}
-          />
-          <SelectControl
-            label="Ratio de l'image"
-            placeholder="Choisir un ratio"
-            value={aspectRatio ?? undefined}
-            options={[
-              { label: "aucun", value: "" },
-              { label: "original", value: "original" },
-              ...ASPECT_RATIO_CHOICES.map((ratio) => ({
-                label: ratio,
-                value: ratio,
-              })),
-            ]}
-            onChange={(value) => setAttributes({ aspectRatio: value })}
-          />
-          <SelectControl
-            label="Source de l'image"
-            placeholder="Choisir une résolution"
-            value={imageSource}
-            options={imageSizes.map((size) => ({
-              label: size.name,
-              value: size.slug,
-            }))}
-            onChange={setImageSource}
-          />
-          <ToggleControl
-            label="Agrandir au clic"
-            help="Agrandissez l'image dans une lightbox au clic"
-            checked={!!lightbox}
-            onChange={(value) => setAttributes({ lightbox: value })}
-          />
-          {lightbox && (
-            <SelectControl
-              label="Transition ouverture lightbox"
-              help="Choisir une transition"
-              value={lightboxTransition}
-              options={LIGHTBOX_TRANSITIONS.map((transition) => ({
-                label: transition,
-                value: transition,
-              }))}
-              onChange={(value) => setAttributes({ lightboxTransition: value })}
-            />
-          )}
-          {!!selectedImage && (
-            <PanelRow>
-              <h3>Modifier le point de focus :</h3>
-              <FocalPointPicker
-                url={selectedImage.media_details.sizes['medium'].source_url}
-                onChange={(value) => setAttributes({ imagePosition: value })}
-                value={imagePosition}
-                // @ts-ignore
-                onDrag={(value) => setAttributes({ imagePosition: value })}
-              />
-            </PanelRow>
-          )}
-           <SpacingPanel
-                    attributes={attributes}
-                    setAttributes={setAttributes}
-                    spacingsOptions={SPACING_OPTIONS}
-                  />
-          <PanelHeader label="Responsive Design" />
-          <BreakpointTabs>
-            {(tab) => {
-              return (
-                <>
-                  <PanelRow>
-                    <RangeControl
-                      label={
-                        "espace occupé (%)par l'image sur écran : " + tab.title
-                      }
-                      value={sizes[breakpoints[tab.name].toString()]}
-                      allowReset
-                      min={10}
-                      max={100}
-                      step={5}
-                      onChange={(value) =>
-                        setAttributes({ sizes: { ...sizes, [breakpoints[tab.name].toString()]: value } })
-                      }
-                    />
-                  </PanelRow>
-                  <SpacingPanel
-                    breakpoint={tab.name}
-                    attributes={attributes}
-                    setAttributes={setAttributes}
-                    spacingsOptions={SPACING_OPTIONS}
-                  />
-                </>
-              );
-            }}
-          </BreakpointTabs>
-        </PanelBody>
+        <ImageInspectorControls
+          attributes={attributes}
+          setAttributes={setAttributes}
+          currentImage={selectedImage}
+          lightboxOptionsActive={true}
+        />
       </InspectorControls>
       <div {...blockProps}>
         {!!selectedImage && (
-          <figure 
-          className={`sg-image sg-lazy-image${!!fullWidth ? " sg-image--full-width" : ""}`}
-          style={{
-            aspectRatio: !aspectRatio
-              ? undefined
-              : aspectRatio === "original"
-              ? `${width}/${height}`
-              : aspectRatio
-          }}
+          <figure
+            className={`sg-image sg-lazy-image`}
+            style={{
+              aspectRatio: !aspectRatio
+                ? undefined
+                : aspectRatio === "original"
+                  ? `${width}/${height}`
+                  : aspectRatio,
+              width: fixedWidth ? fixedWidth : undefined,
+              height: fixedHeight ? fixedHeight : undefined,
+            }}
           >
             <img
               src={src}

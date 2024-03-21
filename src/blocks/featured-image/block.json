@@ -40,9 +40,11 @@
     "align": {
       "type": "string"
     },
-    "fullWidth": {
-      "type": "boolean",
-      "default": false
+    "fixedWidth": {
+      "type": "string"
+    },
+    "fixedHeight": {
+      "type": "string"
     }
   },
   "supports": {
