@@ -4,7 +4,7 @@ type Attributes = {
   gap?: Record<string, number>;
   padding?: Record<string, Record<string, number | { x: number; y: number }>>;
   margin?: Record<string, Record<string, number | { x: number; y: number }>>;
-  contentAlignment: string;
+  contentAlignement: string;
 };
 
 /**
@@ -97,6 +97,7 @@ export const getAlignmentClassname = (alignment: string | undefined): string => 
     };
     const xClass = alignClasses.x[xAlign] ?? "";
     const yClass = alignClasses.y[yAlign] ?? "";
+
     return yClass + " " + xClass + " ";
   }
   return "";
@@ -112,7 +113,7 @@ export const getClassNames = (attributes: Attributes): string => {
   return (
     getLayoutClassname(attributes?.layout) +
     getSpacingClassname(attributes) +
-    getAlignmentClassname(attributes?.contentAlignment) +
+    getAlignmentClassname(attributes?.contentAlignement) +
     getColumnsClassname(attributes?.columns)
   );
 };

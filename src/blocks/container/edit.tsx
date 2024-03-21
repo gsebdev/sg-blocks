@@ -73,7 +73,6 @@ const Edit = (props) => {
     className: classNames
   });
 
-
   const { children, ...innerBlockProps } = useInnerBlocksProps({
     className: "sg-container__inner"
   }) as any;

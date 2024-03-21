@@ -42,7 +42,7 @@ export interface SGQueryBlockAttributes {
   margin: Record<string, Record<string, number | { x: number; y: number }>>;
   padding: Record<string, Record<string, number | { x: number; y: number }>>;
   columns: Record<string, number | null | undefined>;
-  contentAlignment: string;
+  contentAlignement: string;
   slider: boolean;
   sliderBreakpoint: number;
   sliderAutoplay: boolean | number;

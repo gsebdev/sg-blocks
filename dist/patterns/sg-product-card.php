@@ -15,7 +15,7 @@ return array(
     <!-- wp:sg/mini-price /--></div>
     <!-- /wp:sg/container -->
     
-    <!-- wp:sg/container {"layout":"grid","gap":{"default":1},"contentAlignement":"center center","className":"sg-product-card__tags pos-abs"} -->
+    <!-- wp:sg/container {"layout":"grid","gap":{"default":1},"className":"sg-product-card__tags pos-abs"} -->
     <div class="grid g-1  sg-product-card__tags pos-abs"><!-- wp:sg/container {"padding":{"default":{"y":1,"x":2}},"className":"sg-product-card__type bg-color-primary-light"} -->
     <div class="px-2 py-1  sg-product-card__type bg-color-primary-light"><!-- wp:sg/custom-tags-list {"taxonomy":"activity-type","fontSize":"xs","centerItems":true,"gap":{"default":{"y":0,"x":2}},"separator":true,"fontHeading":false,"className":"f-b"} /--></div>
     <!-- /wp:sg/container -->
