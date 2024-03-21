@@ -7,8 +7,10 @@
   overflow: hidden;
 
   .wp-block {
-    margin: 0;
-    overflow: hidden;
+    box-sizing: border-box;
+    &:not([class*=" mx-"]):not([class*=" m-"]) {
+      margin: 0;
+    }
   }
 
   .content-wrapper {

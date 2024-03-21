@@ -64,13 +64,21 @@
 }
 .sg-image {
   max-width: 100%;
-  display: inline-block;
-  &--full-width {
-    display: block;
-    img {
-      width: 100%;
-    }
+  display: block;
+  height: auto;
+
+  &.align-ctr {
+    margin-left: auto;
+    margin-right: auto;
   }
+}
+
+.sg-transition {
+  opacity: 0;
+}
+
+.sg-appear {
+  animation : 0.3s ease-in-out both appear;
 }
 
 @keyframes spin {
@@ -80,5 +88,16 @@
 
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
   }
 }

@@ -39,47 +39,39 @@ include_once(SG_BLOCKS_DIR . 'dist/includes/class/taxonomies/class_sg_taxonomy.p
 // activation actions
 register_activation_hook(__FILE__, 'sg_blocks_activation');
 
-/**
- * 
- * enqueue editor assets
- * 
- * 
- */
-if(!function_exists('sg_blocks_editor_assets')) {
-    function sg_blocks_editor_assets() {
-         
-        $asset_file_editor = include(SG_BLOCKS_DIR . 'dist/assets/js/'. SG_BLOCKS_PREFIX . '-scripts-editor.asset.php');
-        wp_enqueue_script(
-            SG_BLOCKS_PREFIX . '-scripts-editor',
-            plugins_url('dist/assets/js/'.SG_BLOCKS_PREFIX . '-scripts-editor.js', __FILE__),
-            $asset_file_editor['dependencies'],
-            $asset_file_editor['version'],
-            true
-        );
-        wp_enqueue_style(SG_BLOCKS_PREFIX .'-styles-admin', plugins_url('dist/assets/styles/'.SG_BLOCKS_PREFIX.'-styles-admin.css', __FILE__));
-    }
-}
-
-
 /***
  * 
  * Block assets
  * 
  * 
  */
-if(!function_exists('sg_blocks_assets')) {
-    function sg_blocks_assets() {
-         
-        $asset_file_view = include(SG_BLOCKS_DIR . 'dist/assets/js/'.SG_BLOCKS_PREFIX . '-scripts.asset.php');
+if (!function_exists('sg_blocks_assets')) {
+    function sg_blocks_assets()
+    {
+        if(is_admin()){
+
+            $asset_file_editor = include(SG_BLOCKS_DIR . 'dist/assets/js/' . SG_BLOCKS_PREFIX . '-scripts-editor.asset.php');
             wp_enqueue_script(
-                SG_BLOCKS_PREFIX . '-scripts',
-                plugins_url('dist/assets/js/'.SG_BLOCKS_PREFIX . '-scripts.js', __FILE__),
-                $asset_file_view['dependencies'],
-                $asset_file_view['version'],
+                SG_BLOCKS_PREFIX . '-scripts-editor',
+                plugins_url('dist/assets/js/' . SG_BLOCKS_PREFIX . '-scripts-editor.js', __FILE__),
+                $asset_file_editor['dependencies'],
+                $asset_file_editor['version'],
                 true
             );
-            wp_enqueue_style(SG_BLOCKS_PREFIX .'-styles', plugins_url('dist/assets/styles/'.SG_BLOCKS_PREFIX.'-styles.css', __FILE__), array(), SG_BLOCKS_VERSION, 'all');
-            }
+            wp_enqueue_style(SG_BLOCKS_PREFIX . '-styles-admin', plugins_url('dist/assets/styles/' . SG_BLOCKS_PREFIX . '-styles-admin.css', __FILE__));
+            wp_enqueue_style('dashicons');
+        }
+
+        $asset_file_view = include(SG_BLOCKS_DIR . 'dist/assets/js/' . SG_BLOCKS_PREFIX . '-scripts.asset.php');
+        wp_enqueue_script(
+            SG_BLOCKS_PREFIX . '-scripts',
+            plugins_url('dist/assets/js/' . SG_BLOCKS_PREFIX . '-scripts.js', __FILE__),
+            $asset_file_view['dependencies'],
+            $asset_file_view['version'],
+            true
+        );
+        wp_enqueue_style(SG_BLOCKS_PREFIX . '-styles', plugins_url('dist/assets/styles/' . SG_BLOCKS_PREFIX . '-styles.css', __FILE__), array(), SG_BLOCKS_VERSION, 'all');
+    }
 }
 
 
@@ -90,16 +82,16 @@ if(!function_exists('sg_blocks_assets')) {
 if (!function_exists('register_sg_blocks')) {
     function register_sg_blocks()
     {
-        if (is_admin()) {    
-            $asset_file_admin = include(SG_BLOCKS_DIR . 'dist/assets/js/'.SG_BLOCKS_PREFIX . '-scripts-admin.asset.php');
+        if (is_admin()) {
+            $asset_file_admin = include(SG_BLOCKS_DIR . 'dist/assets/js/' . SG_BLOCKS_PREFIX . '-scripts-admin.asset.php');
             wp_enqueue_script(
                 SG_BLOCKS_PREFIX . '-scripts-admin',
-                plugins_url('dist/assets/js/'.SG_BLOCKS_PREFIX . '-scripts-admin.js', __FILE__),
+                plugins_url('dist/assets/js/' . SG_BLOCKS_PREFIX . '-scripts-admin.js', __FILE__),
                 $asset_file_admin['dependencies'],
                 $asset_file_admin['version'],
                 true
             );
-        } 
+        }
 
         //blocks
         register_block_type(__DIR__ . '/dist/blocks/term-list');
@@ -124,6 +116,15 @@ if (!function_exists('register_sg_blocks')) {
 
         $sg_product_card = include(SG_BLOCKS_DIR . 'dist/patterns/sg-product-card.php');
         register_block_pattern('sg/product-card', $sg_product_card);
+
+        register_block_style('core/button', array(
+            'name' => 'cta--primary',
+            'label' => 'CTA 1'
+        ));
+        register_block_style('core/button', array(
+            'name' => 'cta--secondary',
+            'label' => 'CTA 2'
+        ));
     }
 }
 
@@ -131,8 +132,9 @@ if (!function_exists('register_sg_blocks')) {
 /**
  * Add a custom block category
  */
-if(!function_exists('sg_blocks_add_block_categories')) {
-    function sg_blocks_add_block_categories($categories) {
+if (!function_exists('sg_blocks_add_block_categories')) {
+    function sg_blocks_add_block_categories($categories)
+    {
         return array_merge(
             $categories,
             array(
@@ -161,8 +163,13 @@ if (!function_exists('register_sg_meeting_point_meta_to_front')) {
     }
 }
 
+
+add_filter( 'wp_editor_settings', function ( $settings ) {
+    $settings['content_style'] = '';
+    return $settings;
+});
+
 // action hooks
-add_action('enqueue_block_editor_assets', 'sg_blocks_editor_assets');
 add_action('enqueue_block_assets', 'sg_blocks_assets');
 add_action('init', 'register_sg_blocks');
 add_action('init', 'sg_blocks_register_post_metas');

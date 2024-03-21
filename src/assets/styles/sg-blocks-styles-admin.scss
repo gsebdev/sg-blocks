@@ -7,13 +7,13 @@
   input[type="number"] {
     width: 100%;
   }
-  &[data-field=featured] {
+  &[data-field="featured"] {
     label span.dashicons {
       &::before {
         content: "\f154";
       }
     }
-    label input[type=checkbox]:checked + span.dashicons {
+    label input[type="checkbox"]:checked + span.dashicons {
       &::before {
         content: "\f155";
       }
@@ -31,5 +31,30 @@
         max-height: 15vh;
       }
     }
+  }
+}
+.sg-image-container {
+  .sg-image {
+    height: auto;
+  }
+  figure {
+    margin: 0;
+  }
+}
+
+.wp-block[data-align="center"] {
+  display: contents;
+
+  .sg-image {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.editor-styles-wrapper {
+  @import "./partials/utility";
+  .sg-transition {
+    transition: none;
+    opacity: initial;
   }
 }
