@@ -58,7 +58,7 @@ if (!function_exists('sg_blocks_assets')) {
                 $asset_file_editor['version'],
                 true
             );
-            wp_enqueue_style(SG_BLOCKS_PREFIX . '-styles-admin', plugins_url('dist/assets/styles/' . SG_BLOCKS_PREFIX . '-styles-admin.css', __FILE__));
+            wp_enqueue_style(SG_BLOCKS_PREFIX . '-styles-editor', plugins_url('dist/assets/styles/' . SG_BLOCKS_PREFIX . '-styles-editor.css', __FILE__));
             wp_enqueue_style('dashicons');
         }
 
@@ -91,6 +91,8 @@ if (!function_exists('register_sg_blocks')) {
                 $asset_file_admin['version'],
                 true
             );
+
+            wp_enqueue_style(SG_BLOCKS_PREFIX . '-styles-admin', plugins_url('dist/assets/styles/' . SG_BLOCKS_PREFIX . '-styles-admin.css', __FILE__));
         }
 
         //blocks

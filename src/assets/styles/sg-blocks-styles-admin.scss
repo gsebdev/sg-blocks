@@ -33,28 +33,3 @@
     }
   }
 }
-.sg-image-container {
-  .sg-image {
-    height: auto;
-  }
-  figure {
-    margin: 0;
-  }
-}
-
-.wp-block[data-align="center"] {
-  display: contents;
-
-  .sg-image {
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-.editor-styles-wrapper {
-  @import "./partials/utility";
-  .sg-transition {
-    transition: none;
-    opacity: initial;
-  }
-}
