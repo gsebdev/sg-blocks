@@ -62,6 +62,7 @@ if (!function_exists('render_block_sg_query_related')) {
         $sliderBreakpoint = $attributes['sliderBreakpoint'] ?? null;
         $slider_autoplay = $attributes['sliderAutoplay'] ?? null;
         $slider_display_nav = $attributes['sliderDisplayNavElements'] ?? null;
+        $slider_no_limit_to_edges = $attributes['sliderNoLimitEdges'] ?? null;
 
 
         $query = sg_get_posts($queryPostType, array(
@@ -88,6 +89,7 @@ if (!function_exists('render_block_sg_query_related')) {
         $container_classNames = 'sg-query-related' . ($slider ? ' sg-swiper' : '');
         $container_attr = $slider && !!$sliderBreakpoint ? 'data-breakpoint="' . $sliderBreakpoint . '"' : '';
         $container_attr .= $slider && !!$slider_autoplay ? ' data-autoplay="' . $slider_autoplay . '"' : '';
+        $container_attr .= $slider ? ' data-limit-edges="'. (!$slider_no_limit_to_edges ? 'true' : 'false') .'"' : '';
         $item_classNames = $slider ? 'sg-swiper__slide' : '';
 
         $content = '';
