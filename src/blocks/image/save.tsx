@@ -43,7 +43,7 @@ const Save = ({ attributes }) => {
     );
 
     return (
-        <div className={`sg-image-container${classNames ? ' ' + classNames : undefined}`}>
+        <div className={`sg-image-container${classNames ? ' ' + classNames : ''}`}>
             <figure
                 className={`sg-image sg-lazy-image${lightbox ? " sg-lightbox-image" : ""}${align === 'center' ? ' align-ctr' : ''}`}
                 data-transition={lightbox ? lightboxTransition ?? "none" : undefined}

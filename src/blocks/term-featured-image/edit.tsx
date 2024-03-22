@@ -55,13 +55,26 @@ const TermFeaturedImageInspectorControls: React.FC<any> = ({
     );
   }, []);
 
+  useEffect(() => {
+    if (!taxonomy) {
+    setAttributes({ taxonomy: TAX_OPTIONS[0].value });
+    }
+  }, [taxonomy]);
+
+  useEffect(() => {
+    if(termOptions && !termId) {
+      setAttributes({ termId: termOptions[0].value?.toString() });
+    }
+  }, [termOptions]);
+
+
   return (
     <PanelBody title="Options">
       <SelectControl
         label="Taxonomie"
         value={taxonomy}
         options={TAX_OPTIONS}
-        onChange={(value) => setAttributes({ taxonomy: value })}
+        onChange={(value) => setAttributes({ taxonomy: value, termId: undefined })}
       />
       <SelectControl
         label="Terme"
@@ -128,12 +141,6 @@ const Edit = ({ attributes, setAttributes }) => {
     },
     [cover]
   );
-
-  useEffect(() => {
-    if (!taxonomy) {
-      setAttributes({ taxonomy: "sport" });
-    }
-  }, [taxonomy]);
 
   return (
     <>

@@ -166,8 +166,8 @@ const Edit = ({ attributes, setAttributes, context, isSelected }) => {
                 )}
                 alt={featuredImage.alt_text}
                 style={{
-                  objectPosition: `${featuredImagePosition.x * 100}% ${featuredImagePosition.y * 100
-                    }%`,
+                  objectPosition: featuredImagePosition ? `${featuredImagePosition.x * 100}% ${featuredImagePosition.y * 100
+                    }%` : undefined,
                 }}
               />
               {

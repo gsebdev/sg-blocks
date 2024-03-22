@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useSelect } from "@wordpress/data";
 import { MediaUpload as WpMediaUpload } from "@wordpress/block-editor";
+import "@wordpress/core-data";
 
 import "./sg-image-control.scss";
 
@@ -46,7 +47,7 @@ const ImageControl: React.FC<ImageControlProps> = (props) => {
   const initImageObject = useSelect(
     (select) => {
       if (!value) return undefined;
-      const mediaInitial = (select("core") as any).getMedia(value);
+      const mediaInitial = (select("core") as any)?.getMedia(value);
 
       return mediaInitial
         ? {

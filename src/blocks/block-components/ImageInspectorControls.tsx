@@ -208,7 +208,7 @@ const ImageInspectorControls: React.FC<Props> = ({
         <PanelRow>
           <h3>Modifier le point de focus :</h3>
           <FocalPointPicker
-            url={currentImage.media_details.sizes["medium"].source_url}
+            url={currentImage.media_details.sizes["medium"]?.source_url ?? currentImage.media_details.sizes["full"]?.source_url}
             onChange={setFocalPoint ?? defaultSetFocalPoint}
             value={imagePosition}
             // @ts-ignore
