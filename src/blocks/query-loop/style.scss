@@ -20,6 +20,7 @@
 }
 
 .sg-swiper {
+  
   &--started & {
     &.is-first & {
       &__nav[data-direction="prev"] {
@@ -32,13 +33,9 @@
       }
     }
 
-    &.no-translate & {
-      &__wrapper {
-        justify-content: center;
-      }
-    }
-
     &__nav {
+      background-color: transparent;
+      border: none;
       position: absolute;
       width: 10%;
       height: 100%;
@@ -80,7 +77,10 @@
     &__slide {
       position: relative;
       flex: 0 0 35%;
+      max-width: 320px;
+      min-width: 250px;
       overflow: hidden;
+      aspect-ratio: 3/4;
     }
   }
   &--started {
@@ -94,10 +94,25 @@
         opacity: 1;
       }
     }
+    &.no-translate {
+      .sg-swiper__wrapper {
+        justify-content: center;
+      }
+      .sg-swiper__nav {
+        display: none;
+      }
+    }
   }
   &:not(.sg-swiper--started) & {
     &__nav {
       display: none;
+    }
+  }
+  &:not([data-slider-init="true"]) {
+    visibility: hidden;
+    .sg-swiper__wrapper {
+        display: flex !important;
+        flex-wrap: nowrap !important;
     }
   }
 }

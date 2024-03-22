@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import {
   RangeControl,
   PanelBody,
-  ToggleControl
+  ToggleControl,
+  CheckboxControl
 } from "@wordpress/components";
 
 
 const LoopSliderControls = ({ attributes, setAttributes }) => {
-  const { sliderAutoplay, sliderDisplayNavElements, slider, sliderBreakpoint } =
+  const { sliderAutoplay, sliderDisplayNavElements, slider, sliderBreakpoint, sliderNoLimitEdges } =
     attributes;
     
   const [ autoplay, setAutoplay ] = useState<boolean>(!!sliderAutoplay);
@@ -31,14 +32,20 @@ const LoopSliderControls = ({ attributes, setAttributes }) => {
             setAttributes({ sliderBreakpoint: value });
           }}
         />
-        <ToggleControl 
+        <CheckboxControl 
           label="Afficher les boutons de navigation"
           checked={!!sliderDisplayNavElements}
           onChange={(value: boolean) => {
             setAttributes({ sliderDisplayNavElements: value });
           }}
         />
-        <ToggleControl
+        <CheckboxControl
+        label="Ne pas limiter aux bords"
+        help="Autoriser le déplacement de la première et dernière slide jusqu'au milieu du conteneur ?"
+        checked={!!sliderNoLimitEdges}
+        onChange={(value) => setAttributes({sliderNoLimitEdges: value})}
+        />
+        <CheckboxControl
           label="Autoplay"
           checked={!!sliderAutoplay}
           onChange={value => setAutoplay(value)}

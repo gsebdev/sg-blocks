@@ -76,6 +76,9 @@
     "sliderDisplayNavElements": {
       "type": "boolean",
       "default": true
+    },
+    "sliderNoLimitEdges": {
+      "type": "boolean"
     }
   },
   "providesContext": {

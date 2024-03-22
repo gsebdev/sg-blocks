@@ -47,6 +47,7 @@ export interface SGQueryBlockAttributes {
   sliderBreakpoint: number;
   sliderAutoplay: boolean | number;
   sliderDisplayNavElements: boolean;
+  sliderNoLimitEdges: boolean;
   className: string;
   queryId: number;
   order: string;
@@ -168,8 +169,8 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
     excludedIds,
     slider,
     sliderBreakpoint,
-    sliderAutoplay,
     sliderDisplayNavElements,
+    sliderNoLimitEdges,
     order,
     orderBy,
     relatedQuery,
@@ -274,8 +275,8 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
   useEffect(() => {
     if (!!slider && !!sliderRef.current && sliderStarted) {
       const swiper = new Swiper(sliderRef.current, {
-        draggable: true,
-        auto: typeof sliderAutoplay === "number" ? sliderAutoplay : undefined,
+        draggable: false,
+        limitToEdges: !sliderNoLimitEdges,
         navigation: {
           prev: Array.from(sliderRef.current?.querySelectorAll("[data-direction=prev]")),
           next: Array.from(sliderRef.current?.querySelectorAll("[data-direction=next]"))
@@ -286,7 +287,7 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
         swiper.stop();
       })
     }
-  }, [slider, sliderStarted, sliderRef.current]);
+  }, [slider, sliderStarted, sliderRef.current, sliderNoLimitEdges]);
 
   return (
     <>
