@@ -254,6 +254,20 @@
   }
 }
 
+///
+/// 
+/// Border radius utilities
+/// br-#{size-slug}
+///
+///
+@each $key, $border-radius in $border-radiuses {
+  .br-#{$key} {
+    border-radius: #{$border-radius};
+  }
+}
+/// 
+/// 
+
 ////
 ///
 /// FONT SIZES
