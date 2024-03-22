@@ -19,7 +19,9 @@ import {
   // @ts-ignore
   __experimentalAlignmentMatrixControl as AlignmentMatrixControl,
   Button,
-  CheckboxControl
+  CheckboxControl,
+  // @ts-ignore
+  __experimentalDivider as Divider,
 } from "@wordpress/components";
 
 /**
@@ -186,6 +188,7 @@ const Edit = (props) => {
               : SPACING_OPTIONS
           }
         />
+        <Divider />
         <PanelHeader label="Responsive Design" />
         <BreakpointTabs>
           {(tab) => {

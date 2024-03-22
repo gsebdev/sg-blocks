@@ -1,6 +1,12 @@
 import React from "react"
 // @ts-ignore
-import { PanelBody, ToggleControl, __experimentalNumberControl as NumberControl, Button, FocalPointPicker, RangeControl, PanelHeader } from "@wordpress/components";
+import {
+    PanelBody, ToggleControl, 
+    // @ts-ignore
+    __experimentalNumberControl as NumberControl, Button, FocalPointPicker, RangeControl, PanelHeader,
+    // @ts-ignore
+    __experimentalDivider as Divider,
+} from "@wordpress/components";
 // @ts-ignore
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import SpacingPanel from "../../block-components/SpacingPanel";
@@ -162,6 +168,7 @@ const Options = ({ setAttributes, attributes, onSelectImages, images, selectedIn
                 setAttributes={setAttributes}
                 spacingsOptions={spacingsOptions}
             />
+            <Divider />
             <PanelHeader label="Responsive Design" />
             <BreakpointTabs>
                 {(tab) => {

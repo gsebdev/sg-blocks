@@ -27,46 +27,43 @@ const LoopLayoutControls = ({ attributes, setAttributes }) => {
     attributes;
   return (
     <>
-      <PanelBody>
-        <Divider />
-        {
-          /**
-           * 
-           * If the block is not a slider be able to set number of columns
-           * 
-           */
-          (!slider || (!!slider && !!sliderBreakpoint && sliderBreakpoint > 0)) &&
-          <>
-            <RangeControl
-              label="Colonnes"
-              value={columns?.default}
-              onChange={(value) => {
-                setAttributes({
-                  columns: { ...columns, default: value === 0 ? undefined : value },
-                });
-              }}
-              min={0}
-              max={MAX_COLUMNS}
-            />
-          </>
-        }
-      </PanelBody>
+
+      {
+        /**
+        *
+        * If the block is not a slider be able to set number of columns
+        *
+        */
+        (!slider || (!!slider && !!sliderBreakpoint && sliderBreakpoint > 0)) &&
+        <PanelBody>
+          <RangeControl
+            label="Colonnes"
+            value={columns?.default}
+            onChange={(value) => {
+              setAttributes({
+                columns: { ...columns, default: value === 0 ? undefined : value },
+              });
+            }}
+            min={0}
+            max={MAX_COLUMNS}
+          />
+        </PanelBody>
+      }
+
 
       <SpacingPanel
         attributes={attributes}
         setAttributes={setAttributes}
-        spacingsOptions={
-          !slider || (!!slider && !!sliderBreakpoint && sliderBreakpoint > 0)
-            ? [
-              ...SPACING_OPTIONS,
-              {
-                title: "Espacement interne",
-                attribute: "gap",
-              },
-            ]
-            : SPACING_OPTIONS
+        spacingsOptions={[
+          ...SPACING_OPTIONS,
+          {
+            title: "Espacement interne",
+            attribute: "gap",
+          },
+        ]
         }
       />
+      <Divider />
       <PanelHeader label="Responsive Design" />
       <BreakpointTabs>
         {
@@ -75,7 +72,7 @@ const LoopLayoutControls = ({ attributes, setAttributes }) => {
             return (
               <div>
                 {
-                  (!slider || (slider && sliderBreakpoint && sliderBreakpoint > 0)) &&
+                  !!(!slider || (slider && sliderBreakpoint && sliderBreakpoint > 0)) &&
                   <PanelBody>
                     <RangeControl
                       label="Colonnes"
@@ -94,16 +91,13 @@ const LoopLayoutControls = ({ attributes, setAttributes }) => {
                   breakpoint={tab.name}
                   attributes={attributes}
                   setAttributes={setAttributes}
-                  spacingsOptions={
-                    !slider || (slider && sliderBreakpoint && sliderBreakpoint > 0)
-                      ? [
-                        ...SPACING_OPTIONS,
-                        {
-                          title: "Espacement interne",
-                          attribute: "gap",
-                        },
-                      ]
-                      : SPACING_OPTIONS
+                  spacingsOptions={[
+                    ...SPACING_OPTIONS,
+                    {
+                      title: "Espacement interne",
+                      attribute: "gap",
+                    },
+                  ]
                   }
                 />
               </div>

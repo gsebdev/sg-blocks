@@ -9,6 +9,8 @@ import {
   ToggleControl,
   // @ts-ignore
   __experimentalUnitControl as UnitControl,
+    // @ts-ignore
+    __experimentalDivider as Divider,
 } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
 import SpacingPanel from "./SpacingPanel";
@@ -221,6 +223,7 @@ const ImageInspectorControls: React.FC<Props> = ({
         setAttributes={setAttributes}
         spacingsOptions={SPACING_OPTIONS}
       />
+      <Divider />
       <PanelHeader label="Responsive Design" />
       <BreakpointTabs>
         {(tab) => {

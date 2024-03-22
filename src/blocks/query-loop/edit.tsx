@@ -341,6 +341,7 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
           <div
             data-sg-slider={slider ? sliderBreakpoint : undefined}
             className={`sg-query-related${slider ? " sg-swiper" : ""}${sliderStarted ? " sg-swiper--started" : ""}`}
+            data-slider-init={slider ? "true" : "false"}
             ref={sliderRef}
           >
             <ul

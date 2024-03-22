@@ -8,6 +8,8 @@ import {
   __experimentalToggleGroupControl as ToggleGroupControl,
   // @ts-ignore
   __experimentalToggleGroupControlOption as ToggleGroupControlOption,
+  // @ts-ignore
+  __experimentalDivider as Divider,
 } from "@wordpress/components";
 import BreakpointTabs from "../block-components/BreakpointTabs";
 import SpacingPanel from "../block-components/SpacingPanel";
@@ -196,6 +198,7 @@ const Edit = (props) => {
             spacingsOptions={SPACING_OPTIONS}
           />
         </PanelBody>
+        <Divider />
         <BreakpointTabs>
           {(tab) => {
             return (
