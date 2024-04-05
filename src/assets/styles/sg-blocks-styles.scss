@@ -7,7 +7,7 @@
   &::before {
     content: "";
     animation: spin 1s ease-in-out infinite;
-    border: 2px solid var(--sg--preset--color--grey-2, grey);
+    border: 2px solid #c1c1c1;
     border-bottom-color: transparent;
     left: calc(50% - 12.5px);
     top: calc(50% - 12.5px);
@@ -42,7 +42,7 @@
     z-index: 0;
   }
   &[data-loaded="false"] {
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: var(--sg--preset--color--bg-2, lightgrey);
     &::after {
       content: "";
       position: absolute;
@@ -61,6 +61,8 @@
 .sg-image-container {
   overflow: hidden;
   width: 100%;
+  height: fit-content;
+  max-height: 100%;
 }
 .sg-image {
   max-width: 100%;
@@ -100,4 +102,9 @@
     opacity: 1;
     transform: translateY(0px);
   }
+}
+.sg-parallax-container {
+  overflow: hidden;
+  clip: rect(0, auto, auto, 0);
+  max-width: 100vw;
 }

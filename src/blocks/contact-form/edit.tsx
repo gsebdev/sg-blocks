@@ -8,14 +8,16 @@ import {
   RichText,
   useBlockProps,
   // @ts-ignore
-  HeadingLevelDropdown
+  HeadingLevelDropdown,
+  InspectorControls
 } from "@wordpress/block-editor";
 import { __ } from '@wordpress/i18n';
+import { PanelBody, TextControl, TextareaControl } from "@wordpress/components";
 
 
 const Edit = ({ attributes, setAttributes }) => {
 
-  const { title, subtitle, titleLevel, ctaText, form_id } = attributes
+  const { title, subtitle, titleLevel, ctaText, form_id, successMsg, errorMsg, iconCode } = attributes
 
   useEffect(() => {
     if (!form_id) {
@@ -25,6 +27,28 @@ const Edit = ({ attributes, setAttributes }) => {
   
   return (
     <>
+    <InspectorControls>
+      <PanelBody>
+        <TextareaControl
+          label={__('Message après envoi réussi')}
+          value={successMsg}
+          onChange={(value) => setAttributes({ successMsg: value })}
+          placeholder="Message envoyé avec succès, nous allons en prendre connaissance"
+          />
+          <TextareaControl
+          label={__('Message après erreur')}
+          value={errorMsg}
+          onChange={(value) => setAttributes({ errorMsg: value })}
+          placeholder="Une erreur s'est produite dans l'envoi du message, merci de réessayer"
+          />
+          <TextControl
+          label={__('Code icône')}
+          value={iconCode}
+          onChange={(value) => setAttributes({ iconCode: value })}
+          placeholder="e902"
+          />
+      </PanelBody>
+    </InspectorControls>
       <BlockControls>
         <HeadingLevelDropdown
           value={titleLevel}

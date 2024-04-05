@@ -3,17 +3,17 @@
     border-collapse: collapse;
     width: 100%;
     tr {
-      th,
-      td {
-        border: dashed var(--sg--preset--color--secondary-2, grey) 1px;
-        padding: 10px 5px;
+      .description {
+        font-size: 0.75em;
       }
-      .comment {
-        font-style: italic;
-        margin-top: -10px;
+      .price {
+        font-weight: 500;
+      }
+      .title, .price {
+        font-size: 1em;
       }
       &:nth-child(2n) {
-        background-color: var(--sg--preset--color--secondary-3);
+        background-color: var(--sg--preset--color--bg-2);
       }
     }
   }

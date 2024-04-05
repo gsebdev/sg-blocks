@@ -67,6 +67,12 @@
       "type": "boolean",
       "default": false
     },
+    "slideshowBreakpoint": {
+      "type": "string",
+      "selector": ".sg-gallery",
+      "source": "attribute",
+      "attribute": "data-slideshow-breakpoint"
+    },
     "slideshowDelay": {
       "type": "string",
       "selector": ".sg-gallery",

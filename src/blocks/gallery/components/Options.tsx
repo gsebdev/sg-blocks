@@ -1,11 +1,12 @@
 import React from "react"
 // @ts-ignore
 import {
-    PanelBody, ToggleControl, 
+    PanelBody,
     // @ts-ignore
     __experimentalNumberControl as NumberControl, Button, FocalPointPicker, RangeControl, PanelHeader,
     // @ts-ignore
     __experimentalDivider as Divider,
+    CheckboxControl,
 } from "@wordpress/components";
 // @ts-ignore
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
@@ -13,7 +14,7 @@ import SpacingPanel from "../../block-components/SpacingPanel";
 import BreakpointTabs from "../../block-components/BreakpointTabs";
 
 const Options = ({ setAttributes, attributes, onSelectImages, images, selectedIndex, deleteImage, setImages, saveImages }) => {
-    const { imagesOptions, columns } = attributes;
+    const { imagesOptions, columns, slideshowBreakpoint, slideshowDelay, lightbox, draggable, thumbs, legends } = attributes;
     const spacingsOptions = [
         {
             title: "Marges internes",
@@ -25,12 +26,10 @@ const Options = ({ setAttributes, attributes, onSelectImages, images, selectedIn
         }
     ];
 
-    if (!attributes.slideshow) {
-        spacingsOptions.push({
-            title: "gap",
-            attribute: "gap",
-        })
-    }
+    spacingsOptions.push(
+        ...(!(attributes.slideshow && !slideshowBreakpoint) ? [{ title: "gap", attribute: "gap" }] : [])
+    );
+
 
     const setGridPosition = (key: string, value: number): void => {
         const newImages = [...images];
@@ -79,7 +78,7 @@ const Options = ({ setAttributes, attributes, onSelectImages, images, selectedIn
             <PanelBody>
                 <h3>Options de la gallerie :</h3>
 
-                <ToggleControl
+                <CheckboxControl
                     label="Diaporama"
                     checked={attributes.slideshow}
                     onChange={(value: boolean) => {
@@ -107,29 +106,36 @@ const Options = ({ setAttributes, attributes, onSelectImages, images, selectedIn
                         <NumberControl
                             label="Duree du diaporama (millisecondes)"
                             min={1000}
-                            value={attributes.slideshowDelay ? parseInt(attributes.slideshowDelay) : undefined}
+                            value={Number(slideshowDelay) ?? undefined}
                             onChange={(value) => setAttributes({ slideshowDelay: value })}
                         />
-                        <ToggleControl
+                        <RangeControl
+                            label="Taille d'écran en px pour activer le diaporama"
+                            value={Number(slideshowBreakpoint) ?? undefined}
+                            onChange={val => setAttributes({ slideshowBreakpoint: val })}
+                            min={0}
+                            max={2048}
+                        />
+                        <CheckboxControl
                             label="Diaporama draggable ?"
-                            checked={attributes.draggable ?? false}
+                            checked={draggable ?? false}
                             onChange={(value) => setAttributes({ draggable: value })}
                         />
-                        <ToggleControl
+                        <CheckboxControl
                             label="Miniatures"
-                            checked={attributes.thumbs ?? false}
+                            checked={thumbs ?? false}
                             onChange={(value) => setAttributes({ thumbs: value })}
                         />
                     </>
                 )}
-                <ToggleControl
+                <CheckboxControl
                     label="Afficher les légendes"
-                    checked={attributes.legends}
-                    onChange={() => setAttributes({ legends: !attributes.legends })}
+                    checked={legends}
+                    onChange={() => setAttributes({ legends: !legends })}
                 />
-                <ToggleControl
+                <CheckboxControl
                     label="Agrandir les images au click ?"
-                    checked={attributes.lightbox}
+                    checked={lightbox}
                     onChange={(value) => setAttributes({ lightbox: value })}
                 />
 
@@ -148,19 +154,17 @@ const Options = ({ setAttributes, attributes, onSelectImages, images, selectedIn
                 </MediaUploadCheck>
             </PanelBody>
             <PanelBody>
-                {!attributes.slideshow &&
-                    <RangeControl
-                        label="Colonnes"
-                        value={columns?.default ?? 0}
-                        onChange={(value: number) => {
-                            setAttributes({
-                                columns: { ...columns, default: value },
-                            });
-                        }}
-                        min={1}
-                        max={5}
-                    />
-                }
+                <RangeControl
+                    label="Colonnes"
+                    value={columns?.default ?? 0}
+                    onChange={(value: number) => {
+                        setAttributes({
+                            columns: { ...columns, default: value },
+                        });
+                    }}
+                    min={1}
+                    max={5}
+                />
             </PanelBody>
 
             <SpacingPanel
@@ -174,21 +178,19 @@ const Options = ({ setAttributes, attributes, onSelectImages, images, selectedIn
                 {(tab) => {
                     return (
                         <div>
-                            {!attributes.slideshow && (
-                                <PanelBody>
-                                    <RangeControl
-                                        label={`Colonnes ${tab.name}`}
-                                        value={columns[tab.name] ?? 0}
-                                        onChange={(value: number) => {
-                                            setAttributes({
-                                                columns: { ...columns, [tab.name]: value },
-                                            });
-                                        }}
-                                        min={1}
-                                        max={6}
-                                    />
-                                </PanelBody>
-                            )}
+                            <PanelBody>
+                                <RangeControl
+                                    label={`Colonnes ${tab.name}`}
+                                    value={columns[tab.name] ?? 0}
+                                    onChange={(value: number) => {
+                                        setAttributes({
+                                            columns: { ...columns, [tab.name]: value },
+                                        });
+                                    }}
+                                    min={1}
+                                    max={6}
+                                />
+                            </PanelBody>
                             <SpacingPanel
                                 breakpoint={tab.name}
                                 attributes={attributes}
@@ -245,60 +247,58 @@ const Options = ({ setAttributes, attributes, onSelectImages, images, selectedIn
                             onDrag={setFocalPoint}
                         />
                     </PanelBody>
-                    {!attributes.slideshow &&
-                        <PanelBody>
-                            <h3>Modifier le placement et la taille :</h3>
-                            <Button
-                                size={"small" as any}
-                                variant="primary"
-                                onClick={() => {
-                                    resetGridPosition();
-                                }}
-                            >
-                                Reset
-                            </Button>
-                            <NumberControl
-                                label='Positionnement rangée'
-                                labelPosition='side'
-                                spinControls='custom'
-                                min={1}
-                                isShiftStepEnabled={true}
-                                onChange={(value: number) => { setGridPosition("top", value) }}
-                                step={1}
-                                value={images[selectedIndex]?.gridPosition?.top ?? undefined}
-                            />
-                            <NumberControl
-                                label='Nombre de rangées'
-                                labelPosition='side'
-                                spinControls='custom'
-                                min={1}
-                                isShiftStepEnabled={true}
-                                onChange={(value: number) => { setGridPosition("height", value) }}
-                                step={1}
-                                value={images[selectedIndex]?.gridPosition?.height ?? undefined}
-                            />
-                            <NumberControl
-                                label='Positionnement colonne'
-                                labelPosition='side'
-                                spinControls='custom'
-                                min={1}
-                                isShiftStepEnabled={true}
-                                onChange={(value: number) => { setGridPosition("left", value) }}
-                                step={1}
-                                value={images[selectedIndex]?.gridPosition?.left ?? undefined}
-                            />
-                            <NumberControl
-                                label='Nombre de colonnes'
-                                labelPosition='side'
-                                spinControls='custom'
-                                min={1}
-                                isShiftStepEnabled={true}
-                                onChange={(value: number) => { setGridPosition("width", value) }}
-                                step={1}
-                                value={images[selectedIndex]?.gridPosition?.width ?? undefined}
-                            />
-                        </PanelBody>
-                    }
+                    <PanelBody>
+                        <h3>Modifier le placement et la taille :</h3>
+                        <Button
+                            size={"small" as any}
+                            variant="primary"
+                            onClick={() => {
+                                resetGridPosition();
+                            }}
+                        >
+                            Reset
+                        </Button>
+                        <NumberControl
+                            label='Positionnement rangée'
+                            labelPosition='side'
+                            spinControls='custom'
+                            min={1}
+                            isShiftStepEnabled={true}
+                            onChange={(value: number) => { setGridPosition("top", value) }}
+                            step={1}
+                            value={images[selectedIndex]?.gridPosition?.top ?? undefined}
+                        />
+                        <NumberControl
+                            label='Nombre de rangées'
+                            labelPosition='side'
+                            spinControls='custom'
+                            min={1}
+                            isShiftStepEnabled={true}
+                            onChange={(value: number) => { setGridPosition("height", value) }}
+                            step={1}
+                            value={images[selectedIndex]?.gridPosition?.height ?? undefined}
+                        />
+                        <NumberControl
+                            label='Positionnement colonne'
+                            labelPosition='side'
+                            spinControls='custom'
+                            min={1}
+                            isShiftStepEnabled={true}
+                            onChange={(value: number) => { setGridPosition("left", value) }}
+                            step={1}
+                            value={images[selectedIndex]?.gridPosition?.left ?? undefined}
+                        />
+                        <NumberControl
+                            label='Nombre de colonnes'
+                            labelPosition='side'
+                            spinControls='custom'
+                            min={1}
+                            isShiftStepEnabled={true}
+                            onChange={(value: number) => { setGridPosition("width", value) }}
+                            step={1}
+                            value={images[selectedIndex]?.gridPosition?.width ?? undefined}
+                        />
+                    </PanelBody>
 
                 </>
             )}

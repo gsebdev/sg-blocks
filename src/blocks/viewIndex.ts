@@ -5,6 +5,7 @@ import sgGalleryInit from "./gallery/gallery";
 import sgQueryRelatedInit from "./query-loop/slide";
 import lightboxImageInit from "./block-utilities/sg-lightbox";
 import { sgContactFormHandle } from "./contact-form/contact-form";
+import { sgScrollParallax } from "./block-utilities/sg-scroll-parallax";
 
 document.addEventListener("DOMContentLoaded", async () => {
     initMaps();
@@ -12,6 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     sgGalleryInit();
     sgQueryRelatedInit();
     sgContactFormHandle();
+    sgScrollParallax();
 
     //load lazy images
     document.querySelectorAll(".sg-lazy-image").forEach((image) => {

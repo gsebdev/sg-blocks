@@ -1,12 +1,12 @@
 {
   "name": "sg-blocks",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "",
   "scripts": {
     "start": "webpack --watch --mode development",
     "sass-watch": "sass --watch ./src/:./dist/",
-    "build": "webpack --mode production && sass --style=compressed ./src/:./dist/"
+    "build": "webpack --mode production && sass --style=compressed --no-source-map ./src/:./dist/"
   },
   "author": "",
   "license": "ISC",
@@ -39,7 +39,7 @@
     "photoswipe": "^5.4.3",
     "photoswipe-dynamic-caption-plugin": "^1.2.7",
     "react-leaflet": "^4.2.1",
-    "sg-swiper": "^1.0.5",
+    "sg-swiper": "^1.1.1",
     "simple-color-picker": "^1.0.5"
   }
 }

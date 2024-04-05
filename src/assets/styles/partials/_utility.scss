@@ -186,7 +186,12 @@
     m: margin,
     g: gap,
   );
-
+  $sides: (
+    t: top,
+    b: bottom,
+    l: left,
+    r: right,
+  );
   @each $prop-key, $prop in $properties {
     .#{$prop-key} {
       &-#{$key} {
@@ -210,6 +215,13 @@
           #{$prop}-bottom: $spacing;
         }
       }
+      @if ($prop !=gap) {
+        @each $side-key, $side in $sides {
+          &#{$side-key}-#{$key} {
+            #{$prop}-#{$side}: $spacing;
+          }
+        }
+      }
     }
   }
 }
@@ -218,6 +230,12 @@
     p: padding,
     m: margin,
     g: gap,
+  );
+  $sides: (
+    t: top,
+    b: bottom,
+    l: left,
+    r: right,
   );
   @each $prop-key, $prop in $properties {
     @each $breakpoint-key, $breakpoint in $breakpoints {
@@ -249,24 +267,38 @@
             }
           }
         }
+
+        @if ($prop !=gap) {
+          @each $side-key, $side in $sides {
+            &#{$side-key}-#{$breakpoint-key}-#{$key} {
+              @media screen and (max-width: $breakpoint) {
+                #{$prop}-#{$side}: $spacing;
+              }
+            }
+          }
+        }
       }
     }
   }
 }
 
 ///
-/// 
+///
 /// Border radius utilities
 /// br-#{size-slug}
 ///
 ///
+/// 
 @each $key, $border-radius in $border-radiuses {
   .br-#{$key} {
     border-radius: #{$border-radius};
   }
 }
-/// 
-/// 
+[class*="br-"] {
+  overflow: hidden;
+}
+///
+///
 
 ////
 ///
@@ -296,16 +328,15 @@
   }
 }
 
-
 ///
 /// Flex col utilities
-/// 
-/// 
-/// 
-/// 
+///
+///
+///
+///
 @for $i from 1 through 12 {
   .col-#{$i} {
-      flex: 0 0 calc(100% / 12 * $i);
+    flex: 0 0 calc(100% / 12 * $i);
   }
 }
 
@@ -319,4 +350,19 @@
   }
 }
 
+@for $i from 2 through 5 {
+  .grid-col-span-#{$i} {
+    grid-column: span $i;
+  }
 
+  .grid-row-span-#{$i} {
+    grid-row: span $i;
+  }
+}
+
+.h100 {
+  height: 100% !important;
+}
+.w100 {
+  width: 100% !important;
+}

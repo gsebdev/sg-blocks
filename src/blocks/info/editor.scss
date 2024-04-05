@@ -15,12 +15,9 @@
     }
   }
   .sg-info__list-item {
-    
-    &:hover {
-      transform: none;
-      &::before {
-        transform: none;
-      }
+    &::before {
+      font-size: 2em;
+      margin-right: 1em;
     }
   }
   table {

@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // @ts-ignore
 import { useBlockProps, InspectorControls, RichText, HeadingLevelDropdown, BlockControls } from "@wordpress/block-editor";
 // @ts-ignore
-import { SelectControl, Button, PanelBody, PanelRow } from "@wordpress/components";
+import { SelectControl, Button, PanelBody, PanelRow, TextControl } from "@wordpress/components";
 // @ts-ignore
 import { select, subscribe } from '@wordpress/data';
 // @ts-ignore
@@ -11,7 +11,10 @@ import usePostMeta from '../block-components/usePostMeta';
 interface InfoEntry {
   id?: string;
   title?: string;
-  content?: string;
+  content?: {
+    text?: string;
+    icon?: string;
+  };
 }
 
 interface EditProps {
@@ -23,23 +26,29 @@ interface EditProps {
 
 const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes, clientId }) => {
   const { info_id, level } = attributes;
+  const [ contentIdSelected, setContentIdSelected ] = useState<number|null>(null);
   const postId = select('core/editor').getEditedPostAttribute('id');
   const postType = select('core/editor').getEditedPostAttribute('type');
   // set the working entry state
   const [info, setInfo] = usePostMeta(postType, postId, 'info');
-  let currentEntryIndex = info.findIndex((entry: InfoEntry) => entry.id === info_id);
+  let currentEntryIndex = info?.findIndex((entry: InfoEntry) => entry.id === info_id) ?? null;
   currentEntryIndex = currentEntryIndex === -1 ? null : currentEntryIndex;
-  const { title = '', content = '' } = currentEntryIndex !== null ? info[currentEntryIndex] ?? {} : {};
+  const { title = '', content = ''} = currentEntryIndex !== null ? info[currentEntryIndex] ?? {} : {};
 
 
   // create the info if it doesn't exists
   useEffect(() => {
-    if (info_id && info && currentEntryIndex === null) {
-      setInfo([...info, { id: info_id }]);
+    if (info_id && currentEntryIndex === null) {
+      if(info && Array.isArray(info)) {
+        setInfo([...info, { id: info_id }]);
+      } else {
+        setInfo([{ id: info_id }]);
+      }
+      
     }
   }, [info_id]);
-  
-  
+
+
   //delete info if block is deleted and info is empty
   useEffect(() => {
     const unsubscribe = subscribe(() => {
@@ -62,11 +71,16 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes, clie
     if (currentEntryIndex === null) return;
     setInfo([...info.slice(0, currentEntryIndex), { ...info[currentEntryIndex], title: value }, ...info.slice(currentEntryIndex + 1)]);
   };
-  const onContentItemChange = (value: string, index: number) => {
+  const onContentItemChange = (value: string, index: number, property: string) => {
     if (currentEntryIndex === null) return;
-    const newContent = [...content.slice(0, index), value, ...content.slice(index + 1)];
+    const newContent = [
+      ...content.slice(0, index), 
+      {...content[index], [property]: value }, 
+      ...content.slice(index + 1)
+    ];
     setInfo([...info.slice(0, currentEntryIndex), { ...info[currentEntryIndex], content: newContent }, ...info.slice(currentEntryIndex + 1)]);
   };
+
   const addNewContentItem = () => {
     if (currentEntryIndex === null) return;
     setInfo([...info.slice(0, currentEntryIndex), { ...info[currentEntryIndex], content: [...content, ''] }, ...info.slice(currentEntryIndex + 1)]);
@@ -89,7 +103,7 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes, clie
     if (!newId) {
       newId = `info-${Math.random().toString(36).substring(2, 15)}`;
     }
-    if(newId === info_id) return;
+    if (newId === info_id) return;
     setAttributes({ info_id: newId });
   }
 
@@ -106,14 +120,14 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes, clie
       <InspectorControls>
         <PanelBody>
           <PanelRow>
-           <p><strong>ID : </strong>{info_id}</p>
-           </PanelRow>
-           <PanelRow>
-           <p><strong>Nom : </strong>{title}</p>
+            <p><strong>ID : </strong>{info_id}</p>
+          </PanelRow>
+          <PanelRow>
+            <p><strong>Nom : </strong>{title}</p>
           </PanelRow>
           <PanelRow>
             <Button
-              isPrimary
+              variant='primary'
               icon="welcome-add-page"
               onClick={() => onChangeInfo()}>
               Nouvelle info
@@ -123,19 +137,32 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes, clie
             <SelectControl
               label={__('Sélectionner une info existante')}
               value={currentEntryIndex !== null ? info_id : ''}
-              options={[{label: '', value: ''}, ...info.map((entry: InfoEntry) => ({ value: entry.id, label: entry.title ?? '<Nouvelle info>' }))]}
+              options={[{ label: '', value: '' }, ...info?.map((entry: InfoEntry) => ({ value: entry.id, label: entry.title ?? '<Nouvelle info>' })) ?? []]}
               onChange={onChangeInfo}
             />
           </PanelRow>
           {info_id && currentEntryIndex !== null &&
-            <PanelRow>
-              <Button
-                isDestructive
-                icon="trash"
-                onClick={() => removeInfo()}>
-                Efface cette info
-              </Button>
-            </PanelRow>
+            <>
+              <PanelRow>
+                <Button
+                  isDestructive
+                  icon="trash"
+                  onClick={() => removeInfo()}>
+                  Efface cette info
+                </Button>
+              </PanelRow>
+             { contentIdSelected !== null &&
+               <PanelRow>
+               <TextControl
+                 label={__('Icone personnalisée de l\'info')}
+                 value={content[contentIdSelected]?.['icon'] ?? ''}
+                 onChange={(value) => onContentItemChange(value, contentIdSelected, 'icon')}
+                 placeholder={__('nom de l\'icone (ex: plus-circled)')}
+               />
+             </PanelRow>
+             }
+            </>
+
           }
         </PanelBody>
       </InspectorControls>
@@ -148,19 +175,22 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes, clie
                   tagName={titleTagName as any}
                   value={title}
                   onChange={onTitleChange}
+                  onSelect={() => setContentIdSelected(null)}
                   placeholder={__('Titre de l\'info')}
                 />
               </td>
             </tr>
             {
-              content && content.map((item: string, index: number) => (
+              content && content.map((item: { text?: string, icon?: string }, index: number) => (
                 <tr key={index}>
                   <td>
-                    <div className='sg-info__list-item'>
+                    <div className={`sg-info__list-item ${item['icon'] ? 'icon-' + item['icon'] : 'icon-ok'} flx gx-3`}>
                       <RichText
+                        className='my-0'
                         tagName={'p'}
-                        value={item}
-                        onChange={(value: string) => onContentItemChange(value, index)}
+                        value={item['text'] ?? ''}
+                        onChange={(value: string) => onContentItemChange(value, index, 'text')}
+                        onSelect={() => setContentIdSelected(index)}
                         placeholder={__('Contenu de l\'info')}
                       />
                     </div>
@@ -179,7 +209,7 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes, clie
             {isSelected && <tr>
               <td>
                 <Button
-                  isPrimary
+                  variant='primary'
                   icon="plus"
                   onClick={addNewContentItem}>
                   Ajouter un element
@@ -196,7 +226,7 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes, clie
         </div> :
           <div>
             <Button
-              isPrimary
+              variant='primary'
               icon="welcome-add-page"
               onClick={() => onChangeInfo()}>
               Nouvelle info
@@ -205,7 +235,7 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes, clie
             <p className='f-up f-sb f-xxs'>{__('Sélectionne une info existante')}</p>
             <SelectControl
               value={currentEntryIndex !== null ? info_id : ''}
-              options={[{label: '', value: ''}, ...info.map((entry: InfoEntry) => ({ value: entry.id, label: entry.title ?? '<Nouvelle info>' }))]}
+              options={[{ label: '', value: '' }, ...info?.map((entry: InfoEntry) => ({ value: entry.id, label: entry.title ?? '<Nouvelle info>' })) ?? []]}
               onChange={onChangeInfo}
             />
           </div>
