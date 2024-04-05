@@ -4,7 +4,7 @@ import { useBlockProps, InspectorControls } from "@wordpress/block-editor";
 // @ts-ignore
 import { PanelBody, TextControl, ToggleControl, __experimentalNumberControl as NumberControl, Button } from "@wordpress/components";
 // @ts-ignore
-import { select } from '@wordpress/data';
+import { select, useSelect } from '@wordpress/data';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import 'leaflet/dist/leaflet.css';
@@ -14,15 +14,8 @@ import L from 'leaflet';
 import usePostMeta from '../block-components/usePostMeta';
 
 
-// Define the map icon
-const mapIcon = new L.Icon({
-  iconUrl: '/wp-content/plugins/sg-blocks/dist/blocks/map/icons/marker-icon.png',
-  shadowUrl: '/wp-content/plugins/sg-blocks/dist/blocks/map/icons/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  tooltipAnchor: [16, -28]
-})
+
+
 export interface MapData {
   address?: string;
   lat?: number;
@@ -41,13 +34,25 @@ const Edit: React.FC<EditProps> = ({ attributes, setAttributes }) => {
   const postId = select('core/editor').getEditedPostAttribute('id');
   const postType = select('core/editor').getEditedPostAttribute('type');
   const [meetingPoint, setMeetingPoint] = usePostMeta(postType, postId, 'meeting_point');
-  const [ lat , setLat ] = useState<number | undefined>(meta_meeting_point ? meetingPoint?.lat : attributes?.lat);
-  const [ lng , setLng ] = useState<number | undefined>(meta_meeting_point ? meetingPoint?.lng : attributes?.lng);
-  const [ zoom , setZoom ] = useState<number | undefined>(meta_meeting_point ? meetingPoint?.zoom : attributes?.zoom);
+  const [lat, setLat] = useState<number | undefined>(meta_meeting_point ? meetingPoint?.lat : attributes?.lat);
+  const [lng, setLng] = useState<number | undefined>(meta_meeting_point ? meetingPoint?.lng : attributes?.lng);
+  const [zoom, setZoom] = useState<number | undefined>(meta_meeting_point ? meetingPoint?.zoom : attributes?.zoom);
   const [address, setAddress] = useState<string | undefined>(meta_meeting_point ? meetingPoint?.address : attributes?.address);
-  
+  // Define the map icon
+  const mapIcon = useSelect((select) => {
+    const { url } = (select('core') as any).getEntityRecord('root', 'site');
+    return url ? new L.Icon({
+      iconUrl: `${url}/wp-content/plugins/sg-blocks/dist/blocks/map/icons/marker-icon.png`,
+      shadowUrl: `${url}/wp-content/plugins/sg-blocks/dist/blocks/map/icons/marker-shadow.png`,
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      tooltipAnchor: [16, -28]
+    }) : undefined;
+  }, []);
+
   useEffect(() => {
-    if(meta_meeting_point) {
+    if (meta_meeting_point) {
       setMeetingPoint({ address, lat, lng, zoom });
     } else {
       setAttributes({ address, lat, lng, zoom });
@@ -55,11 +60,11 @@ const Edit: React.FC<EditProps> = ({ attributes, setAttributes }) => {
   }, [address, lat, lng, zoom]);
 
   useEffect(() => {
-    if(meta_meeting_point) {
-      if(lat !== meetingPoint?.lat) setLat(meetingPoint?.lat)
-      if(lng !== meetingPoint?.lng) setLng(meetingPoint?.lng)
-      if(zoom !== meetingPoint?.zoom) setZoom(meetingPoint?.zoom)
-      if(address !== meetingPoint?.address) setAddress(meetingPoint?.address)
+    if (meta_meeting_point) {
+      if (lat !== meetingPoint?.lat) setLat(meetingPoint?.lat)
+      if (lng !== meetingPoint?.lng) setLng(meetingPoint?.lng)
+      if (zoom !== meetingPoint?.zoom) setZoom(meetingPoint?.zoom)
+      if (address !== meetingPoint?.address) setAddress(meetingPoint?.address)
     }
   }, [meetingPoint]);
 
@@ -104,9 +109,8 @@ const Edit: React.FC<EditProps> = ({ attributes, setAttributes }) => {
   }, [markerRef.current])
 
   const blockProps = useBlockProps();
-  blockProps.className = blockProps.className.replace(attributes.className, '');
 
-  const UpdateMapCentre = ({ lat, lng, zoom }) => {
+  const UpdateMapCentre = useMemo(() => ({ lat, lng, zoom }) => {
     const marker = markerRef.current;
     if (marker != null) {
       marker.openPopup();
@@ -120,15 +124,24 @@ const Edit: React.FC<EditProps> = ({ attributes, setAttributes }) => {
           marker.openPopup();
         }
       },
+      mouseup: () => {
+        //@ts-ignore
+        if (map.dragging.moving()) map.dragging._draggable.finishDrag();
+      },
+      mouseout: () => {
+        //@ts-ignore
+        if (map.dragging.moving()) map.dragging._draggable.finishDrag();
+      },
       drag: () => {
         if (marker != null) {
           marker.closePopup();
           marker.setLatLng([parseFloat(map.getCenter().lat.toFixed(7)), parseFloat(map.getCenter().lng.toFixed(7))]);
         }
       },
+
       zoomend: () => {
         setZoom(map.getZoom());
-        if (marker !== null){ 
+        if (marker !== null) {
           marker.openPopup();
         }
       },
@@ -136,10 +149,12 @@ const Edit: React.FC<EditProps> = ({ attributes, setAttributes }) => {
     });
 
     if (lat && lng && zoom) {
-      map.flyTo([lat, lng], zoom);
+      map.setView([lat, lng], zoom);
+
     }
+    map.invalidateSize();
     return null;
-  };
+  }, [lat, lng, zoom]);
 
   return (
     <>
@@ -180,29 +195,28 @@ const Edit: React.FC<EditProps> = ({ attributes, setAttributes }) => {
         </PanelBody>
       </InspectorControls>
       <div {...blockProps}>
-        <div className={`${className ? ' ' + className : ''}`}>
-          <MapContainer center={{ lat: lat ?? 48.6, lng: lng ?? 2.3 }} zoom={zoom ?? 5} scrollWheelZoom={false}>
-            <UpdateMapCentre lat={lat} lng={lng} zoom={zoom} />
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            {lat && lng &&
-              <Marker
-                position={{ lat: lat ?? 48.6, lng: lng ?? 2.3 }}
-                icon={mapIcon}
-                ref={markerRef}
-              >
-                {address &&
-                  <Popup className='color-primary'>
-                    <span className='color-primary f-s'>{address}</span>
-                    <br />
-                    <span className='f-xxs color-grey-2 marker-coordinates'>{`Lat: ${markerRef.current?.getLatLng().lat}, Lng: ${markerRef.current?.getLatLng().lng}`}</span>
-                  </Popup>
-                }
-              </Marker>
-            }
-          </MapContainer>
-        </div>
+        <MapContainer center={{ lat: lat ?? 48.6, lng: lng ?? 2.3 }} zoom={zoom ?? 5} scrollWheelZoom={false}>
+          <UpdateMapCentre lat={lat} lng={lng} zoom={zoom} />
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {lat && lng &&
+            <Marker
+              position={{ lat: lat ?? 48.6, lng: lng ?? 2.3 }}
+              icon={mapIcon}
+              ref={markerRef}
+              draggable={false}
+            >
+              {address &&
+                <Popup className='color-primary'>
+                  <span className='color-primary f-s'>{address}</span>
+                  <br />
+                  <span className='f-xxs color-grey-2 marker-coordinates'>{`Lat: ${markerRef.current?.getLatLng().lat}, Lng: ${markerRef.current?.getLatLng().lng}`}</span>
+                </Popup>
+              }
+            </Marker>
+          }
+        </MapContainer>
       </div>
     </>
   );

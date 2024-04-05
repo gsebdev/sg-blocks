@@ -54,7 +54,7 @@ export const getColumnsClassname = (
   columns: Record<string, number | null | undefined> | undefined
 ): string => {
   return columns ? Object.entries(columns)
-    .filter(([, val]) => val !== null && val !== undefined && val > 1)
+    .filter(([, val]) => typeof val === "number" && val > 0)
     .map(([key, val]) => `columns-${key !== "default" ? key + "-" : ""}${val}`)
     .join(" ") : "";
 };

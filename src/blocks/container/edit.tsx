@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 /**
  * Wordpress dependencies
@@ -65,11 +65,12 @@ const SPACING_OPTIONS = [
 
 const LAYOUTS = ["grid", "flex", "none"];
 
-const MAX_COLUMNS = 5;
+const MAX_COLUMNS = 6;
 
 const Edit = (props) => {
-  const { attributes, setAttributes, isSelected, clientId } = props;
-  const { columns, layout, Tag, className, contentAlignement, transition, depth } = attributes;
+  const { attributes, setAttributes, isSelected, clientId, context } = props;
+  const { columns, layout, Tag, className, contentAlignement, transition, speed, isParallaxActive } = attributes;
+  const { isParallaxActive: isParallaxActiveContext } = context
 
   const classNames = getClassNames(attributes);
   const blockProps = useBlockProps({
@@ -87,6 +88,15 @@ const Edit = (props) => {
     },
     [clientId]
   );
+
+  useEffect(() => {
+    if(!isParallaxActiveContext && speed !== undefined) setAttributes({ speed: undefined })
+    if(isParallaxActiveContext && transition !== undefined) setAttributes({ transition: undefined });
+  }, [isParallaxActiveContext, speed]);
+
+  useEffect(() => {
+    if(layout === "none") setAttributes({ columns: undefined })
+  }, [layout]);
 
   return (
     <>
@@ -108,31 +118,51 @@ const Edit = (props) => {
               setAttributes({ layout: value });
             }}
           />
-          <CheckboxControl
-            label="Transition d'apparition ?"
-            checked={!!transition}
-            onChange={(t) => setAttributes({ transition: t })}
-          />
-          <RangeControl
-            label="Profondeur de persective"
-            value={parseInt(depth) || depth}
-            onChange={(value) => {
-              setAttributes({ depth: value?.toString() });
-            }}
-            min={0}
-            max={100}
-          />
 
-          <Button
-            style={{ marginBottom: "15px" }}
-            size={"small" as any}
-            variant="secondary"
-            onClick={() => {
-              setAttributes({ depth: undefined });
-            }
-            }
-          >Réinitialiser la Profondeur
-          </Button>
+          {!isParallaxActiveContext && !isParallaxActive &&
+            <CheckboxControl
+              label="Transition d'apparition ?"
+              checked={!!transition}
+              onChange={(t) => setAttributes({ transition: t })}
+            />
+          }
+          {
+            !isParallaxActiveContext && 
+            <CheckboxControl
+                label="Conteneur d'effet parallax"
+                checked={!!isParallaxActive}
+                onChange={(t) => setAttributes({ isParallaxActive: t })}
+              />
+          }
+
+
+
+          {!!isParallaxActiveContext &&
+            <>
+              <RangeControl
+                label="Vitesse de defilement parallax"
+                value={parseInt(speed) || speed || 0}
+                onChange={(value) => {
+                  setAttributes({ speed: value?.toString() });
+                }}
+                min={0}
+                max={100}
+              />
+              <Button
+                style={{ marginBottom: "15px" }}
+                size={"small" as any}
+                variant="secondary"
+                onClick={() => {
+                  setAttributes({ speed: undefined });
+                }
+                }
+              >Réinitialiser la Vitesse
+              </Button>
+            </>
+          }
+
+
+
 
 
           {layout === "flex" && (
@@ -158,13 +188,13 @@ const Edit = (props) => {
           {layout === "grid" && (
             <RangeControl
               label="Colonnes"
-              value={columns.default ?? 0}
+              value={columns.default || 0}
               onChange={(value) => {
                 setAttributes({
                   columns: { ...columns, default: value },
                 });
               }}
-              min={1}
+              min={0}
               max={MAX_COLUMNS}
             />
           )}
@@ -198,13 +228,13 @@ const Edit = (props) => {
                   <PanelBody>
                     <RangeControl
                       label="Colonnes"
-                      value={columns[tab.name] ?? 0}
+                      value={columns[tab.name] || 0}
                       onChange={(value) => {
                         setAttributes({
                           columns: { ...columns, [tab.name]: value },
                         });
                       }}
-                      min={1}
+                      min={0}
                       max={MAX_COLUMNS}
                     />
                   </PanelBody>

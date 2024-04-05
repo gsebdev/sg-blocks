@@ -7,7 +7,8 @@ const Save = ({ attributes }) => {
   
   let classList = [
     getClassNames(attributes),
-    attributes.transition ? 'sg-transition' : '',
+    attributes.transition && !attributes.isParallaxActive ? 'sg-transition' : '',
+    attributes.isParallaxActive ? 'sg-parallax-container' : '',
     attributes.className ?? ''
   ];
 
@@ -18,7 +19,7 @@ const Save = ({ attributes }) => {
   return (
     <Tag
       className={className ? className : undefined }
-      data-depth={attributes.depth}
+      data-speed={ attributes.speed }
     >
       <InnerBlocks.Content />
     </Tag>

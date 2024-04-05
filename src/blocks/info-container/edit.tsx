@@ -31,7 +31,7 @@ const Edit: React.FC<EditProps> = () => {
                   layout: 'grid',
                   gap: { default: 2 }
                 },
-                  info.map((entry: any) => {
+                  info?.map((entry: any) => {
                     return ['sg/info', {info_id: entry.id}];
                   })
               ]

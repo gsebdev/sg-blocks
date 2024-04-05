@@ -31,7 +31,16 @@
     "titleLevel": {
       "type": "number",
       "default": 2
-    }
+    },
+    "iconCode": {
+      "type": "string"
+    },
+    "successMsg": {
+      "type": "string"
+    },
+    "errorMsg": {
+      "type": "string"
+    }   
   },
   "textdomain": "sg-blocks",
   "editorStyle": "file:./editor.css",

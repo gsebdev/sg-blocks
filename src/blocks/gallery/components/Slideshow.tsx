@@ -1,7 +1,7 @@
 import React from 'react';
 import { GalleryAttributes, GalleryImage } from './Edit';
 import Thumbs from './Thumbs';
-import { getSpacingClassname } from '../../block-utilities/sg-blocks-helpers';
+import { getColumnsClassname, getSpacingClassname } from '../../block-utilities/sg-blocks-helpers';
 
 interface SlideshowProps {
     attributes: GalleryAttributes
@@ -14,17 +14,27 @@ interface SlideshowProps {
 }
 
 const Slideshow: React.FC<SlideshowProps> = ({ attributes, images, deleteImage, onSelectImages, setSelectedIndex, galleryRef = null, saving = false }) => {
-    const { draggable, thumbs, legends, lightbox, slideshowDelay } = attributes;
+    const { draggable, thumbs, legends, lightbox, slideshowDelay, slideshowBreakpoint, padding, margin } = attributes;
+
+    const galleryClassName = [
+        'sg-gallery sg-gallery--slideshow',
+        getSpacingClassname({ padding: padding, margin: margin }).trim(),
+        attributes.className,
+    ];
+
+
+
     return (
         <div
-            className={`sg-gallery sg-gallery--slideshow ${getSpacingClassname({ padding: attributes.padding, margin: attributes.margin })}`}
+            className={galleryClassName.join(' ')}
             role="region"
             aria-label="Image Gallery"
-            data-draggable={draggable ? true : undefined}
+            data-draggable={draggable && saving ? true : undefined}
             data-thumbs={thumbs ? true : undefined}
             data-legends={legends ? true : undefined}
             data-lightbox={saving && lightbox ? "true" : undefined}
             data-slideshow-delay={slideshowDelay ?? undefined}
+            data-slideshow-breakpoint={slideshowBreakpoint ?? undefined}
             ref={galleryRef}
             id={saving ?
                 attributes.id
@@ -32,7 +42,7 @@ const Slideshow: React.FC<SlideshowProps> = ({ attributes, images, deleteImage, 
                     : `gallery-${Math.random().toString(36).substring(2, 15)}` : undefined
             }
         >
-            <div className="sg-gallery__images">
+            <div className={`sg-gallery__images ${getColumnsClassname(attributes.columns)} ${getSpacingClassname({gap: attributes.gap})}`}>
                 {images && images.length > 1 &&
                     <>
                         <button
@@ -48,10 +58,11 @@ const Slideshow: React.FC<SlideshowProps> = ({ attributes, images, deleteImage, 
                     </>
                 }
 
-                <div className="sg-gallery__wrapper">
+                <div className={`sg-gallery__wrapper`}>
                     <>
                         {images &&
                             images.map((img: any, index: number) => {
+                                const { gridPosition } = img;
                                 return (
                                     <figure
                                         className="sg-gallery__img"
@@ -60,6 +71,14 @@ const Slideshow: React.FC<SlideshowProps> = ({ attributes, images, deleteImage, 
                                             setSelectedIndex(index);
                                         } : undefined}
                                         data-loaded={saving ? "false" : undefined}
+                                        style={{
+                                            gridRow: gridPosition?.height || gridPosition?.top
+                                                ? `${gridPosition?.top ?? ''}${gridPosition?.height && gridPosition?.top ? ' / ' : ''}${gridPosition?.height ? 'span ' + gridPosition?.height : ''}`
+                                                : undefined,
+                                            gridColumn: gridPosition?.width || gridPosition?.left
+                                                ? `${gridPosition?.left ?? ''}${gridPosition?.width && gridPosition?.left ? ' / ' : ''}${gridPosition?.width ? 'span ' + gridPosition?.width : ''}`
+                                                : undefined,
+                                        }}
                                     >
                                         <img
                                             draggable="false"

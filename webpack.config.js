@@ -1,7 +1,7 @@
 const path = require("path");
 const DependencyExtractionWebpackPlugin = require("@wordpress/dependency-extraction-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-
+const isProduction = process.env.NODE_ENV === 'production';
 module.exports = {
   entry: {
     "sg-blocks-scripts-editor": "./src/blocks/editorIndex.ts",
@@ -12,7 +12,7 @@ module.exports = {
     path: path.resolve(__dirname, "dist/"),
     filename: "assets/js/[name].js",
     chunkFilename: "assets/js/chunks/[id].js",
-    clean: true,
+    clean: isProduction,
     
   },
   module: {

@@ -37,13 +37,19 @@
     "transition": {
       "type": "boolean"
     },
-    "depth": {
+    "speed": {
       "type": "string",
       "source": "attribute",
-      "attribute": "data-depth",
-      "selector": "[data-depth]"
+      "attribute": "data-speed",
+      "selector": "[data-speed]"
+    },
+    "isParallaxActive": {
+      "type": "boolean"
     }
   },
+  "usesContext": ["isParallaxActive"],
+  "providesContext": {
+    "isParallaxActive": "isParallaxActive"},
   "textdomain": "sg-blocks",
   "editorStyle": "file:./editor.css"
 }

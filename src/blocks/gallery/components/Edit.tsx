@@ -22,6 +22,7 @@ export interface GalleryAttributes {
   lightbox: boolean | undefined;
   slideshow: boolean | undefined;
   slideshowDelay: number | undefined;
+  slideshowBreakpoint: number | undefined;
   images: GalleryImage[];
   imagesOptions: { id: number, gridPosition?: { top: number, left: number, width: number, height: number }, objectPosition?: { x: number, y: number } }[];
   id: string;
@@ -29,6 +30,7 @@ export interface GalleryAttributes {
   gap?: { [key: string]: number | { x: number, y: number } },
   padding?: { [key: string]: number | { x: number, y: number } },
   margin?: { [key: string]: number | { x: number, y: number } },
+  className: string | undefined;
 }
 export interface GalleryImage {
   url: string;
@@ -130,7 +132,7 @@ const Edit: React.FC<{ attributes: GalleryAttributes, setAttributes: (attributes
     }
 
     return () => {
-      galleryObject.current?.destroy();
+      galleryObject.current?.destroySlideshow();
       galleryObject.current = null;
     };
   }, [attributes, images]);

@@ -34,7 +34,7 @@ const mapLoadCallback = async (container: HTMLElement | SgLazyLoadElement | unde
         L.marker([lat, lng], { icon: icon }).addTo(map);
         L.popup({ offset: [0, -42] })
             .setLatLng([lat, lng])
-            .setContent('<span class="f-s color-primary">' + address + '</span><br><span class="f-xxs color-grey-2">Lat: ' + lat + ', Lng: ' + lng + '</span>')
+            .setContent('<span class="f-xs color-accent">' + address + '</span><br><span class="f-xs color-text-light">Lat: ' + lat + ', Lng: ' + lng + '</span>')
             .openOn(map);
 
         container.classList.remove('loading');

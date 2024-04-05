@@ -34,10 +34,16 @@ const ImageWrapper = ({ children, condition, height, width, src, srcset }) => (
 );
 
 const Gallery: React.FC<GalleryProps> = ({ attributes, images, setSelectedIndex, deleteImage, onSelectImages, selectedIndex, galleryRef = null, saving = false }) => {
-    const { legends, lightbox } = attributes;
+    const { legends, lightbox, padding, margin } = attributes;
+
+    const galleryClassName = [
+        'sg-gallery',
+        getSpacingClassname({ padding: padding, margin: margin }).trim(),
+        attributes.className,
+    ];
     return (
         <div
-            className={`sg-gallery ${getSpacingClassname({padding: attributes.padding, margin: attributes.margin})}`}
+            className={galleryClassName.join(' ')}
             data-legends={legends ? "true" : undefined}
             data-lightbox={saving && lightbox ? "true" : undefined}
             ref={galleryRef}

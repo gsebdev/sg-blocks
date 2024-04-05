@@ -63,7 +63,15 @@ if (!function_exists('sg_blocks_register_post_metas')) {
                                 'content' => [
                                     'type' => 'array',
                                     'items' => [
-                                        'type' => 'string'
+                                        'type' => 'object',
+                                        'properties' => [
+                                            'text' => [
+                                                'type' => 'string'
+                                            ],
+                                            'icon' => [
+                                                'type' => 'string'
+                                            ]
+                                        ]
                                     ]
                                 ]
                             ]

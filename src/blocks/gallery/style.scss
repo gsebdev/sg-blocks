@@ -11,7 +11,7 @@
   /**
 * Slideshow general
 **/
-  &--slideshow & {
+  &--slideshow-initialized & {
     &__images,
     &__thumbs {
       overflow: hidden;
@@ -83,12 +83,12 @@
           width: 100%;
           height: 100%;
           opacity: 0;
-          background-color: grey;
           transition: opacity 0.3s ease-in-out;
         }
       }
     }
   }
+
   /**
 * Slideshow with legends
 **/
@@ -122,7 +122,19 @@
   /**
 * Gallery general styles
 **/
-  &:not(.sg-gallery--slideshow) & {
+  &:not(.sg-gallery--slideshow-initialized) & {
+    &__images {
+      cursor: pointer;
+      display: grid;
+    }
+    &__thumbs {
+      display: none;
+    }
+
+    &__wrapper {
+      display: contents;
+    }
+
     &__nav {
       display: none;
     }
@@ -135,12 +147,12 @@
   /**
 * Gallery with lightbox
 **/
-  &:not(.sg-gallery--slideshow)[data-lightbox="true"] & {
+  &:not(.sg-gallery--slideshow-initialized)[data-lightbox="true"] & {
     &__images:hover {
       .sg-gallery__img {
         opacity: 1;
         &:not(:hover) {
-          opacity: 0.85;
+          opacity: 0.5;
         }
       }
     }
@@ -186,8 +198,9 @@
   /**
 * Image Cotnainer not loaded style
 **/
-  &__img[data-loaded="false"], &__thumb[data-loaded="false"] {
-    background-color: var(--sg--preset--color--grey-1, lightgrey);
+  &__img[data-loaded="false"],
+  &__thumb[data-loaded="false"] {
+    background-color: var(--sg--preset--color--bg-2, lightgrey);
 
     img:not(.sg-lazyload-placeholder) {
       opacity: 0;
@@ -257,5 +270,3 @@
     width: 100%;
   }
 }
-
-
