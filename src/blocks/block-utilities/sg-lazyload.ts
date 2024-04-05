@@ -69,8 +69,8 @@ export const loadImage = (
               image.srcset = srcset;
             }
           }
-          _placeholderElement.addEventListener("error", loadRealImage);
-          _placeholderElement.addEventListener("load", loadRealImage);
+          _placeholderElement.addEventListener("error", loadRealImage, { once: true });
+          _placeholderElement.addEventListener("load", loadRealImage, { once: true });
           imgParent?.appendChild(_placeholderElement);
         }
       }
@@ -83,8 +83,8 @@ export const loadImage = (
           image.srcset = srcset;
         }
       }
-      image.addEventListener("load", () => finish("success"));
-      image.addEventListener("error", () => finish("error"));
+      image.addEventListener("load", () => finish("success"), { once: true });
+      image.addEventListener("error", () => finish("error"), { once: true });
     });
   }
 };

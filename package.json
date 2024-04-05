@@ -39,7 +39,7 @@
     "photoswipe": "^5.4.3",
     "photoswipe-dynamic-caption-plugin": "^1.2.7",
     "react-leaflet": "^4.2.1",
-    "sg-swiper": "^1.1.1",
+    "sg-swiper": "^1.1.2",
     "simple-color-picker": "^1.0.5"
   }
 }

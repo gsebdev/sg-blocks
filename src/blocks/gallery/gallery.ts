@@ -53,15 +53,19 @@ export class sgGallery {
       this._auto = Number(slideshowDelay);
       this._slideshowBreakpoint = Number(slideshowBreakpoint);
       this._draggable = draggable === "true" ? true : false;
+    } else {
+      this._checkAllImagesLoaded();
     }
 
     this._startIndex = startIndex;
+
+    if (this._lightbox && !this._lightboxInitialized) this._initLightbox();
 
     if (this._slideshowBreakpoint) {
       window.addEventListener('resize', this._handleResize);
       this._handleResize();
     } else {
-      this._init();
+      this._initSlideshow();
     }
   }
 
@@ -72,66 +76,55 @@ export class sgGallery {
    *
    * @return {Promise<void>} a promise with no return value
    */
-  private async _init() {
+  private async _initSlideshow() {
+    if (this._slideshowInitialized || !this._slideshow) return;
 
-    // if slideshow is not active, load images
-    if (!this._slideshow && !this._allImagesLoaded) {
-      this._images.forEach((element) => {
-        lazyLoad(element.closest("figure"));
-      });
-    }
-
-    if (this._slideshow && !this._slideshowInitialized) {
-      const { default: Swiper } = await import(
+    const { default: Swiper } = await import(
         /* webpackChunkName: "sg-swiper" */ "sg-swiper"
-      );
-      if (this._thumbsContainer) {
-        // create the thumbs slide object
-        this._thumbsObject = new Swiper(this._thumbsContainer, {
-          //@ts-ignore
-          slideLoad: this._loadAllThumbs.bind(this),
-          onSlideClick: (index) => {
-            if (this._galleryObject) this._galleryObject.index = index;
-            if (this._thumbsObject) this._thumbsObject.index = index;
-          },
-          slideClassName: "sg-gallery__thumb",
-          slideStart: this._startIndex,
-          draggable: this._images.length > 1 ? true : false,
-          limitToEdges: true
-        });
-      }
-      const navPrev = this._gallery.querySelectorAll(
-        '.sg-gallery__nav[data-direction="prev"]'
-      );
-      const navNext = this._gallery.querySelectorAll(
-        '.sg-gallery__nav[data-direction="next"]'
-      );
-      // create the gallery slider object
-      this._galleryObject = new Swiper(this._imagesContainer as HTMLElement, {
-        slideLoad: this._load.bind(this),
-        navigation:
-          this._images.length > 1
-            ? {
-              prev: [...(navPrev as NodeListOf<HTMLElement>)],
-              next: [...(navNext as NodeListOf<HTMLElement>)],
-            }
-            : undefined,
-        auto: this._auto,
-        slideClassName: "sg-gallery__img",
-        linkedSwipers:
-          this._thumbsObject && this._images.length > 1
-            ? [this._thumbsObject]
-            : undefined,
+    );
+    if (this._thumbsContainer) {
+      // create the thumbs slide object
+      this._thumbsObject = new Swiper(this._thumbsContainer, {
+        //@ts-ignore
+        slideLoad: this._loadAllThumbs.bind(this),
+        onSlideClick: (index) => {
+          if (this._galleryObject) this._galleryObject.index = index;
+          if (this._thumbsObject) this._thumbsObject.index = index;
+        },
+        slideClassName: "sg-gallery__thumb",
         slideStart: this._startIndex,
-        draggable: this._images.length > 1 ? this._draggable : false,
+        draggable: this._images.length > 1 ? true : false,
         limitToEdges: true
       });
-      this._gallery.classList.add('sg-gallery--slideshow-initialized');
     }
-    if (this._lightbox && !this._lightboxInitialized) {
-      this._initLightbox();
-    }
-
+    const navPrev = this._gallery.querySelectorAll(
+      '.sg-gallery__nav[data-direction="prev"]'
+    );
+    const navNext = this._gallery.querySelectorAll(
+      '.sg-gallery__nav[data-direction="next"]'
+    );
+    // create the gallery slider object
+    this._galleryObject = new Swiper(this._imagesContainer as HTMLElement, {
+      slideLoad: this._load.bind(this),
+      navigation:
+        this._images.length > 1
+          ? {
+            prev: [...(navPrev as NodeListOf<HTMLElement>)],
+            next: [...(navNext as NodeListOf<HTMLElement>)],
+          }
+          : undefined,
+      auto: this._auto,
+      slideClassName: "sg-gallery__img",
+      linkedSwipers:
+        this._thumbsObject && this._images.length > 1
+          ? [this._thumbsObject]
+          : undefined,
+      slideStart: this._startIndex,
+      draggable: this._images.length > 1 ? this._draggable : false,
+      limitToEdges: true
+    });
+    this._gallery.classList.add('sg-gallery--slideshow-initialized');
+    this._slideshowInitialized = true;
   }
 
   _handleResize = () => {
@@ -139,17 +132,10 @@ export class sgGallery {
     if (this._slideshowBreakpoint && innerWidth > this._slideshowBreakpoint) {
 
       this.destroySlideshow();
-     
-      if (!this._allImagesLoaded) {
-        this._images.forEach((element) => {
-          lazyLoad(element.closest("figure"));
-        });
-      }
-
-      this._allImagesLoaded = true;
+      this._checkAllImagesLoaded();
 
     } else {
-      this._init();
+      this._initSlideshow();
     }
   }
 
@@ -171,6 +157,14 @@ export class sgGallery {
     }
   }
 
+  _checkAllImagesLoaded() {
+    if (!this._allImagesLoaded) {
+      this._images.forEach((element) => {
+        lazyLoad(element.closest("figure"));
+      });
+      this._allImagesLoaded = true;
+    }
+  }
 
   /**
    * Load all thumbnail images.
@@ -243,25 +237,26 @@ export class sgGallery {
         });
         options["dataSource"] = imagesData;
         options["showHideAnimationType"] = "fade";
-        if (this._galleryObject) {
-          const lightbox = new PhotoSwipeLightbox(options);
-          if (this._legends) {
-            const { default: PhotoSwipeDynamicCaption } = await import(
-              "photoswipe-dynamic-caption-plugin"
-            );
-            new PhotoSwipeDynamicCaption(lightbox, {
-              type: "auto",
-              captionContent: (slide) => {
-                return slide.data.caption;
-              },
-            });
-          }
-          lightbox.init();
 
-          this._galleryObject.slideClick = (index) => {
-            lightbox.loadAndOpen(index);
-          };
+        const lightbox = new PhotoSwipeLightbox(options);
+        if (this._legends) {
+          const { default: PhotoSwipeDynamicCaption } = await import(
+            "photoswipe-dynamic-caption-plugin"
+          );
+          new PhotoSwipeDynamicCaption(lightbox, {
+            type: "auto",
+            captionContent: (slide) => {
+              return slide.data.caption;
+            },
+          });
         }
+        lightbox.init();
+
+        this._images.map((image, index) => {
+          image.addEventListener("click", () => {
+            lightbox.loadAndOpen(index);
+          });
+        });
       } else {
         options["gallery"] = `#${this._gallery.id}`;
         options["children"] = ".sg-gallery__img a";
