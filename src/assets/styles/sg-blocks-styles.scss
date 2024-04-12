@@ -105,6 +105,6 @@
 }
 .sg-parallax-container {
   overflow: hidden;
-  clip: rect(0, auto, auto, 0);
+  clip-path: inset(0);
   max-width: 100vw;
 }

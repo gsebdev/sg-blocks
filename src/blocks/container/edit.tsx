@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 
 /**
  * Wordpress dependencies
@@ -30,6 +30,8 @@ import {
 import BreakpointTabs from "../block-components/BreakpointTabs";
 import { getClassNames } from "../block-utilities/sg-blocks-helpers";
 import SpacingPanel from "../block-components/SpacingPanel";
+// @ts-ignore
+import { BlockContextProvider } from '@wordpress/block-editor';
 
 /**
  * types definitons
@@ -67,11 +69,29 @@ const LAYOUTS = ["grid", "flex", "none"];
 
 const MAX_COLUMNS = 6;
 
+const ContextProviderWrapper = (props) => {
+
+  if (props.isActive === false) {
+    return (
+      <>
+        {props.children}
+      </>);
+  } else {
+    return (
+      <BlockContextProvider value={props.value}>
+        {props.children}
+      </BlockContextProvider>
+    );
+  }
+
+};
+
+
 const Edit = (props) => {
   const { attributes, setAttributes, isSelected, clientId, context } = props;
   const { columns, layout, Tag, className, contentAlignement, transition, speed, isParallaxActive } = attributes;
-  const { isParallaxActive: isParallaxActiveContext } = context
 
+  const isParallaxActiveContext = context["sg/isParallaxActive"];
   const classNames = getClassNames(attributes);
   const blockProps = useBlockProps({
     className: classNames
@@ -90,16 +110,19 @@ const Edit = (props) => {
   );
 
   useEffect(() => {
-    if(!isParallaxActiveContext && speed !== undefined) setAttributes({ speed: undefined })
-    if(isParallaxActiveContext && transition !== undefined) setAttributes({ transition: undefined });
+    if (!isParallaxActiveContext && speed !== undefined) setAttributes({ speed: undefined })
+    if (isParallaxActiveContext && transition !== undefined) setAttributes({ transition: undefined });
   }, [isParallaxActiveContext, speed]);
 
   useEffect(() => {
-    if(layout === "none") setAttributes({ columns: undefined })
+    if (layout === "none") setAttributes({ columns: undefined })
   }, [layout]);
 
   return (
-    <>
+    <ContextProviderWrapper
+      value={{ ["sg/isParallaxActive"]: isParallaxActive }}
+      isActive={!isParallaxActiveContext}
+    >
       <InspectorControls>
         <PanelBody>
           <SelectControl
@@ -127,12 +150,12 @@ const Edit = (props) => {
             />
           }
           {
-            !isParallaxActiveContext && 
+            !isParallaxActiveContext &&
             <CheckboxControl
-                label="Conteneur d'effet parallax"
-                checked={!!isParallaxActive}
-                onChange={(t) => setAttributes({ isParallaxActive: t })}
-              />
+              label="Conteneur d'effet parallax"
+              checked={!!isParallaxActive}
+              onChange={(t) => setAttributes({ isParallaxActive: t })}
+            />
           }
 
 
@@ -260,6 +283,7 @@ const Edit = (props) => {
           }}
         </BreakpointTabs>
       </InspectorControls>
+
       <div
         {...blockProps}
         data-info={`${Tag}${classNames.length > 0 && isSelected ? " - " + classNames : ""
@@ -272,7 +296,7 @@ const Edit = (props) => {
           )}
         </Tag>
       </div>
-    </>
+    </ContextProviderWrapper>
   );
 };
 

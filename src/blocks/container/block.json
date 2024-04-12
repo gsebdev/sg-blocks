@@ -47,9 +47,7 @@
       "type": "boolean"
     }
   },
-  "usesContext": ["isParallaxActive"],
-  "providesContext": {
-    "isParallaxActive": "isParallaxActive"},
+  "usesContext": ["sg/isParallaxActive"],
   "textdomain": "sg-blocks",
   "editorStyle": "file:./editor.css"
 }
