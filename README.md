@@ -5,6 +5,26 @@ This plugin will help to create a website that is optimized for outdoor activiti
 It will add some custom post types, taxonomies, meta fields and Gutenberg blocks to help create a website that is easy to update and customize.
 It will also add some utility classes to help create responsive and flexible layouts.
 
+## Start development :
+
+To start the development of the plugin follow these commands :
+
+```
+npm install
+npm start
+npm run sass-watch
+```
+
+Edit the files in the src folder
+
+
+## Build
+
+Build the plugin :
+```
+npm run build
+```
+
 
 ## Features
 
@@ -90,25 +110,6 @@ This block allows you to add a reservation card to your page or post, with the o
 
 This block allows you to add a contact form to your page or post, with a pre-configured form with some fields.
 
-### Start development :
-
-To start the development of the plugin follow these commands :
-
-```
-npm install
-npm start
-npm run sass-watch
-```
-
-Edit the files in the src folder
-
-
-### Build
-
-Build the plugin :
-```
-npm run build
-```
 
 # Utility Classes
 
