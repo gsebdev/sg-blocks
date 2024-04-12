@@ -20,7 +20,6 @@
 }
 
 .sg-swiper {
-  
   &--started & {
     &.is-first & {
       &__nav[data-direction="prev"] {
@@ -99,6 +98,9 @@
       }
       .sg-swiper__nav {
         display: none;
+      }
+      .sg-swiper__slide {
+        cursor: pointer;
       }
     }
   }
