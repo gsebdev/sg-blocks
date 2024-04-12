@@ -9,8 +9,8 @@ import {
   ToggleControl,
   // @ts-ignore
   __experimentalUnitControl as UnitControl,
-    // @ts-ignore
-    __experimentalDivider as Divider,
+  // @ts-ignore
+  __experimentalDivider as Divider,
 } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
 import SpacingPanel from "./SpacingPanel";
@@ -130,6 +130,14 @@ const ImageInspectorControls: React.FC<Props> = ({
     }
   }, [imageSource, currentImage]);
 
+  useEffect(() => {
+    if (aspectRatio && fixedHeight) {
+      setAttributes({
+        fixedHeight: undefined,
+      });
+    }
+  }, [aspectRatio]);
+
   return (
     <PanelBody title="Image">
       <SelectControl
@@ -148,17 +156,17 @@ const ImageInspectorControls: React.FC<Props> = ({
       />
       {(!aspectRatio || aspectRatio === "") && (
         <UnitControl
-        label="Hauteur de l'image"
-        onChange={(value) => {
-          setAttributes({
-            fixedHeight: value,
-          });
-        }}
-        value={fixedHeight}
-        units={UNITS}
-      />
+          label="Hauteur de l'image"
+          onChange={(value) => {
+            setAttributes({
+              fixedHeight: value,
+            });
+          }}
+          value={fixedHeight}
+          units={UNITS}
+        />
       )}
-      
+
       <UnitControl
         label="Largeur de l'image"
         onChange={(value) => {

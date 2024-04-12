@@ -102,7 +102,7 @@ const Edit = ({ attributes, setAttributes }) => {
 
           <RichText
             tagName="button"
-            className="cta cta--arrow-right cta--with-border"
+            className="cta cta--primary"
             value={ctaText}
             onChange={(value) => setAttributes({ ctaText: value })}
             placeholder="Texte du bouton"

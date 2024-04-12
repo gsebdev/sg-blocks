@@ -188,7 +188,7 @@ const Edit = (props) => {
           {layout === "grid" && (
             <RangeControl
               label="Colonnes"
-              value={columns.default || 0}
+              value={columns?.default || 0}
               onChange={(value) => {
                 setAttributes({
                   columns: { ...columns, default: value },
@@ -228,7 +228,7 @@ const Edit = (props) => {
                   <PanelBody>
                     <RangeControl
                       label="Colonnes"
-                      value={columns[tab.name] || 0}
+                      value={columns?.[tab.name] || 0}
                       onChange={(value) => {
                         setAttributes({
                           columns: { ...columns, [tab.name]: value },

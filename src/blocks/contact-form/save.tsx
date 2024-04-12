@@ -64,7 +64,7 @@ const Save = ({ attributes }) => {
         </div>
 
         <button
-          className="cta cta--arrow-right cta--with-border" type="submit"
+          className="cta cta--primary" type="submit"
         >
           {ctaText || __('Envoyer')}
         </button>
