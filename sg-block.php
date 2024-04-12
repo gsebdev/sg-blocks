@@ -116,8 +116,9 @@ if (!function_exists('register_sg_blocks')) {
 
         register_block_pattern_category('sg-blocks', array('label' => 'SG Blocks'));
 
-        $sg_product_card = include(SG_BLOCKS_DIR . 'dist/patterns/sg-product-card.php');
-        register_block_pattern('sg/product-card', $sg_product_card);
+        // Register patterns
+        $sg_image_text = include(SG_BLOCKS_DIR . 'dist/patterns/sg-image-text.php');
+        register_block_pattern('sg/image-text', $sg_image_text);
 
         register_block_style('core/button', array(
             'name' => 'cta--primary',
