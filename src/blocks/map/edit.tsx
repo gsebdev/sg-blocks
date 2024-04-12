@@ -1,20 +1,33 @@
-import React, { useRef, useEffect, useMemo, useState } from 'react';
+import React, {
+  useRef,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 // @ts-ignore
 import { useBlockProps, InspectorControls } from "@wordpress/block-editor";
 // @ts-ignore
-import { PanelBody, TextControl, ToggleControl, __experimentalNumberControl as NumberControl, Button } from "@wordpress/components";
+import {
+  PanelBody,
+  TextControl,
+  ToggleControl,
+  // @ts-ignore
+  __experimentalNumberControl as NumberControl,
+  Button,
+} from "@wordpress/components";
 // @ts-ignore
-import { select, useSelect } from '@wordpress/data';
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
-import { OpenStreetMapProvider } from 'leaflet-geosearch';
-import 'leaflet/dist/leaflet.css';
+import { select, useSelect } from "@wordpress/data";
+import {
+  MapContainer,
+  TileLayer,
+  useMapEvents,
+} from "react-leaflet";
+import { OpenStreetMapProvider } from "leaflet-geosearch";
+import "leaflet/dist/leaflet.css";
 // @ts-ignore
-import { __ } from '@wordpress/i18n';
-import L from 'leaflet';
-import usePostMeta from '../block-components/usePostMeta';
-
-
-
+import { __ } from "@wordpress/i18n";
+import usePostMeta from "../block-components/usePostMeta";
+import L from "leaflet";
 
 export interface MapData {
   address?: string;
@@ -25,197 +38,292 @@ export interface MapData {
 
 interface EditProps {
   isSelected: boolean;
-  attributes: { className: string, id?: string, meta_meeting_point?: boolean, address?: string, lat?: number, lng?: number, zoom?: number };
+  attributes: {
+    className: string;
+    id?: string;
+    meta_meeting_point?: boolean;
+    address?: string;
+    lat?: number;
+    lng?: number;
+    zoom?: number;
+  };
   setAttributes: (attributes: any) => void;
 }
 
-const Edit: React.FC<EditProps> = ({ attributes, setAttributes }) => {
-  const { className, id, meta_meeting_point } = attributes;
-  const postId = select('core/editor').getEditedPostAttribute('id');
-  const postType = select('core/editor').getEditedPostAttribute('type');
-  const [meetingPoint, setMeetingPoint] = usePostMeta(postType, postId, 'meeting_point');
-  const [lat, setLat] = useState<number | undefined>(meta_meeting_point ? meetingPoint?.lat : attributes?.lat);
-  const [lng, setLng] = useState<number | undefined>(meta_meeting_point ? meetingPoint?.lng : attributes?.lng);
-  const [zoom, setZoom] = useState<number | undefined>(meta_meeting_point ? meetingPoint?.zoom : attributes?.zoom);
-  const [address, setAddress] = useState<string | undefined>(meta_meeting_point ? meetingPoint?.address : attributes?.address);
-  // Define the map icon
-  const mapIcon = useSelect((select) => {
-    const { url } = (select('core') as any).getEntityRecord('root', 'site');
-    return url ? new L.Icon({
-      iconUrl: `${url}/wp-content/plugins/sg-blocks/dist/blocks/map/icons/marker-icon.png`,
-      shadowUrl: `${url}/wp-content/plugins/sg-blocks/dist/blocks/map/icons/marker-shadow.png`,
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      tooltipAnchor: [16, -28]
-    }) : undefined;
-  }, []);
+/**
+ *
+ * Component to handle map events
+ * and update view of it
+ *
+ *
+ *
+ *
+ *
+ */
+interface MapCentreProps {
+  onMouseDown?: (map: L.Map) => void;
+  onDrag?: (map: L.Map) => void;
+  onDragEnd?: (map: L.Map) => void;
+  onClick?: (map: L.Map, e: L.LeafletMouseEvent) => void;
+  onInit?: (map: L.Map) => void;
+  onRefresh?: (map: L.Map) => void;
+  onZoomEnd?: (map: L.Map) => void;
+  onChange?: (map: L.Map) => void;
+  center: { lat: number; lng: number };
+  zoom: number;
+  address: string;
+}
 
-  useEffect(() => {
-    if (meta_meeting_point) {
-      setMeetingPoint({ address, lat, lng, zoom });
-    } else {
-      setAttributes({ address, lat, lng, zoom });
-    }
-  }, [address, lat, lng, zoom]);
+const MapHandler = React.memo<MapCentreProps>(
+  ({
+    onMouseDown,
+    onDrag,
+    onDragEnd,
+    onClick,
+    onInit,
+    onRefresh,
+    onZoomEnd,
+    center,
+    zoom,
+    address
+  }) => {
+    const [isDragging, setIsDragging] = useState(false);
+    const markerRef = useRef<null | L.Marker>(null);
 
-  useEffect(() => {
-    if (meta_meeting_point) {
-      if (lat !== meetingPoint?.lat) setLat(meetingPoint?.lat)
-      if (lng !== meetingPoint?.lng) setLng(meetingPoint?.lng)
-      if (zoom !== meetingPoint?.zoom) setZoom(meetingPoint?.zoom)
-      if (address !== meetingPoint?.address) setAddress(meetingPoint?.address)
-    }
-  }, [meetingPoint]);
+    // Define the map icon
+    const mapIcon = useSelect((select) => {
+      const { url } = (select("core") as any).getEntityRecord("root", "site");
+      return url
+        ? new L.Icon({
+          iconUrl: `${url}/wp-content/plugins/sg-blocks/dist/blocks/map/icons/marker-icon.png`,
+          shadowUrl: `${url}/wp-content/plugins/sg-blocks/dist/blocks/map/icons/marker-shadow.png`,
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          tooltipAnchor: [16, -28],
+        })
+        : undefined;
+    }, []);
 
-  const markerRef = useRef<null | L.Marker>(null);
+    const map = useMapEvents({
+      mousedown: () => {
+        if (onMouseDown) onMouseDown(map);
+        setIsDragging(true);
+      },
+      dragend: () => {
+        if (onDragEnd) onDragEnd(map);
+      },
+      click: (e) => {
+        if (onClick) onClick(map, e);
+      },
+      drag: () => {
+        if (onDrag) onDrag(map);
+      },
+      zoomend: () => {
+        if (onZoomEnd) onZoomEnd(map);
+      },
+    });
+
+    useEffect(() => {
+      markerRef.current?.setLatLng(center);
+      markerRef.current?.setPopupContent(`<span class="color-primary f-s">${address}</span><br/><span class="f-xxs color-grey-2 marker-coordinates">Lat: ${center.lat}, Lng: ${center.lng}</span>`);
+      map.setView(center, zoom, { animate: true });
+    }, [center.lat, center.lng, address]);
+    
+    useEffect(() => {
+      map.setZoom(zoom);
+    }, [zoom]);
+
+    useEffect(() => {
+      markerRef.current = L.marker(center, { icon: mapIcon, draggable: false }).addTo(map)
+      const popupContent = `<span class="color-primary f-s">${address}</span><br/><span class="f-xxs color-grey-2 marker-coordinates">Lat: ${center.lat}, Lng: ${center.lng}</span>`;
+      markerRef.current.bindPopup(popupContent).openPopup();
+      if (onInit) onInit(map);
+      console.log('init marker')
+    }, []);
+
+
+    useEffect(() => {
+      if (onRefresh) onRefresh(map);
+      map.invalidateSize();
+    });
+
+    useEffect(() => {
+      const handleMouseUp = () => {
+        //@ts-ignore
+        map.dragging._draggable.finishDrag();
+        setIsDragging(false);
+      };
+      if (isDragging) {
+        map
+          .getContainer()
+          .closest("body")
+          ?.addEventListener("mouseup", handleMouseUp, { once: true });
+      }
+    }, [isDragging]);
+
+    return null;
+  }
+);
+
+const Edit: React.FC<EditProps> = ({ attributes, setAttributes, isSelected }) => {
+  const { id, meta_meeting_point } = attributes;
+  const postId = select("core/editor").getEditedPostAttribute("id");
+  const postType = select("core/editor").getEditedPostAttribute("type");
+  const [meetingPoint, setMeetingPoint] = usePostMeta(
+    postType,
+    postId,
+    "meeting_point"
+  );
+  const [isSelectingPoint, setIsSelectingPoint] = useState(false);
+
+
+
+  const setMap = useMemo(
+    () =>
+      meta_meeting_point
+        ? (val) => setMeetingPoint({ ...meetingPoint, ...val })
+        : setAttributes,
+    [setAttributes, setMeetingPoint, meta_meeting_point]
+  );
+
+  const {
+    lat = 48.5,
+    lng = 2.3,
+    address = "",
+  } = meta_meeting_point ? meetingPoint : attributes;
+
+  const { zoom = 5 } = attributes;
 
   const provider = useMemo(() => new OpenStreetMapProvider(), []);
 
   const onSearchClick = () => {
-    provider.search({ query: address ?? '' }).then((results) => {
-
+    provider.search({ query: address ?? "" }).then((results) => {
       if (results.length > 0) {
         const roundedLat = parseFloat(results[0].y.toFixed(7));
         const roundedLng = parseFloat(results[0].x.toFixed(7));
-        setLat(roundedLat);
-        setLng(roundedLng);
-        setZoom(14);
+        setMap({ lat: roundedLat, lng: roundedLng });
       }
-    })
-  }
+    });
+  };
+
+  const onClick = useMemo(
+    () => (map: L.Map, e: L.LeafletMouseEvent) => {
+      if (!isSelectingPoint) return;
+
+      const newLat = parseFloat(e.latlng.lat.toFixed(7));
+      const newLng = parseFloat(e.latlng.lng.toFixed(7));
+
+      setMap({ lat: newLat, lng: newLng });
+    },
+    [setMap, isSelectingPoint]
+  );
+
+  const onZoomEnd = useMemo(
+    () => (map: L.Map) => {
+      if (!isSelectingPoint) return;
+      setAttributes({ zoom: map.getZoom() });
+    },
+    [setAttributes, isSelectingPoint]
+  );
 
   useEffect(() => {
-    //set initial meeting point based on meta value
-    if (meta_meeting_point === true) {
-      setAttributes({ id: undefined, address: undefined, lat: undefined, lng: undefined, zoom: undefined });
-      setAddress(meetingPoint?.address);
-      setLat(meetingPoint?.lat);
-      setLng(meetingPoint?.lng);
-      setZoom(meetingPoint?.zoom);
-    }
+    if (!isSelected) setIsSelectingPoint(false);
+  }, [isSelected]);
 
+
+  useEffect(() => {
+    if (meta_meeting_point) {
+      setAttributes({
+        lat: undefined,
+        lng: undefined,
+        address: undefined,
+        id: undefined
+      });
+    }
     //set initial id if not on meta
     if (!id && !meta_meeting_point) {
-      setAttributes({ id: 'sg-map-' + Math.random().toString(36).substring(2, 9) });
+      setAttributes({
+        id: "sg-map-" + Math.random().toString(36).substring(2, 9),
+        lat: lat,
+        lng: lng,
+        address: address,
+        zoom: zoom
+      });
     }
-
   }, [meta_meeting_point]);
 
-  useEffect(() => {
-    if (markerRef.current) {
-      markerRef.current.openPopup();
-    }
-  }, [markerRef.current])
-
   const blockProps = useBlockProps();
-
-  const UpdateMapCentre = useMemo(() => ({ lat, lng, zoom }) => {
-    const marker = markerRef.current;
-    if (marker != null) {
-      marker.openPopup();
-    }
-
-    const map = useMapEvents({
-      dragend: () => {
-        if (marker != null) {
-          setLat(parseFloat(marker.getLatLng().lat.toFixed(7)));
-          setLng(parseFloat(marker.getLatLng().lng.toFixed(7)));
-          marker.openPopup();
-        }
-      },
-      mouseup: () => {
-        //@ts-ignore
-        if (map.dragging.moving()) map.dragging._draggable.finishDrag();
-      },
-      mouseout: () => {
-        //@ts-ignore
-        if (map.dragging.moving()) map.dragging._draggable.finishDrag();
-      },
-      drag: () => {
-        if (marker != null) {
-          marker.closePopup();
-          marker.setLatLng([parseFloat(map.getCenter().lat.toFixed(7)), parseFloat(map.getCenter().lng.toFixed(7))]);
-        }
-      },
-
-      zoomend: () => {
-        setZoom(map.getZoom());
-        if (marker !== null) {
-          marker.openPopup();
-        }
-      },
-
-    });
-
-    if (lat && lng && zoom) {
-      map.setView([lat, lng], zoom);
-
-    }
-    map.invalidateSize();
-    return null;
-  }, [lat, lng, zoom]);
 
   return (
     <>
       <InspectorControls>
         <PanelBody title="Options">
           <ToggleControl
-            label={__("Configurer le point de rendez vous de l'activité", "sg-blocks")}
+            label={__(
+              "Configurer le point de rendez vous de l'activité",
+              "sg-blocks"
+            )}
             checked={meta_meeting_point}
-            onChange={(value: boolean) => setAttributes({ meta_meeting_point: value })}
+            onChange={(value: boolean) =>
+              setAttributes({ meta_meeting_point: value })
+            }
           />
           <TextControl
             label={__("Saisie Adresse", "sg-blocks")}
-            value={address ?? ''}
-            onChange={(value) => setAddress(value)}
+            value={address ?? ""}
+            onChange={(value) => setMap({ address: value })}
           />
-          <Button
-            icon="search"
-            onClick={onSearchClick}>Rechercher les coordonnées de l'adresse</Button>
+          <Button icon="search" onClick={onSearchClick}>
+            Rechercher les coordonnées de l'adresse
+          </Button>
           <NumberControl
-            label={__('Latitude', 'sg-blocks')}
+            label={__("Latitude", "sg-blocks")}
             value={lat}
-            onChange={(lat: number) => setLat(lat ? parseFloat((+lat).toFixed(7)) : undefined)}
+            onChange={(lat: number) => {
+              lat = Math.max(-90, Math.min(parseFloat((+lat).toFixed(7)), 90));
+              setMap({ lat });
+            }}
           />
           <NumberControl
-            label={__('Longitude', 'sg-blocks')}
+            label={__("Longitude", "sg-blocks")}
             value={lng}
-            onChange={(lng: number) => setLng(lng ? parseFloat((+lng).toFixed(7)) : undefined)}
+            onChange={(lng: number) => {
+              lng = Math.max(
+                -180,
+                Math.min(parseFloat((+lng).toFixed(7)), 180)
+              );
+              setMap({ lng });
+            }}
           />
           <NumberControl
-            label={__('Zoom', 'sg-blocks')}
+            label={__("Zoom", "sg-blocks")}
             value={zoom}
-            spinControls='custom'
+            spinControls="custom"
             min={1}
             step={1}
             max={20}
-            onChange={(val: number) => setZoom(val)}
+            onChange={(val: number) => setAttributes({ zoom: val ? val : 5 })}
           />
+          <Button
+            icon={isSelectingPoint ? "no" : "location"}
+            onClick={() => { setIsSelectingPoint(!isSelectingPoint) }}
+            variant={isSelectingPoint ? "secondary" : "primary"}
+          >
+            {isSelectingPoint ? "Arrêter la sélection" : "Sélectionner un point sur la carte"}
+          </Button>
         </PanelBody>
       </InspectorControls>
       <div {...blockProps}>
-        <MapContainer center={{ lat: lat ?? 48.6, lng: lng ?? 2.3 }} zoom={zoom ?? 5} scrollWheelZoom={false}>
-          <UpdateMapCentre lat={lat} lng={lng} zoom={zoom} />
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        <MapContainer closePopupOnClick={false}>
+          <MapHandler
+            onClick={onClick}
+            onZoomEnd={onZoomEnd}
+            center={{ lat: lat, lng: lng }}
+            zoom={zoom}
+            address={address}
           />
-          {lat && lng &&
-            <Marker
-              position={{ lat: lat ?? 48.6, lng: lng ?? 2.3 }}
-              icon={mapIcon}
-              ref={markerRef}
-              draggable={false}
-            >
-              {address &&
-                <Popup className='color-primary'>
-                  <span className='color-primary f-s'>{address}</span>
-                  <br />
-                  <span className='f-xxs color-grey-2 marker-coordinates'>{`Lat: ${markerRef.current?.getLatLng().lat}, Lng: ${markerRef.current?.getLatLng().lng}`}</span>
-                </Popup>
-              }
-            </Marker>
-          }
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         </MapContainer>
       </div>
     </>

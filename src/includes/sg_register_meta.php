@@ -130,9 +130,6 @@ if (!function_exists('sg_blocks_register_post_metas')) {
                             ],
                             'lat' => [
                                 'type' => 'number'
-                            ],
-                            'zoom' => [
-                                'type' => 'number'
                             ]
                         ]
                     ]

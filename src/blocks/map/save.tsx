@@ -3,7 +3,7 @@ const Save = ({ attributes }) => {
 
     if (!!attributes.meta_meeting_point) {
         return (
-            <div className={`sg-map${attributes.className ? " " + attributes.className : ""}`}>
+            <div className={`sg-map${attributes.className ? " " + attributes.className : ""}`} data-zoom={attributes.zoom}>
                 <div className="sg-map__container" />
             </div>)
     } else {

@@ -18,7 +18,9 @@ const mapLoadCallback = async (container: HTMLElement | SgLazyLoadElement | unde
         // load ressources
         const { default: L } = await import('leaflet');
 
-        const { lat, lng, zoom, address } = mapId ? window.sgMaps[mapId] : window.sgMaps['meeting_point'];
+        const { lat, lng, address } = mapId ? window.sgMaps[mapId] : window.sgMaps['meeting_point'];
+        const zoom = mapId ? window.sgMaps[mapId].zoom : (Number(container.dataset.zoom) || 14);
+        console.log(zoom)
         const icon = L.icon({
             iconUrl: '/wp-content/plugins/sg-blocks/dist/blocks/map/icons/marker-icon-violet.png',
             shadowUrl: '/wp-content/plugins/sg-blocks/dist/blocks/map/icons/marker-shadow.png',
