@@ -1,11 +1,94 @@
-This is a wordpress plugin still in development...
+This is a wordpress plugin.
 
-Features :
-- Adds 2 custom post types : 'activites' and 'guides'
-- Adds 4 custom taxonomies to activties : 'sport', 'difficulty', 'duration', 'activtiy-type',
-- Adds 1 custom taxonomy to guides : 'sport',
-- Adds support for meta fields (meeting-point, infos, price, downloads, ...)
-- Adds a bunch of Gutenberg blocks
+The purpose of this plugin is to add some features in Wordpress that will be useful to create website for outdoor sports companies like (rafting, canyoning, rock climbing, mountain bike, skiing, hiking, ...).
+This plugin will help to create a website that is optimized for outdoor activities and will provide a better user experience.
+It will add some custom post types, taxonomies, meta fields and Gutenberg blocks to help create a website that is easy to update and customize.
+It will also add some utility classes to help create responsive and flexible layouts.
+
+
+## Features
+
+This plugin adds the following features to WordPress:
+
+#### Custom Post Types
+
+- `activities`: Custom post type for representing outdoor activities like hiking, climbing, kayaking, etc.
+- `guides`: Custom post type for representing guides for outdoor activities.
+
+#### Custom Taxonomies
+
+- `sport`: Custom taxonomy for categorizing activities by sport (e.g., "hiking", "kayaking", etc.).
+- `difficulty`: Custom taxonomy for categorizing activities by difficulty level (e.g., "easy", "medium", "hard").
+- `duration`: Custom taxonomy for categorizing activities by duration (e.g., "1-hour", "2-hours", etc.).
+- `activity-type`: Custom taxonomy for categorizing activities by type (e.g., "walking", "kayaking", etc.).
+
+#### Custom Taxonomy for Guides
+
+- `sport`: Custom taxonomy for categorizing guides by sport.
+
+#### Meta Fields
+
+- `meeting-point`: Meta field for storing the location where an activity takes place.
+- `infos`: Meta field for storing additional information about an activity.
+- `price`: Meta field for storing the price of an activity.
+- `downloads`: Meta field for storing links to downloadable resources related to an activity.
+
+### Gutenberg Blocks
+
+A set of Gutenberg blocks are included to help create content in a more intuitive way.
+
+#### Leafletmap Block
+
+This block allows you to add a Leaflet map to your page or post.
+
+#### Container Block
+
+This block allows you to create a container with a set of options, like:
+
+* Choose the tag to be used (div, section, article, aside, etc.)
+* Set the display (flex, block, grid or none)
+* Set the number of columns
+* Set responsive behavior for the columns
+
+#### Featured Image Block
+
+This block allows you to add a featured image to your page or post, loading it lazily.
+
+#### Images Block
+
+This block allows you to add multiple images to your page or post, displaying them as a grid or a slideshow, with thumbnails, lightbox and responsive behavior.
+
+#### Meta Files Block
+
+This block allows you to add a list of downloadable files to your page or post.
+
+#### Meta Lists Block
+
+This block allows you to add a list of items to your page or post, with a title and description for each item.
+
+#### Meta Price Table Block
+
+This block allows you to add a table of prices to your page or post.
+
+#### Query Loop Block
+
+This block allows you to create a custom loop of posts based on a custom query, with the option of related posts of the current post.
+
+#### Taxonomy Image Block
+
+This block allows you to add the cover image of a specified taxonomy term to your page or post.
+
+#### Terms List Block
+
+This block allows you to add a list of terms of a specified custom taxonomy to your page or post.
+
+#### Reservation Card Block
+
+This block allows you to add a reservation card to your page or post, with the option to display either a phone number or a booking modal.
+
+#### Contact Form Block
+
+This block allows you to add a contact form to your page or post, with a pre-configured form with some fields.
 
 ### Start development :
 
