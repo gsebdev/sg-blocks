@@ -168,7 +168,7 @@ if (!function_exists('sg_get_posts')) {
         $order = $args['order'] ?? 'desc';
 
         $is_related_query = !!$post_id && $args['related_query'];
-
+        
         // Can't get any post if no post type provided
         if (!$post_type || ($is_related_query && !$taxonomy)) return null;
 
@@ -179,13 +179,14 @@ if (!function_exists('sg_get_posts')) {
         // Get term IDs associated with the reference post.
         $terms = $is_related_query && $taxonomy ? get_the_terms($post_id, $taxonomy) : null;
 
-        $post_term_ids = [];
+        $post_term_slugs = [];
 
         if (is_array($terms)) {
-            $post_term_ids = array_map(function ($term) {
-                return $term->term_id;
+            $post_term_slugs = array_map(function ($term) {
+                return $term->slug;
             }, $terms);
         }
+
         // Query.
         $query_args = array(
             'post_type'      => $post_type,
@@ -199,12 +200,12 @@ if (!function_exists('sg_get_posts')) {
                 'orderby' => $orderby === 'featured' ? array('menu_order' => $order, 'modified' => $order) : $orderby,
                 'order' => $order
             ) : [])
-            + ($taxonomy && ($post_term_ids || $taxonomy_term) ? array(
+            + ($taxonomy && ($post_term_slugs || $taxonomy_term) ? array(
                 'tax_query' => array(
                     array(
                         'taxonomy' => $taxonomy,
                         'field'    => 'slug',
-                        'terms'    => $is_related_query ? $post_term_ids : $taxonomy_term,
+                        'terms'    => $is_related_query ? $post_term_slugs : $taxonomy_term,
                     )
                 )
             ) : []);
@@ -220,21 +221,21 @@ if (!function_exists('sg_get_posts')) {
         }
 
         //Define a mapping function to get the term ID.
-        if (!function_exists('get_term_id')) {
-            function get_term_id($term)
+        if (!function_exists('get_term_slug')) {
+            function get_term_slug($term)
             {
-                return $term->term_id;
+                return $term->slug;
             };
         }
 
         // Sort the related posts based on the number of match terms.
         usort(
             $query->posts,
-            function ($a, $b) use ($post_term_ids, $taxonomy) {
+            function ($a, $b) use ($post_term_slugs, $taxonomy) {
                 $a_terms = get_the_terms($a->ID, $taxonomy);
                 $b_terms = get_the_terms($b->ID, $taxonomy);
-                $apos = count(array_intersect(array_map('get_term_id',  is_array($a_terms) ? $a_terms : []), $post_term_ids));
-                $bpos = count(array_intersect(array_map('get_term_id',  is_array($b_terms) ? $b_terms : []), $post_term_ids));
+                $apos = count(array_intersect(array_map('get_term_slug',  is_array($a_terms) ? $a_terms : []), $post_term_slugs));
+                $bpos = count(array_intersect(array_map('get_term_slug',  is_array($b_terms) ? $b_terms : []), $post_term_slugs));
 
                 return ($apos < $bpos) ? 1 : -1;
             }

@@ -78,7 +78,8 @@ function sg_get_posts_endpoint_callback($request)
             'excluded_ids' => $request->get_param('excluded_ids') ?? [],
             'query_taxonomy' => $request->get_param('query_taxonomy') ?? null,
             'query_taxonomy_terms' => $request->get_param('query_taxonomy_terms') ?? null,
-            'related_post_id' => $request->get_param('related_post_id') ?? null
+            'related_post_id' => $request->get_param('related_post_id') ?? null,
+            'related_query' => !!$request->get_param('related_post_id')
         )
     );
 
