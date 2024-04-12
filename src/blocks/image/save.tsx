@@ -16,10 +16,11 @@ const Save = ({ attributes }) => {
         image_id,
         className,
         align,
-        fullWidth,
         fixedHeight,
         fixedWidth,
     } = attributes;
+    
+    if(!src) return null;
 
     const classNames = `${getClassNames(attributes)}${className ? ' ' + className : ''}`;
 
@@ -41,7 +42,6 @@ const Save = ({ attributes }) => {
         </>
 
     );
-
     return (
         <div className={`sg-image-container${classNames ? ' ' + classNames : ''}`}>
             <figure
