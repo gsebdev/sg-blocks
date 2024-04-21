@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Get the post ID
  */
@@ -28,15 +29,16 @@ $src = get_post_meta($post_id, 'booking', true);
          */
         $button_text = array_key_exists('buttonText', $attributes) && strlen($attributes['buttonText']) > 0 ? $attributes['buttonText'] : $phone;
     ?>
-        <a class="sg-reservation-link cta phone" href="tel:<?php echo esc_attr(str_replace([' ', '(0)'], '', $phone)) ?>">
+        <a class="sg-reservation-link cta" href="tel:<?php echo esc_attr(str_replace([' ', '(0)'], '', $phone)) ?>">
+            <span class="icon-phone"></span>
             <?php echo esc_html($button_text) ?>
         </a>
-    <?php else : 
+    <?php else :
         /**
          * Set the button text based on the 'buttonText' attribute or a default value
          */
         $button_text = array_key_exists('buttonText', $attributes) && strlen($attributes['buttonText']) > 0 ? $attributes['buttonText'] : 'Réservez';
-        ?>
+    ?>
         <button data-src="<?php echo esc_attr($src) ?>" class="sg-reservation-link cta online">
             <?php echo __(esc_html($button_text)) ?>
         </button>

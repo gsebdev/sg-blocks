@@ -74,7 +74,7 @@ if (!function_exists('render_list_of_terms')) {
             $href = $linked ? ' href="' . get_term_link($term->term_id) . '"' : '';
             $text = esc_html($term->name);
             $color = get_term_meta($term->term_id, 'color', true);
-            $style = $color ? ' style="color:' . $color . '"' : '';
+            $style = $color ? ' style="--color:' . $color . '"' : '';
             $element_tag = $linked ? 'a' : 'span';
             $content .= "<li $li_class><$element_tag class=\"$a_class\"$href$style>$text</$element_tag></li>";
         }

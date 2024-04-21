@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { __ } from "@wordpress/i18n";
 import {
   FormTokenField,
@@ -55,14 +55,11 @@ const LoopQueryControls: React.FC<LoopQueryControlsProps> = ({
     relatedQuery,
     queryPostType,
     queryTaxonomy,
-    queryTaxonomyTerms,
     order,
     orderBy,
     excludedIds,
     postNumber
   } = attributes;
-
-  const [taxonomiesOptions, setTaxonomiesOptions] = useState([]);
 
   /**
    * Get the postypes and taxonomies options
@@ -107,44 +104,37 @@ const LoopQueryControls: React.FC<LoopQueryControlsProps> = ({
    *
    */
 
-  const termsOptions = useSelect(
+  const taxonomiesOptions = useSelect(
     (select) => {
-      const { getEntityRecords } = select("core") as any;
-      const terms = getEntityRecords("taxonomy", queryTaxonomy, {
-        per_page: -1,
-      });
-      return terms;
+
+      if (!postTypesOptions) return null;
+
+      // if the block is set to be a related query, only return taxonomies slugs (without terms suggestions)
+      if (relatedQuery && currentPost) {
+        const options = postTypesOptions.find((postType) => postType.slug === currentPost.type)?.taxonomies || [];
+        return options;
+      }
+
+      if (!relatedQuery) {
+        const { getEntityRecords } = select("core") as any;
+        const currentPostTypeTaxonomies = postTypesOptions.find(({ slug }) => slug === queryPostType)?.taxonomies ||
+          null;
+
+        if (!currentPostTypeTaxonomies) return null;
+        const options = currentPostTypeTaxonomies.map((tax) => {
+          const terms = getEntityRecords("taxonomy", tax, {
+            per_page: -1,
+          });
+          return { taxonomy: tax, terms };
+        });
+
+        return options;
+      }
+
+      return null;
     },
-    [queryTaxonomy]
+    [queryPostType, relatedQuery, currentPost, postTypesOptions]
   );
-
-  useEffect(() => {
-    if (!postTypesOptions) return;
-
-    let _taxonomiesOptions =
-      postTypesOptions.find(({ slug }) => slug === queryPostType)?.taxonomies ||
-      null;
-
-    if (relatedQuery && currentPost) {
-      // get the supported taxonomies of the current post to compare
-      const currentPostTaxonomies =
-        postTypesOptions.find((postType) => postType.slug === currentPost.type)
-          ?.taxonomies || [];
-
-      // filter the available taxonomies based on the post type taxonomies supports
-      _taxonomiesOptions = _taxonomiesOptions?.filter((tax) =>
-        currentPostTaxonomies.includes(tax)
-      );
-    }
-
-    setTaxonomiesOptions(_taxonomiesOptions);
-    if (
-      queryTaxonomy &&
-      _taxonomiesOptions &&
-      !_taxonomiesOptions.includes(queryTaxonomy)
-    )
-      setAttributes({ queryTaxonomy: _taxonomiesOptions[0] });
-  }, [queryPostType, relatedQuery, currentPost, postTypesOptions]);
 
   return (
     <>
@@ -152,10 +142,13 @@ const LoopQueryControls: React.FC<LoopQueryControlsProps> = ({
         <ToggleControl
           label={__("Boucle de posts liés ?")}
           checked={relatedQuery}
-          onChange={(v) =>
+          onChange={(v) => {
             setAttributes({
               relatedQuery: v,
+              queryTaxonomy: undefined
             })
+          }
+
           }
         />
         <SelectControl
@@ -200,40 +193,41 @@ const LoopQueryControls: React.FC<LoopQueryControlsProps> = ({
         />
       </PanelBody>
       <PanelBody title={__("Filtrer par Taxonomie")}>
-        <SelectControl
-          label={"Taxonomy"}
-          value={queryTaxonomy}
-          onChange={(taxonomy: string) =>
-            setAttributes({
-              queryTaxonomy: taxonomy,
-              queryTaxonomyTerms: [],
-            })
-          }
-          options={[
-            {
-              value: "",
-              label: "Aucune",
-            },
-            ...(Array.isArray(taxonomiesOptions)
-              ? taxonomiesOptions?.map((taxonomy: string) => ({
-                value: taxonomy,
-                label: taxonomy.charAt(0).toUpperCase() + taxonomy.slice(1),
-              }))
-              : []),
-          ]}
-        />
-        {!relatedQuery && termsOptions && (
-          <>
+
+        {!!taxonomiesOptions && !relatedQuery &&
+          taxonomiesOptions.map((option: { taxonomy: string; terms: string[] }) => (
             <FormTokenField
-              value={queryTaxonomyTerms ?? []}
-              label={__("Termes")}
-              suggestions={termsOptions?.map((term: any) => term.slug)}
+              value={queryTaxonomy?.[option['taxonomy']] ?? []}
+              label={option['taxonomy']?.charAt(0).toUpperCase() + option['taxonomy']?.slice(1)}
+              suggestions={option['terms']?.map((term: any) => term.slug)}
               onChange={(terms: string[]) =>
-                setAttributes({ queryTaxonomyTerms: terms })
+                setAttributes({ queryTaxonomy: { ...(typeof queryTaxonomy === 'object' ? queryTaxonomy : {}), [option['taxonomy']]: terms } })
               }
             />
-          </>
-        )}
+          ))
+        }
+
+        {!!taxonomiesOptions && !!relatedQuery &&
+          <SelectControl
+            label={"Taxonomy"}
+            value={typeof queryTaxonomy === 'string' ? queryTaxonomy : ''}
+            onChange={(taxonomy: string) =>
+              setAttributes({ queryTaxonomy: taxonomy })
+            }
+            options={[
+              {
+                value: "",
+                label: "Aucune",
+              },
+              ...(Array.isArray(taxonomiesOptions)
+                ? taxonomiesOptions?.map((taxonomy: string) => ({
+                  value: taxonomy,
+                  label: taxonomy.charAt(0).toUpperCase() + taxonomy.slice(1),
+                }))
+                : []),
+            ]}
+          />
+        }
       </PanelBody>
       <PanelBody title="Exclure des publications">
         <Divider />

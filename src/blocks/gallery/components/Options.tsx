@@ -146,9 +146,12 @@ const Options = ({ setAttributes, attributes, onSelectImages, images, selectedIn
                         multiple
                         value={images}
                         render={({ open }) => (
-                            <button className="add-new" onClick={open}>
+                            <Button 
+                            className="add-new" 
+                            variant="primary"
+                            onClick={open}>
                                 Ajouter des images
-                            </button>
+                            </Button>
                         )}
                     />
                 </MediaUploadCheck>
@@ -208,7 +211,7 @@ const Options = ({ setAttributes, attributes, onSelectImages, images, selectedIn
                         <MediaUploadCheck>
                             <MediaUpload
                                 onSelect={(val) => onSelectImages(val, selectedIndex)}
-                                value={imagesOptions[selectedIndex].id}
+                                value={imagesOptions[selectedIndex]?.id}
                                 allowedTypes={["image"]}
                                 render={({ open }) => (
                                     <Button

@@ -59,7 +59,8 @@ const Edit: React.FC<{ attributes: GalleryAttributes, setAttributes: (attributes
   const saveImages = (ImagesToBeSaved: GalleryImage[]) => {
     setImages(ImagesToBeSaved);
     setAttributes({
-      images: ImagesToBeSaved, imagesOptions: ImagesToBeSaved.map((img) => ({
+      images: ImagesToBeSaved, 
+      imagesOptions: ImagesToBeSaved.map((img) => ({
         id: img.id,
         gridPosition: img.gridPosition,
         objectPosition: img.objectPosition
@@ -67,7 +68,7 @@ const Edit: React.FC<{ attributes: GalleryAttributes, setAttributes: (attributes
     });
   }
   const onSelectImages = async (value: GalleryImage | GalleryImage[], position: number | "end" | "start") => {
-    const newImages = attributes.images ? [...attributes.images] : [];
+    const newImages = images ? [...images] : [];
     const getImageObject = (img: GalleryImage) => {
       return {
         url: img.url,
@@ -104,7 +105,7 @@ const Edit: React.FC<{ attributes: GalleryAttributes, setAttributes: (attributes
     } else if (position === "start") {
       newImages.unshift(...imagesToAdd);
     } else if (typeof position === "number" && newImages[position] && imagesToAdd[0]) {
-      newImages[position] = imagesToAdd[0];
+      newImages[position] = {...newImages[position], ...imagesToAdd[0]};
     } else {
       return;
     }

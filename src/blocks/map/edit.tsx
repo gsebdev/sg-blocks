@@ -139,7 +139,6 @@ const MapHandler = React.memo<MapCentreProps>(
       const popupContent = `<span class="color-primary f-s">${address}</span><br/><span class="f-xxs color-grey-2 marker-coordinates">Lat: ${center.lat}, Lng: ${center.lng}</span>`;
       markerRef.current.bindPopup(popupContent).openPopup();
       if (onInit) onInit(map);
-      console.log('init marker')
     }, []);
 
 

@@ -18,9 +18,9 @@ const Thumbs: React.FC<ThumbsProps> = ({ images, onSelectImages, setSelectedInde
                 {!saving && onSelectImages && <MediaUploadCheck>
                     <MediaUpload
                         onSelect={(val) => onSelectImages(val, "start")}
-                        allowedTypes={"image"}
+                        allowedTypes={["image"]}
                         multiple
-                        value={images}
+                        value={images?.map(img => img.id ?? 0)}
                         render={({ open }) => (
                             <button
                                 className="add-new add-new--thumb"
@@ -68,8 +68,8 @@ const Thumbs: React.FC<ThumbsProps> = ({ images, onSelectImages, setSelectedInde
                                     <MediaUploadCheck>
                                         <MediaUpload
                                             onSelect={(val) => onSelectImages(val, index)}
-                                            allowedTypes={"image"}
-                                            value={images[index].id}
+                                            allowedTypes={["image"]}
+                                            value={images[index]?.id}
                                             render={({ open }) => (
                                                 <Icon
                                                     className="edit"
@@ -88,7 +88,7 @@ const Thumbs: React.FC<ThumbsProps> = ({ images, onSelectImages, setSelectedInde
                     <MediaUploadCheck>
                         <MediaUpload
                             onSelect={(val) => onSelectImages(val, "end")}
-                            allowedTypes={"image"}
+                            allowedTypes={["image"]}
                             multiple
                             render={({ open }) => (
                                 <button

@@ -45,7 +45,6 @@ if (!function_exists('render_block_sg_query_related')) {
         $post_id = get_the_ID();
         $queryPostType = $attributes['queryPostType'] ?? null;
         $queryTaxonomy = $attributes['queryTaxonomy'] ?? null;
-        $queryTaxonomyTerms = $attributes['queryTaxonomyTerms'] ?? null;
         $postNumber = $attributes['postNumber'];
         $excluded_ids = $attributes['excludedIds'] ?? [];
         $order_by = $attributes['orderBy'] ?? 'date';
@@ -71,14 +70,12 @@ if (!function_exists('render_block_sg_query_related')) {
             'order' => $order,
             'excluded_ids' => $excluded_ids,
             'query_taxonomy' => $queryTaxonomy,
-            'query_taxonomy_terms' => $queryTaxonomyTerms,
             'related_post_id' => $post_id,
             'related_query' => $related_query
         ));
 
-
         if (!$query || !$query->have_posts()) {
-            return '';
+            return '<div class="sg-query-related no-results pb-5 pt-2">' . __('Aucun résultat...', 'sg-blocks') . '</div>';
         }
 
         if (block_sg_query_related_uses_featured_image($block->inner_blocks)) {

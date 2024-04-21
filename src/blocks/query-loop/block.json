@@ -28,11 +28,7 @@
       "default": "post"
     },
     "queryTaxonomy": {
-      "type": "string"
-    },
-    "queryTaxonomyTerms": {
-      "type": "array",
-      "default": []
+      "type": ["string", "object"]
     },
     "postNumber": {
       "type": "string",

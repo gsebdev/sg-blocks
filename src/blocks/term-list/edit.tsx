@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { CSSProperties, useEffect, useMemo, useState } from "react";
 import { InspectorControls, useBlockProps } from "@wordpress/block-editor";
 import { useSelect } from "@wordpress/data";
 
@@ -221,7 +221,7 @@ const Edit = (props) => {
             <li key={term + index} className={`${paddingClassname}`}>
               <TermsTag
                 className={`sg-tags-${taxonomy}`}
-                style={term.meta.color ? { color: term.meta.color } : undefined}
+                style={term.meta.color ? { ['--color']: term.meta.color } as CSSProperties : undefined}
               >
                 {term.name}
               </TermsTag>

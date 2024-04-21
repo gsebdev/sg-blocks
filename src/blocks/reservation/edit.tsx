@@ -164,6 +164,7 @@ const Edit: React.FC<EditProps> = ({
           <p className='f-s f-sb'>{!booking ? __('Envie de réserver ?') : __('Réservez directement en ligne !')}</p>
           <div className='py-2 f-xs color-secondary f-up'>à partir de <span className='f-sm f-sb'>{customPrice ? customPrice : lowestPrice ?? ''}€</span></div>
           <button className={`cta`}>
+            <span className='icon-phone'></span>
             {displayText}
           </button>
           {booking &&

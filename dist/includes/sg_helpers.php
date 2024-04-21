@@ -160,24 +160,23 @@ if (!function_exists('sg_get_posts')) {
     {
 
         $post_id = $args['related_post_id'] ?? null;
-        $taxonomy = $args['query_taxonomy'] ?? null;
+        $query_taxonomy = $args['query_taxonomy'] ?? null;
         $excluded_ids = $args['excluded_ids'] ?? [];
-        $taxonomy_term = $args['query_taxonomy_terms'] ?? null;
         $number_of_posts = $args['number_of_posts'] ?? -1;
         $orderby = $args['order_by'] ?? 'date';
         $order = $args['order'] ?? 'desc';
 
         $is_related_query = !!$post_id && $args['related_query'];
-        
+
         // Can't get any post if no post type provided
-        if (!$post_type || ($is_related_query && !$taxonomy)) return null;
+        if (!$post_type || ($is_related_query && !is_string($query_taxonomy))) return null;
 
         if (!is_array($excluded_ids)) {
             $excluded_ids = [];
         }
 
-        // Get term IDs associated with the reference post.
-        $terms = $is_related_query && $taxonomy ? get_the_terms($post_id, $taxonomy) : null;
+        // Get term IDs associated with the reference post if related query.
+        $terms = $is_related_query && $query_taxonomy ? get_the_terms($post_id, $query_taxonomy) : null;
 
         $post_term_slugs = [];
 
@@ -185,6 +184,38 @@ if (!function_exists('sg_get_posts')) {
             $post_term_slugs = array_map(function ($term) {
                 return $term->slug;
             }, $terms);
+        }
+
+        $tax_query_args = [];
+
+        if ($is_related_query && !!$query_taxonomy && !!$post_term_slugs) {
+            $tax_query_args = array(
+                array(
+                    'taxonomy' => $query_taxonomy,
+                    'field'    => 'slug',
+                    'terms'    => $post_term_slugs,
+                )
+            );
+        }
+
+        if (!$is_related_query && !!$query_taxonomy && is_array($query_taxonomy)) {
+            // filter empty terms arrays
+            $query_taxonomy = array_filter($query_taxonomy, function ($terms) {
+                return $terms && !empty($terms);
+            });
+
+            if (count($query_taxonomy) > 1) {
+                $tax_query_args['relation'] = 'AND';
+            }
+
+            foreach ($query_taxonomy as $tax => $terms) {
+
+                $tax_query_args[] = array(
+                    'taxonomy' => $tax,
+                    'field'    => 'slug',
+                    'terms'    => $terms
+                );
+            }
         }
 
         // Query.
@@ -200,14 +231,9 @@ if (!function_exists('sg_get_posts')) {
                 'orderby' => $orderby === 'featured' ? array('menu_order' => $order, 'modified' => $order) : $orderby,
                 'order' => $order
             ) : [])
-            + ($taxonomy && ($post_term_slugs || $taxonomy_term) ? array(
-                'tax_query' => array(
-                    array(
-                        'taxonomy' => $taxonomy,
-                        'field'    => 'slug',
-                        'terms'    => $is_related_query ? $post_term_slugs : $taxonomy_term,
-                    )
-                )
+
+            + (!!$tax_query_args ? array(
+                'tax_query' => $tax_query_args
             ) : []);
 
         $query = new WP_Query($query_args);
@@ -216,6 +242,7 @@ if (!function_exists('sg_get_posts')) {
             return null;
         }
 
+        // If not related query, return the query.
         if (!$is_related_query) {
             return $query;
         }
@@ -231,9 +258,9 @@ if (!function_exists('sg_get_posts')) {
         // Sort the related posts based on the number of match terms.
         usort(
             $query->posts,
-            function ($a, $b) use ($post_term_slugs, $taxonomy) {
-                $a_terms = get_the_terms($a->ID, $taxonomy);
-                $b_terms = get_the_terms($b->ID, $taxonomy);
+            function ($a, $b) use ($post_term_slugs, $query_taxonomy) {
+                $a_terms = get_the_terms($a->ID, $query_taxonomy);
+                $b_terms = get_the_terms($b->ID, $query_taxonomy);
                 $apos = count(array_intersect(array_map('get_term_slug',  is_array($a_terms) ? $a_terms : []), $post_term_slugs));
                 $bpos = count(array_intersect(array_map('get_term_slug',  is_array($b_terms) ? $b_terms : []), $post_term_slugs));
 

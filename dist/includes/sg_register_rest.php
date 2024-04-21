@@ -18,7 +18,7 @@ function sg_get_posts_endpoint()
                 'query_taxonomy' => array(
                     'required'    => false,
                     'validate_callback' => function ($param) {
-                        return is_string($param);
+                        return is_string($param) || is_array($param);
                     }
                 ),
                 'query_post_type' => array(
@@ -49,12 +49,6 @@ function sg_get_posts_endpoint()
                         return is_string($param) && in_array($param, ['asc', 'desc']);
                     }
                 ),
-                'query_taxonomy_terms' => array(
-                    'required'    => false,
-                    'validate_callback' => function ($param) {
-                        return is_array($param) && array_filter($param, 'is_string') == $param;
-                    }
-                ),
             ),
             'permission_callback' => function () {
                 if (current_user_can('edit_posts')) {
@@ -77,7 +71,6 @@ function sg_get_posts_endpoint_callback($request)
             'order' => $request->get_param('order') ?? 'desc',
             'excluded_ids' => $request->get_param('excluded_ids') ?? [],
             'query_taxonomy' => $request->get_param('query_taxonomy') ?? null,
-            'query_taxonomy_terms' => $request->get_param('query_taxonomy_terms') ?? null,
             'related_post_id' => $request->get_param('related_post_id') ?? null,
             'related_query' => !!$request->get_param('related_post_id')
         )

@@ -14,7 +14,7 @@ import {
   __experimentalUseBlockPreview as useBlockPreview,
   useInnerBlocksProps,
 } from "@wordpress/block-editor";
-import { PanelBody, PanelHeader, TabPanel } from "@wordpress/components";
+import { TabPanel } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { useInstanceId } from '@wordpress/compose';
@@ -35,7 +35,7 @@ import LoopSliderControls from "./inspector-controls/LoopSliderControls";
 
 export interface SGQueryBlockAttributes {
   queryPostType: string;
-  queryTaxonomy: string;
+  queryTaxonomy: string | { [taxonomy: string]: string[]};
   postNumber: number;
   excludedIds: string[];
   gap: Record<string, number>;
@@ -212,7 +212,7 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
 
       if (!queryPostType || (relatedQuery && !currentPost)) return [];
 
-      return getEntityRecords("sg", "related_posts", {
+      const posts = getEntityRecords("sg", "related_posts", {
         query_post_type: queryPostType,
         query_taxonomy: queryTaxonomy,
         number_of_posts: postNumber ? postNumber : -1,
@@ -220,11 +220,12 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
         order: order,
         orderby: orderBy,
         excluded_ids: excludedIds,
-        query_taxonomy_terms: queryTaxonomyTerms,
         per_page: postNumber ? postNumber : -1,
       });
+console.log(posts)
+      return posts;
     },
-    [queryPostType, queryTaxonomy, postNumber, currentPost.id, excludedIds, order, orderBy, relatedQuery, queryTaxonomyTerms]
+    [queryPostType, queryTaxonomy, postNumber, currentPost.id, excludedIds, order, orderBy, relatedQuery]
   );
 
   const postContexts = useMemo(
@@ -243,7 +244,7 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
       queryId: instanceId
     })
   })
-
+console.log(queriedPosts)
   /**
    * 
    * Handle the init of the slider if activated and update it on change settings
