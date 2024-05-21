@@ -75,6 +75,10 @@
     },
     "sliderNoLimitEdges": {
       "type": "boolean"
+    },
+    "linkToPost": {
+      "type": "boolean",
+      "default": true
     }
   },
   "providesContext": {

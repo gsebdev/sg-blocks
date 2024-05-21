@@ -62,6 +62,19 @@ if (!function_exists('sg_blocks_assets')) {
             wp_enqueue_style(SG_BLOCKS_PREFIX . '-styles-editor', plugins_url('dist/assets/styles/' . SG_BLOCKS_PREFIX . '-styles-editor.css', __FILE__));
             wp_enqueue_style('dashicons');
             wp_set_script_translations(SG_BLOCKS_PREFIX . '-scripts-editor', 'sg-blocks', SG_BLOCKS_DIR . 'languages');
+
+            if(function_exists('pll_get_post_language')) {
+                $post_locale_json_translations = 'sg-blocks-post-locale-' . pll_get_post_language( $post->ID, 'locale' ) . '-'. md5(SG_BLOCKS_DIR . 'languages').'.json';
+                $post_locale_translations = load_script_translations(SG_BLOCKS_DIR . 'languages/' . $post_locale_json_translations, SG_BLOCKS_PREFIX . '-scripts-editor', 'sg-blocks-post-locale');
+                if($post_locale_translations) {
+                    wp_add_inline_script(SG_BLOCKS_PREFIX . '-scripts-editor', '(function( domain, translations ){
+                        var localeData = translations.locale_data[ domain ] || translations.locale_data.messages;
+                        localeData[""].domain = domain;
+                        wp.i18n.setLocaleData( localeData, domain );
+                    })( "{$domain}", {$json_translations} );', 'after');
+                }
+                
+            }
         }
 
         $asset_file_view = include(SG_BLOCKS_DIR . 'dist/assets/js/' . SG_BLOCKS_PREFIX . '-scripts.asset.php');
@@ -93,6 +106,7 @@ if (!function_exists('register_sg_blocks')) {
                 $asset_file_admin['version'],
                 true
             );
+            wp_enqueue_media();
             wp_enqueue_style(SG_BLOCKS_PREFIX . '-styles-admin', plugins_url('dist/assets/styles/' . SG_BLOCKS_PREFIX . '-styles-admin.css', __FILE__));
         }
 
@@ -228,3 +242,18 @@ add_filter('image_size_names_choose', function ($sizes) {
         'medium_medium' => __('SG Medium', 'sg-blocks'),
     ]);
 });
+
+
+//add a filter to put language data in post rest api json
+function sg_add_language_to_rest_response( $response, $post) {
+    // For example, adding post language using Polylang
+    if ( function_exists( 'pll_get_post_language' ) ) {
+        $language = pll_get_post_language( $post->ID, 'locale' );
+        $response->data['language'] = $language;
+    }
+    return $response;
+}
+add_filter( 'rest_prepare_post', 'sg_add_language_to_rest_response', 10, 3 );
+add_filter( 'rest_prepare_page', 'sg_add_language_to_rest_response', 10, 3 );
+add_filter( 'rest_prepare_guides', 'sg_add_language_to_rest_response', 10, 3 );
+add_filter( 'rest_prepare_activities', 'sg_add_language_to_rest_response', 10, 3 );

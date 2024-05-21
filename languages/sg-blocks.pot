@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SG Blocks\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-16 15:50+0000\n"
+"POT-Creation-Date: 2024-05-21 15:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -108,11 +108,11 @@ msgstr ""
 msgid "All sports"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "An error occurred during message submission, please try again"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Ascending"
 msgstr ""
 
@@ -136,17 +136,17 @@ msgstr ""
 msgid "Back to sports"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/blocks/container/block.json:1 src/blocks/container/block.json:1
 msgctxt "block title"
 msgid "SG Container"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/blocks/contact-form/block.json:1 src/blocks/contact-form/block.json:1
 msgctxt "block title"
 msgid "SG Formulaire de contact"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Book directly online!"
 msgstr ""
 
@@ -155,7 +155,7 @@ msgid "Book online directly!"
 msgstr ""
 
 #: dist/blocks/reservation/render.php:46 src/blocks/reservation/render.php:46
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Call us"
 msgstr ""
 
@@ -189,11 +189,11 @@ msgstr ""
 msgid "Color Hex Code"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Configure the activity's meeting point"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Content of the info"
 msgstr ""
 
@@ -204,19 +204,19 @@ msgstr ""
 msgid "Cover image"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Custom icon name (ex: plus-circled)"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Custom info icon"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Date"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Descending"
 msgstr ""
 
@@ -264,27 +264,27 @@ msgstr ""
 msgid "Edit sport"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Email"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Error in prices"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Error message after submission failure"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "example@email.com"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Excluded IDs"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Excluded publications"
 msgstr ""
 
@@ -293,7 +293,7 @@ msgstr ""
 msgid "Failed to send the message."
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Featured"
 msgstr ""
 
@@ -302,7 +302,7 @@ msgstr ""
 msgid "Featured ?"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Filter by Taxonomy"
 msgstr ""
 
@@ -311,16 +311,8 @@ msgstr ""
 msgid "Find activities"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "First name"
-msgstr ""
-
-#:  dist/assets/js/sg-blocks-scripts-editor.js
-msgid "Form subtitle"
-msgstr ""
-
-#:  dist/assets/js/sg-blocks-scripts-editor.js
-msgid "Form title"
 msgstr ""
 
 #. Author of the plugin
@@ -337,7 +329,7 @@ msgstr ""
 msgid "Guides"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Icon code"
 msgstr ""
 
@@ -356,15 +348,15 @@ msgstr ""
 msgid "Is this sport to be featured on the homepage"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Last name"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Latitude"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Longitude"
 msgstr ""
 
@@ -373,16 +365,12 @@ msgstr ""
 msgid "Lowest price"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Message"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Message sent successfully, we will take notice"
-msgstr ""
-
-#:  dist/assets/js/sg-blocks-scripts-editor.js
-msgid "Message title"
 msgstr ""
 
 #: dist/includes/class/post-types/class_sg_post_type_activity.php:41
@@ -390,7 +378,7 @@ msgstr ""
 msgid "Modify activity"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Modify the text before the price"
 msgstr ""
 
@@ -424,7 +412,7 @@ msgstr ""
 msgid "New Guide"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "New info"
 msgstr ""
 
@@ -483,15 +471,15 @@ msgstr ""
 msgid "No guide found in trash"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "No posts found"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "No price available"
 msgstr ""
 
-#: dist/blocks/query-loop/render.php:78 src/blocks/query-loop/render.php:78
+#: dist/blocks/query-loop/render.php:79 src/blocks/query-loop/render.php:79
 msgid "No results..."
 msgstr ""
 
@@ -505,7 +493,7 @@ msgstr ""
 msgid "No sports found"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Number of items"
 msgstr ""
 
@@ -554,8 +542,12 @@ msgstr ""
 msgid "Position"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Post type"
+msgstr ""
+
+#: dist/blocks/mini-price/render.php:12 src/blocks/mini-price/render.php:12
+msgid "Prices on request"
 msgstr ""
 
 #: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:60
@@ -563,11 +555,11 @@ msgstr ""
 msgid "Priority"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Query Options"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Random"
 msgstr ""
 
@@ -576,7 +568,7 @@ msgstr ""
 msgid "Search Activity Types"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Search address"
 msgstr ""
 
@@ -585,7 +577,7 @@ msgstr ""
 msgid "Search by difficulties"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Search coordinates of address"
 msgstr ""
 
@@ -604,11 +596,11 @@ msgstr ""
 msgid "Search sports"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Select an existing info"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Send"
 msgstr ""
 
@@ -636,35 +628,35 @@ msgstr ""
 msgid "SG Blocks"
 msgstr ""
 
-#: sg-block.php:226
+#: sg-block.php:239
 msgid "SG Lazy Placeholder"
 msgstr ""
 
-#: sg-block.php:228
+#: sg-block.php:241
 msgid "SG Medium"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "SG Related Post Loop"
 msgstr ""
 
-#: sg-block.php:227
+#: sg-block.php:240
 msgid "SG Thumbnail"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Show related posts loop?"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Sort by"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Sort order"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Sort type"
 msgstr ""
 
@@ -684,11 +676,11 @@ msgstr ""
 msgid "Starting from"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Subject"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Success message after successful submission"
 msgstr ""
 
@@ -697,15 +689,15 @@ msgstr ""
 msgid "The name should only contain letters."
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Title"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Title of the info"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Title of your message"
 msgstr ""
 
@@ -760,7 +752,7 @@ msgid "View this guide"
 msgstr ""
 
 #: dist/blocks/reservation/render.php:20 src/blocks/reservation/render.php:20
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Want to book?"
 msgstr ""
 
@@ -779,11 +771,7 @@ msgstr ""
 msgid "What is the position of this sport in the displays ?"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
-msgid "Write your message..."
-msgstr ""
-
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "write your message..."
 msgstr ""
 
@@ -791,7 +779,7 @@ msgstr ""
 msgid "You do not have permission to access this endpoint."
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Your first name here..."
 msgstr ""
 
@@ -800,10 +788,10 @@ msgstr ""
 msgid "Your message has been sent successfully!"
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Your name and first name..."
 msgstr ""
 
-#:  dist/assets/js/sg-blocks-scripts-editor.js
+#: dist/assets/js/sg-blocks-scripts-editor.js
 msgid "Zoom"
 msgstr ""

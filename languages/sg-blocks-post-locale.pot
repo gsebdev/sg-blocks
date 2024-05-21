@@ -1,0 +1,77 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: SG Blocks\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-21 15:03+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.9; wp-6.5.3\n"
+"X-Domain: sg-blocks-post-locale"
+
+#: dist/assets/js/sg-blocks-scripts-editor.js
+msgid "An error occurred during message submission, please try again"
+msgstr ""
+
+#: dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Email"
+msgstr ""
+
+#: dist/assets/js/sg-blocks-scripts-editor.js
+msgid "example@email.com"
+msgstr ""
+
+#: dist/assets/js/sg-blocks-scripts-editor.js
+msgid "First name"
+msgstr ""
+
+#: dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Form subtitle"
+msgstr ""
+
+#: dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Form title"
+msgstr ""
+
+#: dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Last name"
+msgstr ""
+
+#: dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Message"
+msgstr ""
+
+#: dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Message sent successfully, we will take notice"
+msgstr ""
+
+#: dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Message title"
+msgstr ""
+
+#: dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Subject"
+msgstr ""
+
+#: dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Submit"
+msgstr ""
+
+#: dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Write your message..."
+msgstr ""
+
+#: dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Your first name here..."
+msgstr ""
+
+#: dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Your name and first name..."
+msgstr ""

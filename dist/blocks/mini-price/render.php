@@ -7,8 +7,9 @@ $minPrice = get_post_lowest_price($postId);
 
 if (!$minPrice) {
     printf(
-        '<p class="sg-mini-price%s">Tarifs sur demande</p>',
-        $classNames ? " $classNames" : ''
+        '<p class="sg-mini-price%s">%s</p>',
+        $classNames ? " $classNames" : '',
+        __('Prices on request', 'sg-blocks')
     );
     return;
 }

@@ -7,7 +7,8 @@
     "start": "webpack --watch --mode development",
     "sass-watch": "sass --watch ./src/:./dist/",
     "build": "webpack --mode production && sass --style=compressed --no-source-map ./src/:./dist/",
-    "translate-json": "php wp-cli.phar i18n make-json ./languages/sg-blocks-fr_FR.po --no-purge"
+    "translate-json": "php wp-cli.phar i18n make-json ./languages/sg-blocks-fr_FR.po --no-purge",
+    "translate-json-2": "php wp-cli.phar i18n make-json ./languages/sg-blocks-post-locale-fr_FR.po --no-purge"
   },
   "author": "",
   "license": "ISC",

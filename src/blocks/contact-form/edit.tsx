@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { useSelect } from "@wordpress/data";
+import {getLocaleData} from "@wordpress/i18n";
 
 /**
  * Wordpress dependencies
@@ -33,13 +35,13 @@ const Edit = ({ attributes, setAttributes }) => {
             label={__('Success message after successful submission', 'sg-blocks')}
             value={successMsg}
             onChange={(value) => setAttributes({ successMsg: value })}
-            placeholder={__("Message sent successfully, we will take notice", 'sg-blocks')}
+            placeholder={__("Message sent successfully, we will take notice", 'sg-blocks-post-locale')}
           />
           <TextareaControl
             label={__('Error message after submission failure', 'sg-blocks')}
             value={errorMsg}
             onChange={(value) => setAttributes({ errorMsg: value })}
-            placeholder={__("An error occurred during message submission, please try again", 'sg-blocks')}
+            placeholder={__("An error occurred during message submission, please try again", 'sg-blocks-post-locale')}
           />
           <TextControl
             label={__('Icon code', 'sg-blocks')}
@@ -64,48 +66,45 @@ const Edit = ({ attributes, setAttributes }) => {
           tagName={('h' + titleLevel) as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'}
           value={title}
           onChange={(value) => { setAttributes({ title: value }) }}
-          placeholder={__('Form title', 'sg-blocks')}
+          placeholder={__('Form title', 'sg-blocks-post-locale')}
         />
         <RichText
           tagName="p"
           value={subtitle}
           onChange={(value) => setAttributes({ subtitle: value })}
-          placeholder={__('Form subtitle', 'sg-blocks')}
+          placeholder={__('Form subtitle', 'sg-blocks-post-locale')}
         />
         <form method="post">
 
 
           <div className="i-grp">
-            <label htmlFor="name">{__('Last name', 'sg-blocks')}</label>
-            <input disabled type="text" placeholder={__('Your name and first name...', 'sg-blocks')} name="lastname" id="name" />
+            <label htmlFor="name">{__('Last name', 'sg-blocks-post-locale')}</label>
+            <input disabled type="text" placeholder={__('Your name and first name...', 'sg-blocks-post-locale')} name="lastname" id="name" />
           </div>
 
           <div className="i-grp" data-test="true">
-            <label htmlFor="firstname">{__('First name', 'sg-blocks')}</label>
-            <input disabled tabIndex={-1} type="text" placeholder={__('Your first name here...', 'sg-blocks')} name="firstname" id="firstname" />
+            <label htmlFor="firstname">{__('First name', 'sg-blocks-post-locale')}</label>
+            <input disabled tabIndex={-1} type="text" placeholder={__('Your first name here...', 'sg-blocks-post-locale')} name="firstname" id="firstname" />
           </div>
 
           <div className="i-grp">
-            <label htmlFor="email">{__('Email', 'sg-blocks')}</label>
-            <input disabled type="text" name="email" placeholder={__('example@email.com', 'sg-blocks')} id="email" />
+            <label htmlFor="email">{__('Email', 'sg-blocks-post-locale')}</label>
+            <input disabled type="text" name="email" placeholder={__('example@email.com', 'sg-blocks-post-locale')} id="email" />
           </div>
 
           <div className="i-grp">
-            <label htmlFor="subject">{__('Subject', 'sg-blocks')}</label>
-            <input disabled type="text" placeholder={__('Message title', 'sg-blocks')} name="subject" id="subject" />
+            <label htmlFor="subject">{__('Subject', 'sg-blocks-post-locale')}</label>
+            <input disabled type="text" placeholder={__('Message title', 'sg-blocks-post-locale')} name="subject" id="subject" />
           </div>
 
           <div className="i-grp">
-            <label htmlFor="message">{__('Message', 'sg-blocks')}</label>
-            <textarea disabled name="message" placeholder={__('Write your message...', 'sg-blocks')} rows={4} id="message" />
+            <label htmlFor="message">{__('Message', 'sg-blocks-post-locale')}</label>
+            <textarea disabled name="message" placeholder={__('Write your message...', 'sg-blocks-post-locale')} rows={4} id="message" />
           </div>
-          <RichText
-            tagName="button"
+          <button
             className="cta cta--primary"
-            value={ctaText}
-            onChange={(value) => setAttributes({ ctaText: value })}
-            placeholder="Texte du bouton"
-          />
+            type={'submit'}
+          >{__('Submit', 'sg-blocks-post-locale')}</button>
 
         </form>
         <div className="sg-icon-cancel" />

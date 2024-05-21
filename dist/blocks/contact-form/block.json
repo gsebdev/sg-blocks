@@ -22,12 +22,6 @@
       "source": "text",
       "selector": "p"
     },
-    "ctaText": {
-      "type": "string",
-      "default": "Envoyer",
-      "source": "text",
-      "selector": "button[type=submit]"
-    },
     "titleLevel": {
       "type": "number",
       "default": 2

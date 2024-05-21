@@ -67,7 +67,7 @@ $data_src = isset($src[0]) ? 'data-src="' . esc_attr($src[0]) . '"' : '';
 $alt = 'alt="' . esc_attr($alt) . '"';
 $sizes = 'sizes="' . esc_attr(sg_generate_image_sizes($sizes)) . '"';
 $data_srcset = 'data-srcset="' . esc_attr($srcset ?? '') . '"';
-$image_style_html = $image_position ? 'style="object-position:' . $image_position['x'] * 100 . '%' . ' ' . $image_position['y'] * 100 . '%;"' : '';
+$image_style_html = $image_position && is_array($image_position) && isset($image_position['x'], $image_position['y']) ? 'style="object-position:' . $image_position['x'] * 100 . '%' . ' ' . $image_position['y'] * 100 . '%;"' : '';
 
 
 /**

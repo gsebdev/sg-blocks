@@ -186,13 +186,11 @@ const Edit: React.FC<EditProps> = ({ attributes, setAttributes, isSelected }) =>
     [setAttributes, setMeetingPoint, meta_meeting_point]
   );
 
-  const {
-    lat = 48.5,
-    lng = 2.3,
-    address = "",
-  } = meta_meeting_point ? meetingPoint : attributes;
+  const lat = (meta_meeting_point ? meetingPoint?.lat : attributes?.lat) ?? 48.5;
+  const lng = (meta_meeting_point ? meetingPoint?.lng : attributes?.lng) ?? 2.3;
+  const address = (meta_meeting_point ? meetingPoint?.address : attributes?.address) ?? "";
 
-  const { zoom = 5 } = attributes;
+  const zoom = attributes?.zoom ?? 5;
 
   const provider = useMemo(() => new OpenStreetMapProvider(), []);
 

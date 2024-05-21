@@ -5,6 +5,7 @@ import {
   PanelBody,
   // @ts-ignore
   __experimentalDivider as Divider,
+  ToggleControl,
 } from "@wordpress/components";
 import SpacingPanel from "../../block-components/SpacingPanel";
 import BreakpointTabs from "../../block-components/BreakpointTabs";
@@ -27,7 +28,15 @@ const LoopLayoutControls = ({ attributes, setAttributes }) => {
     attributes;
   return (
     <>
-
+      <PanelBody>
+        <ToggleControl
+          label="Lien vers article"
+          checked={attributes.linkToPost}
+          onChange={(value) => {
+            setAttributes({ linkToPost: value });
+          }}
+        />
+      </PanelBody>
       {
         /**
         *

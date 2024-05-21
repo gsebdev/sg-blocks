@@ -56,6 +56,7 @@ if (!function_exists('render_block_sg_query_related')) {
         $margin = $attributes['margin'] ?? null;
         $padding = $attributes['padding'] ?? null;
         $additionnal_classname = $attributes['className'] ?? '';
+        $link_to_post = $attributes['linkToPost'] ?? null;
 
         $slider = $attributes['slider'] ?? null;
         $sliderBreakpoint = $attributes['sliderBreakpoint'] ?? null;
@@ -86,7 +87,7 @@ if (!function_exists('render_block_sg_query_related')) {
         $container_classNames = 'sg-query-related' . ($slider ? ' sg-swiper' : '');
         $container_attr = $slider && !!$sliderBreakpoint ? 'data-breakpoint="' . $sliderBreakpoint . '"' : '';
         $container_attr .= $slider && !!$slider_autoplay ? ' data-autoplay="' . $slider_autoplay . '"' : '';
-        $container_attr .= $slider ? ' data-limit-edges="'. (!$slider_no_limit_to_edges ? 'true' : 'false') .'"' : '';
+        $container_attr .= $slider ? ' data-limit-edges="' . (!$slider_no_limit_to_edges ? 'true' : 'false') . '"' : '';
         $item_classNames = $slider ? 'sg-swiper__slide' : '';
 
         $content = '';
@@ -115,11 +116,15 @@ if (!function_exists('render_block_sg_query_related')) {
             $block_content = (new WP_Block($block_instance))->render(array('dynamic' => false));
             remove_filter('render_block_context', $filter_block_context, 1);
             $class = $item_classNames ? " class=\"{$item_classNames}\"" : '';
-            $content .= "<li{$class}>"
-                . "<a href=\"" . esc_url(get_the_permalink()) . "\" "
-                . "aria-label=\"" . esc_attr(get_the_title()) . "\" "
-                . "rel=\"noopener noreferrer\"></a>"
-                . $block_content
+            $content .= "<li{$class}>";
+
+            if ($link_to_post) {
+                $content .= "<a href=\"" . esc_url(get_the_permalink()) . "\" "
+                    . "aria-label=\"" . esc_attr(get_the_title()) . "\" "
+                    . "rel=\"noopener noreferrer\"></a>";
+            }
+
+            $content .= $block_content
                 . '</li>';
         }
         $nav_elements = '';

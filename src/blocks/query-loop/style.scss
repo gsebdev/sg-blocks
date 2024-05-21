@@ -93,14 +93,12 @@
       }
     }
     &.no-translate {
+      cursor: default;
       .sg-swiper__wrapper {
         justify-content: center;
       }
       .sg-swiper__nav {
         display: none;
-      }
-      .sg-swiper__slide {
-        cursor: pointer;
       }
     }
   }
