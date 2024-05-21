@@ -1,0 +1,809 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: SG Blocks\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-16 15:50+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.9; wp-6.5.3\n"
+"X-Domain: sg-blocks"
+
+#: dist/includes/class/post-types/class_sg_post_type_activity.php:38
+#: src/includes/class/post-types/class_sg_post_type_activity.php:38
+msgid "Activities"
+msgstr ""
+
+#: dist/includes/class/post-types/class_sg_post_type_activity.php:39
+#: src/includes/class/post-types/class_sg_post_type_activity.php:39
+msgid "Activity"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:70
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:70
+msgid "Activity Type"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:69
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:71
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:69
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:71
+msgid "Activity Types"
+msgstr ""
+
+#: dist/includes/class/post-types/class_sg_post_type_guide.php:30
+#: src/includes/class/post-types/class_sg_post_type_guide.php:30
+msgid "Add a Guide"
+msgstr ""
+
+#: dist/includes/class/post-types/class_sg_post_type_activity.php:40
+#: src/includes/class/post-types/class_sg_post_type_activity.php:40
+msgid "Add an activity"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:76
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:76
+msgid "Add New Activity Type"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:55
+#: src/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:55
+msgid "Add new difficulty"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_duration.php:43
+#: src/includes/class/taxonomies/class_sg_taxonomy_duration.php:43
+msgid "Add new duration"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:77
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:77
+msgid "Add new sport"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:81
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:81
+msgid "Add or remove Activity Types"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:60
+#: src/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:60
+msgid "Add or remove difficulties"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_duration.php:48
+#: src/includes/class/taxonomies/class_sg_taxonomy_duration.php:48
+msgid "Add or remove durations"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:82
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:82
+msgid "Add or remove sports"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:72
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:72
+msgid "All Activity Types"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:51
+#: src/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:51
+msgid "All difficulties"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_duration.php:39
+#: src/includes/class/taxonomies/class_sg_taxonomy_duration.php:39
+msgid "All durations"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:73
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:73
+msgid "All sports"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "An error occurred during message submission, please try again"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Ascending"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:85
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:85
+msgid "Back to Activity Types"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:64
+#: src/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:64
+msgid "Back to difficulties"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_duration.php:52
+#: src/includes/class/taxonomies/class_sg_taxonomy_duration.php:52
+msgid "Back to durations"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:86
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:86
+msgid "Back to sports"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgctxt "block title"
+msgid "SG Container"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgctxt "block title"
+msgid "SG Formulaire de contact"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Book directly online!"
+msgstr ""
+
+#: dist/blocks/reservation/render.php:20 src/blocks/reservation/render.php:20
+msgid "Book online directly!"
+msgstr ""
+
+#: dist/blocks/reservation/render.php:46 src/blocks/reservation/render.php:46
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Call us"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:83
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:83
+msgid "Choose from most used sports"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:82
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:82
+msgid "Choose from the most used Activity Types"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:61
+#: src/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:61
+msgid "Choose from the most used difficulties"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_duration.php:49
+#: src/includes/class/taxonomies/class_sg_taxonomy_duration.php:49
+msgid "Choose from the most used durations"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:74
+#: src/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:74
+msgid "color code to display difficulty name (ex: #000000)"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:73
+#: src/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:73
+msgid "Color Hex Code"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Configure the activity's meeting point"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Content of the info"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:54
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:95
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:54
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:95
+msgid "Cover image"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Custom icon name (ex: plus-circled)"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Custom info icon"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Date"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Descending"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:48
+#: dist/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:50
+#: src/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:48
+#: src/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:50
+msgid "Difficulties"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:49
+#: src/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:49
+msgid "Difficulty"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_duration.php:37
+#: src/includes/class/taxonomies/class_sg_taxonomy_duration.php:37
+msgid "Duration"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_duration.php:36
+#: dist/includes/class/taxonomies/class_sg_taxonomy_duration.php:38
+#: src/includes/class/taxonomies/class_sg_taxonomy_duration.php:36
+#: src/includes/class/taxonomies/class_sg_taxonomy_duration.php:38
+msgid "Durations"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:73
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:73
+msgid "Edit Activity Type"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:52
+#: src/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:52
+msgid "Edit difficulty"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_duration.php:40
+#: src/includes/class/taxonomies/class_sg_taxonomy_duration.php:40
+msgid "Edit duration"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:74
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:74
+msgid "Edit sport"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Email"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Error in prices"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Error message after submission failure"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "example@email.com"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Excluded IDs"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Excluded publications"
+msgstr ""
+
+#: dist/includes/class/class_sg_contact_form_handler.php:89
+#: src/includes/class/class_sg_contact_form_handler.php:89
+msgid "Failed to send the message."
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Featured"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:101
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:101
+msgid "Featured ?"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Filter by Taxonomy"
+msgstr ""
+
+#: dist/includes/class/post-types/class_sg_post_type_activity.php:44
+#: src/includes/class/post-types/class_sg_post_type_activity.php:44
+msgid "Find activities"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "First name"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Form subtitle"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Form title"
+msgstr ""
+
+#. Author of the plugin
+msgid "gsebdev"
+msgstr ""
+
+#: dist/includes/class/post-types/class_sg_post_type_guide.php:29
+#: src/includes/class/post-types/class_sg_post_type_guide.php:29
+msgid "Guide"
+msgstr ""
+
+#: dist/includes/class/post-types/class_sg_post_type_guide.php:28
+#: src/includes/class/post-types/class_sg_post_type_guide.php:28
+msgid "Guides"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Icon code"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:96
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:96
+msgid "Image displayed to illustrate the sport"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:55
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:55
+msgid "Image to be displayed representing this activity type"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:102
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:102
+msgid "Is this sport to be featured on the homepage"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Last name"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Latitude"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Longitude"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:113
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:113
+msgid "Lowest price"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Message"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Message sent successfully, we will take notice"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Message title"
+msgstr ""
+
+#: dist/includes/class/post-types/class_sg_post_type_activity.php:41
+#: src/includes/class/post-types/class_sg_post_type_activity.php:41
+msgid "Modify activity"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Modify the text before the price"
+msgstr ""
+
+#: dist/includes/class/post-types/class_sg_post_type_guide.php:31
+#: src/includes/class/post-types/class_sg_post_type_guide.php:31
+msgid "Modify this guide"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:56
+#: src/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:56
+msgid "Name of the new difficulty"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_duration.php:44
+#: src/includes/class/taxonomies/class_sg_taxonomy_duration.php:44
+msgid "Name of the new duration"
+msgstr ""
+
+#: dist/includes/class/post-types/class_sg_post_type_activity.php:42
+#: src/includes/class/post-types/class_sg_post_type_activity.php:42
+msgid "New Activity"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:77
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:77
+msgid "New Activity Type Name"
+msgstr ""
+
+#: dist/includes/class/post-types/class_sg_post_type_guide.php:32
+#: src/includes/class/post-types/class_sg_post_type_guide.php:32
+msgid "New Guide"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "New info"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:78
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:78
+msgid "New sport name"
+msgstr ""
+
+#: dist/includes/class/post-types/class_sg_post_type_activity.php:45
+#: src/includes/class/post-types/class_sg_post_type_activity.php:45
+msgid "No activities found"
+msgstr ""
+
+#: dist/includes/class/post-types/class_sg_post_type_activity.php:46
+#: src/includes/class/post-types/class_sg_post_type_activity.php:46
+msgid "No activities found in trash"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:84
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:84
+msgid "No Activity Type"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:83
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:83
+msgid "No Activity Type found"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:63
+#: src/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:63
+msgid "No difficulty"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:62
+#: src/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:62
+msgid "No difficulty found"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_duration.php:51
+#: src/includes/class/taxonomies/class_sg_taxonomy_duration.php:51
+msgid "No duration"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_duration.php:50
+#: src/includes/class/taxonomies/class_sg_taxonomy_duration.php:50
+msgid "No duration found"
+msgstr ""
+
+#: dist/includes/class/post-types/class_sg_post_type_guide.php:35
+#: src/includes/class/post-types/class_sg_post_type_guide.php:35
+msgid "No guide found"
+msgstr ""
+
+#: dist/includes/class/post-types/class_sg_post_type_guide.php:36
+#: src/includes/class/post-types/class_sg_post_type_guide.php:36
+msgid "No guide found in trash"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "No posts found"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "No price available"
+msgstr ""
+
+#: dist/blocks/query-loop/render.php:78 src/blocks/query-loop/render.php:78
+msgid "No results..."
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:85
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:85
+msgid "No sports"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:84
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:84
+msgid "No sports found"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Number of items"
+msgstr ""
+
+#: dist/includes/class/post-types/class_sg_post_type_activity.php:47
+#: src/includes/class/post-types/class_sg_post_type_activity.php:47
+msgid "Parent activity:"
+msgstr ""
+
+#: dist/includes/class/post-types/class_sg_post_type_guide.php:37
+#: src/includes/class/post-types/class_sg_post_type_guide.php:37
+msgid "Parent guide:"
+msgstr ""
+
+#: dist/includes/class/class_sg_contact_form_handler.php:63
+#: src/includes/class/class_sg_contact_form_handler.php:63
+msgid "Please enter a valid email address."
+msgstr ""
+
+#: dist/includes/class/class_sg_contact_form_handler.php:53
+#: src/includes/class/class_sg_contact_form_handler.php:53
+msgid "Please fill in all required fields."
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:79
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:79
+msgid "Popular Activity Types"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:58
+#: src/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:58
+msgid "Popular difficulties"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_duration.php:46
+#: src/includes/class/taxonomies/class_sg_taxonomy_duration.php:46
+msgid "Popular durations"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:80
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:80
+msgid "Popular sports"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:107
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:107
+msgid "Position"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Post type"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:60
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:60
+msgid "Priority"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Query Options"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Random"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:78
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:78
+msgid "Search Activity Types"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Search address"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:57
+#: src/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:57
+msgid "Search by difficulties"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Search coordinates of address"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_duration.php:45
+#: src/includes/class/taxonomies/class_sg_taxonomy_duration.php:45
+msgid "Search durations"
+msgstr ""
+
+#: dist/includes/class/post-types/class_sg_post_type_guide.php:34
+#: src/includes/class/post-types/class_sg_post_type_guide.php:34
+msgid "Search for Guides"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:79
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:79
+msgid "Search sports"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Select an existing info"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Send"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:80
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:80
+msgid "Separate Activity Types with commas"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:59
+#: src/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:59
+msgid "Separate difficulties with commas"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_duration.php:47
+#: src/includes/class/taxonomies/class_sg_taxonomy_duration.php:47
+msgid "Separate durations with commas"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:81
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:81
+msgid "Separate sports with commas"
+msgstr ""
+
+#. Name of the plugin
+msgid "SG Blocks"
+msgstr ""
+
+#: sg-block.php:226
+msgid "SG Lazy Placeholder"
+msgstr ""
+
+#: sg-block.php:228
+msgid "SG Medium"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "SG Related Post Loop"
+msgstr ""
+
+#: sg-block.php:227
+msgid "SG Thumbnail"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Show related posts loop?"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Sort by"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Sort order"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Sort type"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:71
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:71
+msgid "Sport"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:70
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:72
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:70
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:72
+msgid "Sports"
+msgstr ""
+
+#: dist/blocks/reservation/render.php:21 src/blocks/reservation/render.php:21
+msgid "Starting from"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Subject"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Success message after successful submission"
+msgstr ""
+
+#: dist/includes/class/class_sg_contact_form_handler.php:58
+#: src/includes/class/class_sg_contact_form_handler.php:58
+msgid "The name should only contain letters."
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Title"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Title of the info"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Title of your message"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:75
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:75
+msgid "Update Activity Type"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:54
+#: src/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:54
+msgid "Update difficulty"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_duration.php:42
+#: src/includes/class/taxonomies/class_sg_taxonomy_duration.php:42
+msgid "Update duration"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:76
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:76
+msgid "Update sport"
+msgstr ""
+
+#: dist/includes/class/post-types/class_sg_post_type_activity.php:43
+#: src/includes/class/post-types/class_sg_post_type_activity.php:43
+msgid "View Activity"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:74
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:74
+msgid "View Activity Type"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_duration.php:41
+#: src/includes/class/taxonomies/class_sg_taxonomy_duration.php:41
+msgid "View duration"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:75
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:75
+msgid "View sport"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:53
+#: src/includes/class/taxonomies/class_sg_taxonomy_difficulty.php:53
+msgid "View this difficulty"
+msgstr ""
+
+#: dist/includes/class/post-types/class_sg_post_type_guide.php:33
+#: src/includes/class/post-types/class_sg_post_type_guide.php:33
+msgid "View this guide"
+msgstr ""
+
+#: dist/blocks/reservation/render.php:20 src/blocks/reservation/render.php:20
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Want to book?"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:114
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:114
+msgid "What is the lowest price for this sport ?"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:61
+#: src/includes/class/taxonomies/class_sg_taxonomy_activity_type.php:61
+msgid "What is the position of this activity type in the displays?"
+msgstr ""
+
+#: dist/includes/class/taxonomies/class_sg_taxonomy_sport.php:108
+#: src/includes/class/taxonomies/class_sg_taxonomy_sport.php:108
+msgid "What is the position of this sport in the displays ?"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Write your message..."
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "write your message..."
+msgstr ""
+
+#: dist/includes/sg_register_rest.php:57 src/includes/sg_register_rest.php:57
+msgid "You do not have permission to access this endpoint."
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Your first name here..."
+msgstr ""
+
+#: dist/includes/class/class_sg_contact_form_handler.php:87
+#: src/includes/class/class_sg_contact_form_handler.php:87
+msgid "Your message has been sent successfully!"
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Your name and first name..."
+msgstr ""
+
+#:  dist/assets/js/sg-blocks-scripts-editor.js
+msgid "Zoom"
+msgstr ""

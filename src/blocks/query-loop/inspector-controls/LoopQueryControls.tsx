@@ -34,17 +34,16 @@ const EXCLUDED_POST_TYPES = [
 ];
 
 const ORDER_BY_OPTIONS = [
-  { value: "date", label: "Date" },
-  { value: "title", label: "Titre" },
-  { value: "rand", label: "Aleatoire" },
-  { value: "featured", label: "Mis en Avant" },
+  { value: "date", label: __("Date", "sg-blocks") },
+  { value: "title", label: __("Title", "sg-blocks") },
+  { value: "rand", label: __("Random", "sg-blocks") },
+  { value: "featured", label: __("Featured", "sg-blocks") },
 ]
 
 const ORDER_OPTIONS = [
-  { value: "asc", label: "Croissant" },
-  { value: "desc", label: "Décroissant" },
+  { value: "asc", label: __("Ascending", "sg-blocks") },
+  { value: "desc", label: __("Descending", "sg-blocks") },
 ]
-
 const LoopQueryControls: React.FC<LoopQueryControlsProps> = ({
   attributes,
   setAttributes,
@@ -138,9 +137,9 @@ const LoopQueryControls: React.FC<LoopQueryControlsProps> = ({
 
   return (
     <>
-      <PanelBody title={__("Options de requête")}>
+      <PanelBody title={__("Query Options", "sg-blocks")}>
         <ToggleControl
-          label={__("Boucle de posts liés ?")}
+          label={__("Show related posts loop?", "sg-blocks")}
           checked={relatedQuery}
           onChange={(v) => {
             setAttributes({
@@ -152,7 +151,7 @@ const LoopQueryControls: React.FC<LoopQueryControlsProps> = ({
           }
         />
         <SelectControl
-          label={__("Type de post")}
+          label={__("Post type", "sg-blocks")}
           value={queryPostType}
           onChange={(postType: string) =>
             setAttributes({ queryPostType: postType })
@@ -165,7 +164,7 @@ const LoopQueryControls: React.FC<LoopQueryControlsProps> = ({
           )}
         />
         <NumberControl
-          label={"Nombre d'éléments"}
+          label={__("Number of items", "sg-blocks")}
           value={postNumber}
           onChange={(number: number) =>
             setAttributes({ postNumber: number })
@@ -174,9 +173,9 @@ const LoopQueryControls: React.FC<LoopQueryControlsProps> = ({
           max={20}
         />
       </PanelBody>
-      <PanelBody title={__("Trier par")}>
+      <PanelBody title={__("Sort by", "sg-blocks")}>
         <SelectControl
-          label={__("Type de tri")}
+          label={__("Sort type", "sg-blocks")}
           value={orderBy}
           onChange={(param: string) =>
             setAttributes({ orderBy: param })
@@ -184,7 +183,7 @@ const LoopQueryControls: React.FC<LoopQueryControlsProps> = ({
           options={ORDER_BY_OPTIONS}
         />
         <SelectControl
-          label={__("Ordre de tri")}
+          label={__("Sort order", "sg-blocks")}
           value={order}
           onChange={(param: string) =>
             setAttributes({ order: param })
@@ -192,7 +191,7 @@ const LoopQueryControls: React.FC<LoopQueryControlsProps> = ({
           options={ORDER_OPTIONS}
         />
       </PanelBody>
-      <PanelBody title={__("Filtrer par Taxonomie")}>
+      <PanelBody title={__("Filter by Taxonomy", "sg-blocks")}>
 
         {!!taxonomiesOptions && !relatedQuery &&
           taxonomiesOptions.map((option: { taxonomy: string; terms: string[] }) => (
@@ -229,11 +228,11 @@ const LoopQueryControls: React.FC<LoopQueryControlsProps> = ({
           />
         }
       </PanelBody>
-      <PanelBody title="Exclure des publications">
+      <PanelBody title={__("Excluded publications", "sg-blocks")}>
         <Divider />
         <PanelRow>
           <TextControl
-            label={"IDs exclus"}
+            label={__("Excluded IDs", 'sg-blocks')}
             placeholder="Ex: 1, 2, 3"
             value={excludedIds?.join(', ') ?? ''}
             onChange={(excluded: string) =>

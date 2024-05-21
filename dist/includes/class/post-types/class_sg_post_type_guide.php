@@ -22,23 +22,21 @@ class SG_Post_Type_Guide extends SG_Post_Type
         'supports' => array('title', 'excerpt', 'thumbnail', 'custom-fields'),
     );
 
-    public function __construct()
+    public function set_labels()
     {
         $labels = array(
-            'name' => __('Guides', 'sg-theme'),
-            'singular_name' => __('Guide', 'sg-theme'),
-            'add_new_item' => __('Ajouter un Guide', 'sg-theme'),
-            'edit_item' => __('Modifier le guide', 'sg-theme'),
-            'new_item' => __('Nouveau Guide', 'sg-theme'),
-            'view_item' => __('Voir le guide', 'sg-theme'),
-            'search_items' => __('Chercher des Guides', 'sg-theme'),
-            'not_found' => __('Aucun guide trouvé', 'sg-theme'),
-            'not_found_in_trash' => __('Aucun guide trouvé dans la corbeille', 'sg-theme'),
-            'parent_item_colon' => __('Guide parent:', 'sg-theme'),
+            'name' => __('Guides', 'sg-blocks'),
+            'singular_name' => __('Guide', 'sg-blocks'),
+            'add_new_item' => __('Add a Guide', 'sg-blocks'),
+            'edit_item' => __('Modify this guide', 'sg-blocks'),
+            'new_item' => __('New Guide', 'sg-blocks'),
+            'view_item' => __('View this guide', 'sg-blocks'),
+            'search_items' => __('Search for Guides', 'sg-blocks'),
+            'not_found' => __('No guide found', 'sg-blocks'),
+            'not_found_in_trash' => __('No guide found in trash', 'sg-blocks'),
+            'parent_item_colon' => __('Parent guide:', 'sg-blocks'),
         );
         $this->args['labels'] = $labels;
-
-        parent::__construct();
     }
 }
 

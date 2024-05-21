@@ -24,31 +24,31 @@ const Edit = ({ attributes, setAttributes }) => {
       setAttributes({ form_id: `sg-form-${Math.random().toString(36).substring(5, 12)}` })
     }
   }, []);
-  
+
   return (
     <>
-    <InspectorControls>
-      <PanelBody>
-        <TextareaControl
-          label={__('Message après envoi réussi')}
-          value={successMsg}
-          onChange={(value) => setAttributes({ successMsg: value })}
-          placeholder="Message envoyé avec succès, nous allons en prendre connaissance"
+      <InspectorControls>
+        <PanelBody>
+          <TextareaControl
+            label={__('Success message after successful submission', 'sg-blocks')}
+            value={successMsg}
+            onChange={(value) => setAttributes({ successMsg: value })}
+            placeholder={__("Message sent successfully, we will take notice", 'sg-blocks')}
           />
           <TextareaControl
-          label={__('Message après erreur')}
-          value={errorMsg}
-          onChange={(value) => setAttributes({ errorMsg: value })}
-          placeholder="Une erreur s'est produite dans l'envoi du message, merci de réessayer"
+            label={__('Error message after submission failure', 'sg-blocks')}
+            value={errorMsg}
+            onChange={(value) => setAttributes({ errorMsg: value })}
+            placeholder={__("An error occurred during message submission, please try again", 'sg-blocks')}
           />
           <TextControl
-          label={__('Code icône')}
-          value={iconCode}
-          onChange={(value) => setAttributes({ iconCode: value })}
-          placeholder="e902"
+            label={__('Icon code', 'sg-blocks')}
+            value={iconCode}
+            onChange={(value) => setAttributes({ iconCode: value })}
+            placeholder="e902"
           />
-      </PanelBody>
-    </InspectorControls>
+        </PanelBody>
+      </InspectorControls>
       <BlockControls>
         <HeadingLevelDropdown
           value={titleLevel}
@@ -59,47 +59,46 @@ const Edit = ({ attributes, setAttributes }) => {
 
       </BlockControls>
 
-      <div {...useBlockProps({ className: "sg-contact-form txt-ctr"})}>
+      <div {...useBlockProps({ className: "sg-contact-form txt-ctr" })}>
         <RichText
           tagName={('h' + titleLevel) as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'}
           value={title}
           onChange={(value) => { setAttributes({ title: value }) }}
-          placeholder="Titre du formulaire"
+          placeholder={__('Form title', 'sg-blocks')}
         />
         <RichText
           tagName="p"
           value={subtitle}
           onChange={(value) => setAttributes({ subtitle: value })}
-          placeholder="Sous-titre du formulaire"
+          placeholder={__('Form subtitle', 'sg-blocks')}
         />
         <form method="post">
 
 
           <div className="i-grp">
-            <label htmlFor="name">{__('Nom')}</label>
-            <input disabled type="text" placeholder={__('Votre nom et prénom...')} name="lastname" id="name" />
+            <label htmlFor="name">{__('Last name', 'sg-blocks')}</label>
+            <input disabled type="text" placeholder={__('Your name and first name...', 'sg-blocks')} name="lastname" id="name" />
           </div>
 
           <div className="i-grp" data-test="true">
-            <label htmlFor="firstname">{__('Prénom')}</label>
-            <input disabled tabIndex={-1} type="text" placeholder={__('Votre prénom ici...')} name="firstname" id="firstname" />
+            <label htmlFor="firstname">{__('First name', 'sg-blocks')}</label>
+            <input disabled tabIndex={-1} type="text" placeholder={__('Your first name here...', 'sg-blocks')} name="firstname" id="firstname" />
           </div>
 
           <div className="i-grp">
-            <label htmlFor="email">{__('Email')}</label>
-            <input disabled type="text" name="email" placeholder={__('exemple@email.com')} id="email" />
+            <label htmlFor="email">{__('Email', 'sg-blocks')}</label>
+            <input disabled type="text" name="email" placeholder={__('example@email.com', 'sg-blocks')} id="email" />
           </div>
 
           <div className="i-grp">
-            <label htmlFor="subject">{__('Sujet')}</label>
-            <input disabled type="text" placeholder={__('Titre de votre message')} name="subject" id="subject" />
+            <label htmlFor="subject">{__('Subject', 'sg-blocks')}</label>
+            <input disabled type="text" placeholder={__('Message title', 'sg-blocks')} name="subject" id="subject" />
           </div>
 
           <div className="i-grp">
-            <label htmlFor="message">{__('Message')}</label>
-            <textarea disabled name="message" placeholder={__('Écrivez votre message...')} rows={4} id="message" />
+            <label htmlFor="message">{__('Message', 'sg-blocks')}</label>
+            <textarea disabled name="message" placeholder={__('Write your message...', 'sg-blocks')} rows={4} id="message" />
           </div>
-
           <RichText
             tagName="button"
             className="cta cta--primary"

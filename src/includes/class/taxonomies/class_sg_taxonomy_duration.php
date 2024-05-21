@@ -10,9 +10,6 @@ class SG_Duration_Taxonomy extends SG_Taxonomy
 {
     public $id = 'duration';
 
-    public $name = 'Durée';
-    public $plural_name = 'Durées';
-
     public $config = array(
         'public' => true,
         'show_in_rest' => true,
@@ -33,28 +30,26 @@ class SG_Duration_Taxonomy extends SG_Taxonomy
         )
     );
 
-    public function __construct($post_types)
+    public function set_labels()
     {
         $this->config['labels'] = array(
-            'name' => __('Durées', 'sg-theme'),
-            'singular_name' => __($this->name, 'sg-theme'),
-            'menu_name' => __('Durées', 'sg-theme'),
-            'all_items' => __('Toutes les durées', 'sg-theme'),
-            'edit_item' => __('Modifier la durée', 'sg-theme'),
-            'view_item' => __('Voir cette durée', 'sg-theme'),
-            'update_item' => __('Mettre à jour la durée', 'sg-theme'),
-            'add_new_item' => __('Ajouter une nouvelle durée', 'sg-theme'),
-            'new_item_name' => __('intitulé de la nouvelle durée', 'sg-theme'),
-            'search_items' => __('Rechercher par durées', 'sg-theme'),
-            'popular_items' => __('durées populaires', 'sg-theme'),
-            'separate_items_with_commas' => __('Séparez les durées par des virgules', 'sg-theme'),
-            'add_or_remove_items' => __('Ajouter ou supprimer des durées', 'sg-theme'),
-            'choose_from_most_used' => __('Choisir parmi les durées les plus utilisés', 'sg-theme'),
-            'not_found' => __('Aucune durée trouvée', 'sg-theme'),
-            'no_terms' => __('Aucune durée', 'sg-theme'),
-            'back_to_items' => __('Retour aux durées', 'sg-theme'),
+            'name' => __('Durations', 'sg-blocks'),
+            'singular_name' => __('Duration', 'sg-blocks'),
+            'menu_name' => __('Durations', 'sg-blocks'),
+            'all_items' => __('All durations', 'sg-blocks'),
+            'edit_item' => __('Edit duration', 'sg-blocks'),
+            'view_item' => __('View duration', 'sg-blocks'),
+            'update_item' => __('Update duration', 'sg-blocks'),
+            'add_new_item' => __('Add new duration', 'sg-blocks'),
+            'new_item_name' => __('Name of the new duration', 'sg-blocks'),
+            'search_items' => __('Search durations', 'sg-blocks'),
+            'popular_items' => __('Popular durations', 'sg-blocks'),
+            'separate_items_with_commas' => __('Separate durations with commas', 'sg-blocks'),
+            'add_or_remove_items' => __('Add or remove durations', 'sg-blocks'),
+            'choose_from_most_used' => __('Choose from the most used durations', 'sg-blocks'),
+            'not_found' => __('No duration found', 'sg-blocks'),
+            'no_terms' => __('No duration', 'sg-blocks'),
+            'back_to_items' => __('Back to durations', 'sg-blocks'),
         );
-
-        parent::__construct($post_types);
     }
 }

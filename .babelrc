@@ -3,5 +3,10 @@
     "@babel/preset-env",
     "@babel/preset-react",
     "@babel/preset-typescript"
-  ]
+  ],
+  /*"plugins": [
+    [
+      "@wordpress/babel-plugin-makepot", { "output": "languages/myplugin.pot" }
+    ]
+  ]*/
 }

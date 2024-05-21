@@ -26,8 +26,14 @@ class SG_Post_Type
         }
     }
 
+    public function set_labels()
+    {
+        $this->args['labels'] = [];
+    }
+
     public function register_post_type()
     {
+        $this->set_labels();
         register_post_type($this->post_type, $this->args);
     }
 

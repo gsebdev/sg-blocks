@@ -54,7 +54,7 @@ function sg_get_posts_endpoint()
                 if (current_user_can('edit_posts')) {
                     return true;
                 } else {
-                    return new WP_Error('rest_forbidden', esc_html__('You do not have permission to access this endpoint.'), array('status' => 403));
+                    return new WP_Error('rest_forbidden', esc_html__('You do not have permission to access this endpoint.', 'sg-blocks'), array('status' => 403));
                 }
             },
         )

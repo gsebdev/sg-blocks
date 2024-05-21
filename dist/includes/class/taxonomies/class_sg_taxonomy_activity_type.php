@@ -12,10 +12,6 @@ if (!defined('ABSPATH')) {
 class SG_Activity_Type_Taxonomy extends SG_Taxonomy
 {
     public $id = 'activity-type';
-
-    public $name = 'Type d\'activité';
-    public $plural_name = 'Types d\'activité';
-
     protected $auto_save = true;
     protected $display_description = true;
     protected $menu_icon = 'dashicons-tag';
@@ -51,43 +47,42 @@ class SG_Activity_Type_Taxonomy extends SG_Taxonomy
         ),
     );
 
-    public function __construct($post_types)
-    {
+    public function set_custom_fields() {
         $this->custom_fields = array(
             [
                 'id' => 'cover',
-                'title' => __('Image de couverture', 'sg-blocks'),
-                'description' => __('Image qui sera affichée pour illustrer ce type d\'activitié', 'sg-blocks'),
+                'title' => __('Cover image', 'sg-blocks'),
+                'description' => __('Image to be displayed representing this activity type', 'sg-blocks'),
                 'input' => SG_Image_Selector::class
             ],
             [
                 'id' => 'position',
-                'title' => __('Position', 'sg-blocks'),
-                'description' => __('Quelle est la position de ce type d\'activité dans les affichages ?', 'sg-blocks'),
+                'title' => __('Priority', 'sg-blocks'),
+                'description' => __('What is the position of this activity type in the displays?', 'sg-blocks'),
                 'input' => SG_Number_Input::class,
             ]
         );
+    }
 
+    public function set_labels() {
         $this->config['labels'] = array(
-            'name' => __('Types d\'activité', 'sg-blocks'),
-            'singular_name' => __($this->name, 'sg-blocks'),
-            'menu_name' => __('Types d\'activité', 'sg-blocks'),
-            'all_items' => __('Tous les types d\'activité', 'sg-blocks'),
-            'edit_item' => __('Modifier le type d\'activité', 'sg-blocks'),
-            'view_item' => __('Voir le type d\'activité', 'sg-blocks'),
-            'update_item' => __('Mettre à jour le type d\'activité', 'sg-blocks'),
-            'add_new_item' => __('Ajouter un nouveau type d\'activité', 'sg-blocks'),
-            'new_item_name' => __('Nom du nouveau type d\'activité', 'sg-blocks'),
-            'search_items' => __('Rechercher des types d\'activité', 'sg-blocks'),
-            'popular_items' => __('Types d\'activité populaires', 'sg-blocks'),
-            'separate_items_with_commas' => __('Séparez les types d\'activité par des virgules', 'sg-blocks'),
-            'add_or_remove_items' => __('Ajouter ou supprimer des types d\'activité', 'sg-blocks'),
-            'choose_from_most_used' => __('Choisir parmi les types d\'activité les plus utilisés', 'sg-blocks'),
-            'not_found' => __('Aucun type d\'activité trouvé', 'sg-blocks'),
-            'no_terms' => __('Aucun type d\'activité', 'sg-blocks'),
-            'back_to_items' => __('Retour aux types d\'activité', 'sg-blocks'),
+            'name' => __('Activity Types', 'sg-blocks'),
+            'singular_name' => __('Activity Type', 'sg-blocks'),
+            'menu_name' => __('Activity Types', 'sg-blocks'),
+            'all_items' => __('All Activity Types', 'sg-blocks'),
+            'edit_item' => __('Edit Activity Type', 'sg-blocks'),
+            'view_item' => __('View Activity Type', 'sg-blocks'),
+            'update_item' => __('Update Activity Type', 'sg-blocks'),
+            'add_new_item' => __('Add New Activity Type', 'sg-blocks'),
+            'new_item_name' => __('New Activity Type Name', 'sg-blocks'),
+            'search_items' => __('Search Activity Types', 'sg-blocks'),
+            'popular_items' => __('Popular Activity Types', 'sg-blocks'),
+            'separate_items_with_commas' => __('Separate Activity Types with commas', 'sg-blocks'),
+            'add_or_remove_items' => __('Add or remove Activity Types', 'sg-blocks'),
+            'choose_from_most_used' => __('Choose from the most used Activity Types', 'sg-blocks'),
+            'not_found' => __('No Activity Type found', 'sg-blocks'),
+            'no_terms' => __('No Activity Type', 'sg-blocks'),
+            'back_to_items' => __('Back to Activity Types', 'sg-blocks'),
         );
-
-        parent::__construct($post_types);
     }
 }

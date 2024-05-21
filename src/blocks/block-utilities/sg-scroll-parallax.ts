@@ -16,6 +16,7 @@ declare global {
 export const sgScrollParallax = () => {
   const containers = document.querySelectorAll(".sg-parallax-container") as NodeListOf<HTMLElement>;
   const margin = 10;
+  let lastWindowWidth = window.innerWidth;
   let resizeTimeout: NodeJS.Timeout;
 
   if (!containers?.length) {
@@ -100,6 +101,9 @@ export const sgScrollParallax = () => {
   }
 
   const handleWindowResize = () => {
+    
+    if(lastWindowWidth === window.innerWidth) return;
+
     containers.forEach((container) => {
       resetContainer(container);
     });

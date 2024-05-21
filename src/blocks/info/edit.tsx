@@ -135,9 +135,9 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes, clie
           </PanelRow>
           <PanelRow>
             <SelectControl
-              label={__('Sélectionner une info existante')}
+              label={__('Select an existing info', 'sg-blocks')}
               value={currentEntryIndex !== null ? info_id : ''}
-              options={[{ label: '', value: '' }, ...info?.map((entry: InfoEntry) => ({ value: entry.id, label: entry.title ?? '<Nouvelle info>' })) ?? []]}
+              options={[{ label: '', value: '' }, ...info?.map((entry: InfoEntry) => ({ value: entry.id, label: entry.title ?? '<' + __('New info', 'sg-blocks') + '>' })) ?? []]}
               onChange={onChangeInfo}
             />
           </PanelRow>
@@ -154,10 +154,10 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes, clie
              { contentIdSelected !== null &&
                <PanelRow>
                <TextControl
-                 label={__('Icone personnalisée de l\'info')}
+                 label={__('Custom info icon', 'sg-blocks')}
                  value={content[contentIdSelected]?.['icon'] ?? ''}
                  onChange={(value) => onContentItemChange(value, contentIdSelected, 'icon')}
-                 placeholder={__('nom de l\'icone (ex: plus-circled)')}
+                 placeholder={__('Custom icon name (ex: plus-circled)', 'sg-blocks')}
                />
              </PanelRow>
              }
@@ -176,7 +176,7 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes, clie
                   value={title}
                   onChange={onTitleChange}
                   onSelect={() => setContentIdSelected(null)}
-                  placeholder={__('Titre de l\'info')}
+                  placeholder={__('Title of the info', 'sg-blocks')}
                 />
               </td>
             </tr>
@@ -191,7 +191,7 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes, clie
                         value={item['text'] ?? ''}
                         onChange={(value: string) => onContentItemChange(value, index, 'text')}
                         onSelect={() => setContentIdSelected(index)}
-                        placeholder={__('Contenu de l\'info')}
+                        placeholder={__('Content of the info', 'sg-blocks')}
                       />
                     </div>
 
@@ -232,7 +232,7 @@ const Edit: React.FC<EditProps> = ({ isSelected, attributes, setAttributes, clie
               Nouvelle info
             </Button>
             <p className='f-up f-sb f-xxs color-grey-2'>ou</p>
-            <p className='f-up f-sb f-xxs'>{__('Sélectionne une info existante')}</p>
+            <p className='f-up f-sb f-xxs'>{__('Select an existing info', 'sg-blocks')}</p>
             <SelectControl
               value={currentEntryIndex !== null ? info_id : ''}
               options={[{ label: '', value: '' }, ...info?.map((entry: InfoEntry) => ({ value: entry.id, label: entry.title ?? '<Nouvelle info>' })) ?? []]}

@@ -222,7 +222,7 @@ const Edit: React.FC<EditProps> = ({ clientId, attributes, setAttributes }) => {
         excluded_ids: excludedIds,
         per_page: postNumber ? postNumber : -1,
       });
-console.log(posts)
+
       return posts;
     },
     [queryPostType, queryTaxonomy, postNumber, currentPost.id, excludedIds, order, orderBy, relatedQuery]
@@ -244,7 +244,7 @@ console.log(posts)
       queryId: instanceId
     })
   })
-console.log(queriedPosts)
+
   /**
    * 
    * Handle the init of the slider if activated and update it on change settings
@@ -402,8 +402,8 @@ console.log(queriedPosts)
            * 
            */
           <div className="sg-query-related__empty">
-            <h3>{__('SG Boucle de Post liés')}</h3>
-            <p>{__('Aucun post trouvé')}</p>
+            <h3>{__('SG Related Post Loop', 'sg-blocks')}</h3>
+            <p>{__('No posts found', 'sg-blocks')}</p>
             <LoopQueryControls
               attributes={attributes}
               setAttributes={setAttributes}

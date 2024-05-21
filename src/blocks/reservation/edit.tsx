@@ -161,7 +161,7 @@ const Edit: React.FC<EditProps> = ({
         </Modal>}
       <div {...blockProps}>
         <div className={`sg-reservation p-3 my-2 txt-ctr ${className ?? ''}`}>
-          <p className='f-s f-sb'>{!booking ? __('Envie de réserver ?') : __('Réservez directement en ligne !')}</p>
+          <p className='f-s f-sb'>{!booking ? __('Want to book?', 'sg-blocks') : __('Book directly online!', 'sg-blocks')}</p>
           <div className='py-2 f-xs color-secondary f-up'>à partir de <span className='f-sm f-sb'>{customPrice ? customPrice : lowestPrice ?? ''}€</span></div>
           <button className={`cta`}>
             <span className='icon-phone'></span>
@@ -170,7 +170,7 @@ const Edit: React.FC<EditProps> = ({
           {booking &&
             <>
               <div className='separator py-3 txt-ctr f-up f-xs color-grey-1'><span className='bg-color-bg px-2'>Ou</span></div>
-              <p className='f-s'>{__('Appelez-nous')}</p>
+              <p className='f-s'>{__('Call us', 'sg-blocks')}</p>
               <p className='py-2 f-s f-sb'><span className='icon-phone no-deco color-secondary'>{displayPhone}</span></p>
             </>
           }

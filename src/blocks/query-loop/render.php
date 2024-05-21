@@ -75,7 +75,7 @@ if (!function_exists('render_block_sg_query_related')) {
         ));
 
         if (!$query || !$query->have_posts()) {
-            return '<div class="sg-query-related no-results pb-5 pt-2">' . __('Aucun résultat...', 'sg-blocks') . '</div>';
+            return '<div class="sg-query-related no-results pb-5 pt-2">' . __('No results...', 'sg-blocks') . '</div>';
         }
 
         if (block_sg_query_related_uses_featured_image($block->inner_blocks)) {

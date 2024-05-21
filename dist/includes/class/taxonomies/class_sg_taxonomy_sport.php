@@ -15,9 +15,6 @@ class SG_Sport_Taxonomy extends SG_Taxonomy
 {
     public $id = 'sport';
 
-    public $name = 'Sport';
-    public $plural_name = 'Sports';
-
     protected $display_description = true;
     protected $auto_save = true;
     protected $menu_icon = 'dashicons-buddicons-activity';
@@ -67,55 +64,56 @@ class SG_Sport_Taxonomy extends SG_Taxonomy
         ),
     );
 
-    public function __construct($post_types)
+    public function set_labels()
+    {
+        $this->config['labels'] = array(
+            'name' => __('Sports', 'sg-blocks'),
+            'singular_name' =>__('Sport', 'sg-blocks'),
+            'menu_name' => __('Sports', 'sg-blocks'),
+            'all_items' => __('All sports', 'sg-blocks'),
+            'edit_item' => __('Edit sport', 'sg-blocks'),
+            'view_item' => __('View sport', 'sg-blocks'),
+            'update_item' => __('Update sport', 'sg-blocks'),
+            'add_new_item' => __('Add new sport', 'sg-blocks'),
+            'new_item_name' => __('New sport name', 'sg-blocks'),
+            'search_items' => __('Search sports', 'sg-blocks'),
+            'popular_items' => __('Popular sports', 'sg-blocks'),
+            'separate_items_with_commas' => __('Separate sports with commas', 'sg-blocks'),
+            'add_or_remove_items' => __('Add or remove sports', 'sg-blocks'),
+            'choose_from_most_used' => __('Choose from most used sports', 'sg-blocks'),
+            'not_found' => __('No sports found', 'sg-blocks'),
+            'no_terms' => __('No sports', 'sg-blocks'),
+            'back_to_items' => __('Back to sports', 'sg-blocks'),
+        );
+    }
+
+    public function set_custom_fields()
     {
         $this->custom_fields = array(
             [
                 'id' => 'cover',
-                'title' => __('Image de couverture', 'sg-theme'),
-                'description' => __('Image qui sera affichée pour illustrer le sport', 'sg-theme'),
+                'title' => __('Cover image', 'sg-blocks'),
+                'description' => __('Image displayed to illustrate the sport', 'sg-blocks'),
                 'input' => SG_Image_Selector::class
             ],
             [
                 'id' => 'featured',
-                'title' => __('Mis en avant ?', 'sg-theme'),
-                'description' => __('Est ce que ce sport doit être mis en avant sur la page accueil', 'sg-theme'),
+                'title' => __('Featured ?', 'sg-blocks'),
+                'description' => __('Is this sport to be featured on the homepage', 'sg-blocks'),
                 'input' => SG_Switch_Box::class,
             ],
             [
                 'id' => 'position',
-                'title' => __('Position', 'sg-theme'),
-                'description' => __('Quelle est la position de ce sport dans les affichages ?', 'sg-theme'),
+                'title' => __('Position', 'sg-blocks'),
+                'description' => __('What is the position of this sport in the displays ?', 'sg-blocks'),
                 'input' => SG_Number_Input::class,
             ],
             [
                 'id' => 'price',
-                'title' => __('Prix le plus bas', 'sg-theme'),
-                'description' => __('Quel est le prix le plus bas pour ce sport ?', 'sg-theme'),
+                'title' => __('Lowest price', 'sg-blocks'),
+                'description' => __('What is the lowest price for this sport ?', 'sg-blocks'),
                 'input' => SG_Text_Input::class,
             ],
         );
-
-        $this->config['labels'] = array(
-            'name' => __('Sports', 'sg-theme'),
-            'singular_name' => __($this->name, 'sg-theme'),
-            'menu_name' => __('Sports', 'sg-theme'),
-            'all_items' => __('Tous les sports', 'sg-theme'),
-            'edit_item' => __('Modifier le sport', 'sg-theme'),
-            'view_item' => __('Voir le sport', 'sg-theme'),
-            'update_item' => __('Mettre à jour le sport', 'sg-theme'),
-            'add_new_item' => __('Ajouter un nouveau sport', 'sg-theme'),
-            'new_item_name' => __('Nom du nouveau sport', 'sg-theme'),
-            'search_items' => __('Rechercher des sports', 'sg-theme'),
-            'popular_items' => __('Sports populaires', 'sg-theme'),
-            'separate_items_with_commas' => __('Séparez les sports par des virgules', 'sg-theme'),
-            'add_or_remove_items' => __('Ajouter ou supprimer des sports', 'sg-theme'),
-            'choose_from_most_used' => __('Choisir parmi les sports les plus utilisés', 'sg-theme'),
-            'not_found' => __('Aucun sport trouvé', 'sg-theme'),
-            'no_terms' => __('Aucun sport', 'sg-theme'),
-            'back_to_items' => __('Retour aux sports', 'sg-theme'),
-        );
-
-        parent::__construct($post_types);
     }
 }

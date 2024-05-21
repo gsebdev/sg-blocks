@@ -6,7 +6,8 @@
  * Version: 		  0.0.1
  * Author:            gsebdev
  * Author URI:        
- * Text Domain:       
+ * Text Domain:       sg-blocks
+ * Domain Path:       /languages
  * Requires at least: 6.1
  * Tested up to: 	  6.4
  * License:           GPL-2.0+
@@ -48,7 +49,7 @@ register_activation_hook(__FILE__, 'sg_blocks_activation');
 if (!function_exists('sg_blocks_assets')) {
     function sg_blocks_assets()
     {
-        if(is_admin()){
+        if (is_admin()) {
 
             $asset_file_editor = include(SG_BLOCKS_DIR . 'dist/assets/js/' . SG_BLOCKS_PREFIX . '-scripts-editor.asset.php');
             wp_enqueue_script(
@@ -60,6 +61,7 @@ if (!function_exists('sg_blocks_assets')) {
             );
             wp_enqueue_style(SG_BLOCKS_PREFIX . '-styles-editor', plugins_url('dist/assets/styles/' . SG_BLOCKS_PREFIX . '-styles-editor.css', __FILE__));
             wp_enqueue_style('dashicons');
+            wp_set_script_translations(SG_BLOCKS_PREFIX . '-scripts-editor', 'sg-blocks', SG_BLOCKS_DIR . 'languages');
         }
 
         $asset_file_view = include(SG_BLOCKS_DIR . 'dist/assets/js/' . SG_BLOCKS_PREFIX . '-scripts.asset.php');
@@ -91,7 +93,6 @@ if (!function_exists('register_sg_blocks')) {
                 $asset_file_admin['version'],
                 true
             );
-
             wp_enqueue_style(SG_BLOCKS_PREFIX . '-styles-admin', plugins_url('dist/assets/styles/' . SG_BLOCKS_PREFIX . '-styles-admin.css', __FILE__));
         }
 
@@ -128,6 +129,8 @@ if (!function_exists('register_sg_blocks')) {
             'name' => 'cta--secondary',
             'label' => 'CTA 2'
         ));
+
+        wp_set_script_translations(SG_BLOCKS_PREFIX . '-scripts-admin', 'sg-blocks');
     }
 }
 
@@ -165,9 +168,15 @@ if (!function_exists('register_sg_meeting_point_meta_to_front')) {
         }
     }
 }
+function sg_blocks_load_textdomain()
+{
+    $domain = 'sg-blocks';
+    $locale = apply_filters('plugin_locale', determine_locale(), $domain);
+    load_textdomain($domain, SG_BLOCKS_DIR . '/languages/' . $domain . '-' . $locale . '.mo');
+}
+add_action('plugins_loaded', 'sg_blocks_load_textdomain');
 
-
-add_filter( 'wp_editor_settings', function ( $settings ) {
+add_filter('wp_editor_settings', function ($settings) {
     $settings['content_style'] = '';
     return $settings;
 });

@@ -91,18 +91,8 @@ const MapHandler = React.memo<MapCentreProps>(
     const markerRef = useRef<null | L.Marker>(null);
 
     // Define the map icon
-    const mapIcon = useSelect((select) => {
-      const { url } = (select("core") as any).getEntityRecord("root", "site");
-      return url
-        ? new L.Icon({
-          iconUrl: `${url}/wp-content/plugins/sg-blocks/dist/blocks/map/icons/marker-icon.png`,
-          shadowUrl: `${url}/wp-content/plugins/sg-blocks/dist/blocks/map/icons/marker-shadow.png`,
-          iconSize: [25, 41],
-          iconAnchor: [12, 41],
-          popupAnchor: [1, -34],
-          tooltipAnchor: [16, -28],
-        })
-        : undefined;
+    const siteUrl = useSelect((select) => {
+      return (select("core") as any).getEntityRecord("root", "site")?.url;
     }, []);
 
     const map = useMapEvents({
@@ -129,17 +119,27 @@ const MapHandler = React.memo<MapCentreProps>(
       markerRef.current?.setPopupContent(`<span class="color-primary f-s">${address}</span><br/><span class="f-xxs color-grey-2 marker-coordinates">Lat: ${center.lat}, Lng: ${center.lng}</span>`);
       map.setView(center, zoom, { animate: true });
     }, [center.lat, center.lng, address]);
-    
+
     useEffect(() => {
       map.setZoom(zoom);
     }, [zoom]);
 
     useEffect(() => {
-      markerRef.current = L.marker(center, { icon: mapIcon, draggable: false }).addTo(map)
-      const popupContent = `<span class="color-primary f-s">${address}</span><br/><span class="f-xxs color-grey-2 marker-coordinates">Lat: ${center.lat}, Lng: ${center.lng}</span>`;
-      markerRef.current.bindPopup(popupContent).openPopup();
-      if (onInit) onInit(map);
-    }, []);
+      if (siteUrl) {
+        const mapIcon = new L.Icon({
+          iconUrl: `${siteUrl}/wp-content/plugins/sg-blocks/dist/blocks/map/icons/marker-icon.png`,
+          shadowUrl: `${siteUrl}/wp-content/plugins/sg-blocks/dist/blocks/map/icons/marker-shadow.png`,
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          tooltipAnchor: [16, -28],
+        })
+        markerRef.current = L.marker(center, { icon: mapIcon, draggable: false }).addTo(map)
+        const popupContent = `<span class="color-primary f-s">${address}</span><br/><span class="f-xxs color-grey-2 marker-coordinates">Lat: ${center.lat}, Lng: ${center.lng}</span>`;
+        markerRef.current.bindPopup(popupContent).openPopup();
+        if (onInit) onInit(map);
+      }
+    }, [siteUrl]);
 
 
     useEffect(() => {
@@ -259,22 +259,19 @@ const Edit: React.FC<EditProps> = ({ attributes, setAttributes, isSelected }) =>
       <InspectorControls>
         <PanelBody title="Options">
           <ToggleControl
-            label={__(
-              "Configurer le point de rendez vous de l'activité",
-              "sg-blocks"
-            )}
+            label={__("Configure the activity's meeting point", "sg-blocks")}
             checked={meta_meeting_point}
             onChange={(value: boolean) =>
               setAttributes({ meta_meeting_point: value })
             }
           />
           <TextControl
-            label={__("Saisie Adresse", "sg-blocks")}
+            label={__("Search address", "sg-blocks")}
             value={address ?? ""}
             onChange={(value) => setMap({ address: value })}
           />
           <Button icon="search" onClick={onSearchClick}>
-            Rechercher les coordonnées de l'adresse
+            {__('Search coordinates of address', 'sg-blocks')}
           </Button>
           <NumberControl
             label={__("Latitude", "sg-blocks")}

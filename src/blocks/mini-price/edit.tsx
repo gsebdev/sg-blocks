@@ -38,7 +38,7 @@ const Edit: React.FC<EditProps> = ({ attributes, setAttributes, context }) => {
       <InspectorControls>
         <PanelBody title="Options">
           <TextControl
-            label={__("Modifier le texte avant le prix")}
+            label={__("Modify the text before the price", "sg-blocks")}
             value={text_before}
             onChange={(newVal) => setAttributes({ text_before: newVal })}
           />
@@ -54,10 +54,10 @@ const Edit: React.FC<EditProps> = ({ attributes, setAttributes, context }) => {
                   {getMinPrice(prices) + prices[0].currency}
                 </span>
               </>)
-              : <>{__('Erreur dans les prix')}</>}
+              : <>{__('Error in prices', 'sg-blocks')}</>}
           </> :
           <div>
-            {__('Aucun prix disponible')}
+            {__('No price available', 'sg-blocks')}
           </div>
         }
       </p>

@@ -50,17 +50,17 @@ if (!class_exists('SG_Contact_Form_Handler')) {
                 }
 
                 if (empty($name) || empty($email) || empty($message) || empty($subject)) {
-                    wp_send_json_error(__('Please fill in all required fields.', 'sg-theme'), 400);
+                    wp_send_json_error(__('Please fill in all required fields.', 'sg-blocks'), 400);
                     die();
                 }
 
                 if (!preg_match('/^[A-Za-zÀ-ÖØ-öø-ÿĀ-ž\s]+$/', $name)) {
-                    wp_send_json_error(__('Le nom devrait contenir uniquement des lettres.', 'sg-theme'), 400);
+                    wp_send_json_error(__('The name should only contain letters.', 'sg-blocks'), 400);
                     die();
                 }
 
                 if (!is_email($email)) {
-                    wp_send_json_error(__('Veuillez saisir une adresse e-mail valide.', 'sg-theme'), 400);
+                    wp_send_json_error(__('Please enter a valid email address.', 'sg-blocks'), 400);
                     die();
                 }
 
@@ -84,9 +84,9 @@ if (!class_exists('SG_Contact_Form_Handler')) {
                 $sent = wp_mail($to, $subject, $message_body, $headers);
 
                 if ($sent) {
-                    wp_send_json_success(__('Votre message a été envoyé avec succès !', 'sg-theme'));
+                    wp_send_json_success(__('Your message has been sent successfully!', 'sg-blocks'));
                 } else {
-                    wp_send_json_error(__('Échec de l\'envoi du message.', 'sg-theme'), 500);
+                    wp_send_json_error(__('Failed to send the message.', 'sg-blocks'), 500);
                 }
 
                 die();

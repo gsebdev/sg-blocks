@@ -18,8 +18,6 @@ include_once(SG_BLOCKS_DIR . 'dist/includes/class/taxonomies/class_sg_taxonomy_d
 class SG_Taxonomy
 {
     public $id;
-    public $name;
-    public $plural_name;
     public $post_types = [];
     public $config = [];
     protected $custom_columns;
@@ -34,7 +32,6 @@ class SG_Taxonomy
     {
         $this->post_types = $post_types;
         $this->set_custom_columns();
-        $this->set_custom_fields();
 
         add_action('init', [$this, 'register_taxonomy']);
         if(!$this->display_description) {
@@ -65,21 +62,16 @@ class SG_Taxonomy
             }
         }
     }
-
+    public function set_labels() {
+        return false;
+    }
     public function display_as_checkboxes()
     {
-        new SG_Taxonomy_Checkboxes_Display($this->id, $this->name, $this->post_types);
+        new SG_Taxonomy_Checkboxes_Display($this->id, $this->config['labels']['name'] ?? $this->id, $this->post_types);
     }
-
-    private function set_custom_fields()
+    public function set_custom_fields()
     {
-        if ($this->custom_fields) {
-            $fields_class = new SG_Taxonomy_Fields($this->id);
-            foreach ($this->custom_fields as $field) {
-                $fields_class->add_field(new $field['input']($field['id'], $field['title'], $field['description']));
-            }
-            $fields_class->create();
-        }
+        return false;
     }
 
     public function remove_description()
@@ -94,11 +86,20 @@ class SG_Taxonomy
 
     public function register_taxonomy()
     {
+        $this->set_labels();
+        $this->set_custom_fields();
+        if ($this->custom_fields) {
+            $fields_class = new SG_Taxonomy_Fields($this->id);
+            foreach ($this->custom_fields as $field) {
+                $fields_class->add_field(new $field['input']($field['id'], $field['title'], $field['description']));
+            }
+            $fields_class->create();
+        }
         register_taxonomy($this->id, $this->post_types, $this->config);
     }
 
     public function add_taxonomy_submenu_page() {
         $slug = 'edit-tags.php?taxonomy=' . $this->id;
-        add_menu_page($this->plural_name, $this->plural_name, 'manage_options', $slug, '', $this->menu_icon);
+        add_menu_page($this->config['labels']['name'] ?? $this->id, $this->config['labels']['name'] ?? $this->id, 'manage_options', $slug, '', $this->menu_icon);
     }
 }

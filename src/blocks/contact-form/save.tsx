@@ -14,8 +14,8 @@ const Save = ({ attributes }) => {
     className ?? ''
   ].filter(Boolean);
 
-  const successMsg = attributes.successMsg && attributes.successMsg.length ? attributes.successMsg : "Message envoyé avec succès, nous allons en prendre connaissance";
-  const errorMsg = attributes.errorMsg && attributes.errorMsg.length ? attributes.errorMsg : "Une erreur s'est produite dans l'envoi du message, merci de réessayer";
+  const successMsg = attributes.successMsg && attributes.successMsg.length ? attributes.successMsg : __("Message sent successfully, we will take notice", 'sg-blocks');
+  const errorMsg = attributes.errorMsg && attributes.errorMsg.length ? attributes.errorMsg : __("An error occurred during message submission, please try again", 'sg-blocks');
   const iconCode = attributes.iconCode && attributes.iconCode.length ? attributes.iconCode : "e902";
 
   return (
@@ -39,34 +39,34 @@ const Save = ({ attributes }) => {
         data-submit-icon={String.fromCharCode(parseInt(iconCode.replace('\\', ''), 16))}
       >
         <div className="i-grp">
-          <label htmlFor="name">{__('Nom')}</label>
-          <input type="text" placeholder={__('Votre nom et prénom...')} name="lastname" id="name" />
+          <label htmlFor="name">{__('Last name', 'sg-blocks')}</label>
+          <input type="text" placeholder={__('Your name and first name...', 'sg-blocks')} name="lastname" id="name" />
         </div>
 
         <div className="i-grp" data-test="true">
-          <label htmlFor="firstname">{__('Prénom')}</label>
-          <input tabIndex={-1} type="text" placeholder={__('Votre prénom ici...')} name="firstname" id="firstname" />
+          <label htmlFor="firstname">{__('First name', 'sg-blocks')}</label>
+          <input tabIndex={-1} type="text" placeholder={__('Your first name here...', 'sg-blocks')} name="firstname" id="firstname" />
         </div>
 
         <div className="i-grp">
-          <label htmlFor="email">{__('Email')}</label>
-          <input type="text" name="email" placeholder={__('exemple@email.com')} id="email" />
+          <label htmlFor="email">{__('Email', 'sg-blocks')}</label>
+          <input type="text" name="email" placeholder={__('example@email.com', 'sg-blocks')} id="email" />
         </div>
 
         <div className="i-grp">
-          <label htmlFor="subject">{__('Sujet')}</label>
-          <input type="text" placeholder={__('Titre de votre message')} name="subject" id="subject" />
+          <label htmlFor="subject">{__('Subject', 'sg-blocks')}</label>
+          <input type="text" placeholder={__('Title of your message', 'sg-blocks')} name="subject" id="subject" />
         </div>
 
         <div className="i-grp">
-          <label htmlFor="message">{__('Message')}</label>
-          <textarea name="message" placeholder={__('écrivez votre message...')} rows={4} id="message" />
+          <label htmlFor="message">{__('Message', 'sg-blocks')}</label>
+          <textarea name="message" placeholder={__('write your message...', 'sg-blocks')} rows={4} id="message" />
         </div>
 
         <button
           className="cta cta--primary" type="submit"
         >
-          {ctaText || __('Envoyer')}
+          {ctaText || __('Send', 'sg-blocks')}
         </button>
       </form>
       <div className="sg-icon-cancel" />

@@ -17,8 +17,8 @@ $src = get_post_meta($post_id, 'booking', true);
 
 ?>
 <div class='sg-reservation p-3 txt-ctr<?php echo ' ' . esc_attr($custom_classnames) ?>'>
-    <p class='title'><?php echo !$src ? __('Envie de réserver ?') : __('Réservez directement en ligne !') ?></p>
-    <div class='price py-2'><?php echo __('à partir de') ?> <span><?php echo esc_html($price) ?>€</span></div>
+    <p class='title'><?php echo !$src ? __('Want to book?', 'sg-blocks') : __('Book online directly!', 'sg-blocks') ?></p>
+    <div class='price py-2'><?php echo __('Starting from', 'sg-blocks') ?> <span><?php echo esc_html($price) ?>€</span></div>
     <?php
     /**
      * Check if the booking link is not available (then use the phone number to link)
@@ -43,7 +43,7 @@ $src = get_post_meta($post_id, 'booking', true);
             <?php echo __(esc_html($button_text)) ?>
         </button>
         <div class='separator py-3 txt-ctr f-up'><span class='bg-color-bg px-2'>Ou</span></div>
-        <p class='title-2'><?php echo __('Appelez-nous') ?></p>
+        <p class='title-2'><?php _e('Call us', 'sg-blocks') ?></p>
         <p class='py-2 phone-2'><span class='icon-phone no-deco'><?php echo esc_html($phone) ?></span></p>
     <?php endif;
     ?>

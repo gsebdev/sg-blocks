@@ -25,22 +25,6 @@ class SG_Post_Type_Activity extends SG_Post_Type
 
     public function __construct()
     {
-        $labels = array(
-            'name' => __('Activités', 'sg-theme'),
-            'singular_name' => __('Activité', 'sg-theme'),
-            'add_new_item' => __('Ajouter une Activité', 'sg-theme'),
-            'edit_item' => __('Modifier l\'activité'),
-            'new_item' => __('Nouvelle Activité', 'sg-theme'),
-            'view_item' => __('Voir l\'activité'),
-            'search_items' => __('Chercher des Activités', 'sg-theme'),
-            'not_found' => __('Aucune activité trouvée', 'sg-theme'),
-            'not_found_in_trash' => __('Aucune activité trouvée dans la corbeille', 'sg-theme'),
-            'parent_item_colon' => __('Activité parente:', 'sg-theme'),
-        );
-
-        $this->args['labels'] = $labels;
-
-
         parent::__construct();
         add_filter('manage_' . $this->post_type . '_posts_columns', [$this, 'add_custom_columns'], 10, 2);
         add_filter('manage_edit-' . $this->post_type . '_sortable_columns', [$this, 'sortable_columns'], 10, 2);
@@ -48,6 +32,21 @@ class SG_Post_Type_Activity extends SG_Post_Type
         add_action('pre_get_posts', [$this, 'column_orderby']);
         add_action('wp_ajax_sg-save-inline-' . $this->post_type, [$this, 'sg_ajax_inline_save']);
         add_action('admin_enqueue_scripts', [$this, 'load_scripts']);
+    }
+    public function set_labels() {
+        $labels = array(
+            'name' => __('Activities', 'sg-blocks'),
+            'singular_name' => __('Activity', 'sg-blocks'),
+            'add_new_item' => __('Add an activity', 'sg-blocks'),
+            'edit_item' => __('Modify activity', 'sg-blocks'),
+            'new_item' => __('New Activity', 'sg-blocks'),
+            'view_item' => __('View Activity', 'sg-blocks'),
+            'search_items' => __('Find activities', 'sg-blocks'),
+            'not_found' => __('No activities found', 'sg-blocks'),
+            'not_found_in_trash' => __('No activities found in trash', 'sg-blocks'),
+            'parent_item_colon' => __('Parent activity:', 'sg-blocks'),
+        );
+        $this->args['labels'] = $labels;
     }
 
     public function sg_ajax_inline_save()
