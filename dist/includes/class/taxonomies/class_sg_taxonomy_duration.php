@@ -18,9 +18,10 @@ class SG_Duration_Taxonomy extends SG_Taxonomy
         'query_var' => true,
         'show_admin_column' => true,
         'hierarchical' => false,
-        'has_archive' => false,
         'rewrite' => false,
         'show_tagcloud' => false,
+        'publicly_queryable'=> false,
+        'has_archive'       => false
     );
 
     protected $custom_columns = array(

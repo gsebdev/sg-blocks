@@ -28,6 +28,8 @@ class SG_Sport_Taxonomy extends SG_Taxonomy
         'show_admin_column' => true,
         'hierarchical' => false,
         'rewrite' => array('slug' => 'sports'),
+        'publicly_queryable'=> false,
+        'has_archive'       => false
     );
 
     protected $custom_columns = array(

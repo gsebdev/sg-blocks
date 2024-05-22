@@ -25,6 +25,8 @@ class SG_Activity_Type_Taxonomy extends SG_Taxonomy
         'show_admin_column' => true,
         'hierarchical' => false,
         'rewrite' => array('slug' => 'activity'),
+        'publicly_queryable'=> false,
+        'has_archive'       => false
     );
 
     protected $custom_columns = array(
