@@ -28,14 +28,18 @@ const mapLoadCallback = async (container: HTMLElement | SgLazyLoadElement | unde
             popupAnchor: [1, -34],
             tooltipAnchor: [16, -28]
         })
-        const map = L.map(container, { scrollWheelZoom: false }).setView([lat, lng], zoom);
+        const map = L.map(container, {
+            scrollWheelZoom: false,
+            dragging: false,
+            closePopupOnClick: false
+        }).setView([lat, lng], zoom);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
         L.marker([lat, lng], { icon: icon }).addTo(map);
         L.popup({ offset: [0, -42] })
             .setLatLng([lat, lng])
-            .setContent('<span class="f-xs color-accent">' + address + '</span><br><span class="f-xs color-text-light">Lat: ' + lat + ', Lng: ' + lng + '</span>')
+            .setContent('<span class="f-s color-accent">' + address + '</span><br><span class="f-xs color-text-light">Lat: ' + lat + ', Lng: ' + lng + '</span><br><a href="https://maps.google.com/?q=' + lat + ',' + lng + '" target="_blank">Open in Google Maps</a>')
             .openOn(map);
 
         container.classList.remove('loading');
