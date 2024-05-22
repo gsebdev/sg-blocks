@@ -64,14 +64,15 @@ if (!function_exists('sg_blocks_assets')) {
             wp_set_script_translations(SG_BLOCKS_PREFIX . '-scripts-editor', 'sg-blocks', SG_BLOCKS_DIR . 'languages');
 
             if(function_exists('pll_get_post_language')) {
-                $post_locale_json_translations = 'sg-blocks-post-locale-' . pll_get_post_language( $post->ID, 'locale' ) . '-'. md5(SG_BLOCKS_DIR . 'languages').'.json';
+                $post_locale_json_translations = 'sg-blocks-post-locale-' . pll_get_post_language( get_the_ID(), 'locale' ) . '-'. md5('dist/assets/js/' . SG_BLOCKS_PREFIX . '-scripts-editor.js').'.json';
                 $post_locale_translations = load_script_translations(SG_BLOCKS_DIR . 'languages/' . $post_locale_json_translations, SG_BLOCKS_PREFIX . '-scripts-editor', 'sg-blocks-post-locale');
+                
                 if($post_locale_translations) {
                     wp_add_inline_script(SG_BLOCKS_PREFIX . '-scripts-editor', '(function( domain, translations ){
                         var localeData = translations.locale_data[ domain ] || translations.locale_data.messages;
                         localeData[""].domain = domain;
                         wp.i18n.setLocaleData( localeData, domain );
-                    })( "{$domain}", {$json_translations} );', 'after');
+                    })( "sg-blocks-post-locale", '.$post_locale_translations.' );', 'after');
                 }
                 
             }

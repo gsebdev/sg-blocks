@@ -14,8 +14,8 @@ const Save = ({ attributes }) => {
     className ?? ''
   ].filter(Boolean);
 
-  const successMsg = attributes.successMsg && attributes.successMsg.length ? attributes.successMsg : __("Message sent successfully, we will take notice", 'sg-blocks');
-  const errorMsg = attributes.errorMsg && attributes.errorMsg.length ? attributes.errorMsg : __("An error occurred during message submission, please try again", 'sg-blocks');
+  const successMsg = attributes.successMsg && attributes.successMsg.length ? attributes.successMsg : __("Message sent successfully, we will take notice", 'sg-blocks-post-locale');
+  const errorMsg = attributes.errorMsg && attributes.errorMsg.length ? attributes.errorMsg : __("An error occurred during message submission, please try again", 'sg-blocks-post-locale');
   const iconCode = attributes.iconCode && attributes.iconCode.length ? attributes.iconCode : "e902";
 
   return (
@@ -39,34 +39,34 @@ const Save = ({ attributes }) => {
         data-submit-icon={String.fromCharCode(parseInt(iconCode.replace('\\', ''), 16))}
       >
         <div className="i-grp">
-          <label htmlFor="name">{__('Last name', 'sg-blocks')}</label>
-          <input type="text" placeholder={__('Your name and first name...', 'sg-blocks')} name="lastname" id="name" />
+          <label htmlFor="name">{__('Last name', 'sg-blocks-post-locale')}</label>
+          <input type="text" placeholder={__('Your name and first name...', 'sg-blocks-post-locale')} name="lastname" id="name" />
         </div>
 
         <div className="i-grp" data-test="true">
-          <label htmlFor="firstname">{__('First name', 'sg-blocks')}</label>
-          <input tabIndex={-1} type="text" placeholder={__('Your first name here...', 'sg-blocks')} name="firstname" id="firstname" />
+          <label htmlFor="firstname">{__('First name', 'sg-blocks-post-locale')}</label>
+          <input tabIndex={-1} type="text" placeholder={__('Your first name here...', 'sg-blocks-post-locale')} name="firstname" id="firstname" />
         </div>
 
         <div className="i-grp">
-          <label htmlFor="email">{__('Email', 'sg-blocks')}</label>
-          <input type="text" name="email" placeholder={__('example@email.com', 'sg-blocks')} id="email" />
+          <label htmlFor="email">{__('Email', 'sg-blocks-post-locale')}</label>
+          <input type="text" name="email" placeholder={__('example@email.com', 'sg-blocks-post-locale')} id="email" />
         </div>
 
         <div className="i-grp">
-          <label htmlFor="subject">{__('Subject', 'sg-blocks')}</label>
-          <input type="text" placeholder={__('Title of your message', 'sg-blocks')} name="subject" id="subject" />
+          <label htmlFor="subject">{__('Subject', 'sg-blocks-post-locale')}</label>
+          <input type="text" placeholder={__('Title of your message', 'sg-blocks-post-locale')} name="subject" id="subject" />
         </div>
 
         <div className="i-grp">
-          <label htmlFor="message">{__('Message', 'sg-blocks')}</label>
-          <textarea name="message" placeholder={__('write your message...', 'sg-blocks')} rows={4} id="message" />
+          <label htmlFor="message">{__('Message', 'sg-blocks-post-locale')}</label>
+          <textarea name="message" placeholder={__('write your message...', 'sg-blocks-post-locale')} rows={4} id="message" />
         </div>
 
         <button
           className="cta cta--primary" type="submit"
         >
-          {ctaText || __('Send', 'sg-blocks')}
+          {ctaText || __('Submit', 'sg-blocks-post-locale')}
         </button>
       </form>
       <div className="sg-icon-cancel" />

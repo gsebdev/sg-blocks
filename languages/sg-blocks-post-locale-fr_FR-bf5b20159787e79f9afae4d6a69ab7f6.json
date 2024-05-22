@@ -1,1 +1,34 @@
-{"translation-revision-date":"2024-05-21 15:05+0000","generator":"WP-CLI\/2.10.0","source":"dist\/assets\/js\/sg-blocks-scripts-editor.js","domain":"messages","locale_data":{"messages":{"":{"domain":"messages","lang":"fr_FR","plural-forms":"nplurals=2; plural=n > 1;"},"An error occurred during message submission, please try again":["Une erreur s'est produite lors de la soumission du message, veuillez r\u00e9essayer"],"Email":["Email"],"example@email.com":["exemple@email.com"],"First name":["Pr\u00e9nom"],"Form subtitle":["Sous-titre du formulaire"],"Form title":["Titre du formulaire"],"Last name":["Nom"],"Message":["Message"],"Message sent successfully, we will take notice":["Message envoy\u00e9 avec succ\u00e8s, nous en prenons note"],"Message title":["Titre du message"],"Subject":["Sujet"],"Submit":["Envoyer"],"Write your message...":["R\u00e9digez votre message..."],"Your first name here...":["Votre pr\u00e9nom ici..."],"Your name and first name...":["Votre nom et pr\u00e9nom..."]}}}
+{
+  "translation-revision-date": "2024-05-21 15:05+0000",
+  "generator": "WP-CLI/2.10.0",
+  "source": "dist/assets/js/sg-blocks-scripts-editor.js",
+  "domain": "messages",
+  "locale_data": {
+    "messages": {
+      "": {
+        "domain": "messages",
+        "lang": "fr_FR",
+        "plural-forms": "nplurals=2; plural=n > 1;"
+      },
+      "An error occurred during message submission, please try again": [
+        "Une erreur s'est produite lors de la soumission du message, veuillez r\u00e9essayer"
+      ],
+      "Email": ["Email"],
+      "example@email.com": ["exemple@email.com"],
+      "First name": ["Pr\u00e9nom"],
+      "Form subtitle": ["Sous-titre du formulaire"],
+      "Form title": ["Titre du formulaire"],
+      "Last name": ["Nom"],
+      "Message": ["Message"],
+      "Message sent successfully, we will take notice": [
+        "Message envoy\u00e9 avec succ\u00e8s, nous en prenons note"
+      ],
+      "Message title": ["Titre du message"],
+      "Subject": ["Sujet"],
+      "Submit": ["Envoyer"],
+      "Write your message...": ["R\u00e9digez votre message..."],
+      "Your first name here...": ["Votre pr\u00e9nom ici..."],
+      "Your name and first name...": ["Votre nom et pr\u00e9nom..."]
+    }
+  }
+}
