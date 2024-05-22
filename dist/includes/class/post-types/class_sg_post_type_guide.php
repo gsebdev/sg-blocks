@@ -13,7 +13,7 @@ class SG_Post_Type_Guide extends SG_Post_Type
 
     public $args = array(
         'public' => true,
-        'has_archive' => true,
+        'has_archive' => false,
         'publicly_queryable' => true,
         'query_var' => true,
         'show_in_rest' => true,
