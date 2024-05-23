@@ -17,12 +17,12 @@ if ($content) {
 
     $content_html = '<ul class="sg-info__list">';
     foreach ($info_el['content'] as $li) {
-        $content_html .= '<li class="sg-info__list-item icon-' . (isset($li['icon']) && $li['icon'] ? esc_attr($li['icon']) : 'ok') . '">' . esc_html($li['text'] ?? '') . '</li>';
+        $content_html .= '<li class="sg-info__list-item icon-' . (isset($li['icon']) && $li['icon'] ? esc_attr($li['icon']) : 'ok') . '">' . (function_exists('pll__') ? esc_html(pll__($li['text'])) : esc_html($li['text'])) . '</li>';
     }
     $content_html .= '</ul>';
 
     echo '<div class="sg-info' . ($custom_classnames ? ' ' . esc_attr($custom_classnames) : '') . '">';
-    echo '<h' . $level . '>' . esc_html($info_el['title']) . '</h' . $level . '>';
+    echo '<h' . $level . '>' . (function_exists('pll__') ? esc_html(pll__($info_el['title'])) : esc_html($info_el['title'])) . '</h' . $level . '>';
     echo $content_html;
     echo '</div>';
 }

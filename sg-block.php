@@ -63,18 +63,17 @@ if (!function_exists('sg_blocks_assets')) {
             wp_enqueue_style('dashicons');
             wp_set_script_translations(SG_BLOCKS_PREFIX . '-scripts-editor', 'sg-blocks', SG_BLOCKS_DIR . 'languages');
 
-            if(function_exists('pll_get_post_language')) {
-                $post_locale_json_translations = 'sg-blocks-post-locale-' . pll_get_post_language( get_the_ID(), 'locale' ) . '-'. md5('dist/assets/js/' . SG_BLOCKS_PREFIX . '-scripts-editor.js').'.json';
+            if (function_exists('pll_get_post_language')) {
+                $post_locale_json_translations = 'sg-blocks-post-locale-' . pll_get_post_language(get_the_ID(), 'locale') . '-' . md5('dist/assets/js/' . SG_BLOCKS_PREFIX . '-scripts-editor.js') . '.json';
                 $post_locale_translations = load_script_translations(SG_BLOCKS_DIR . 'languages/' . $post_locale_json_translations, SG_BLOCKS_PREFIX . '-scripts-editor', 'sg-blocks-post-locale');
-                
-                if($post_locale_translations) {
+
+                if ($post_locale_translations) {
                     wp_add_inline_script(SG_BLOCKS_PREFIX . '-scripts-editor', '(function( domain, translations ){
                         var localeData = translations.locale_data[ domain ] || translations.locale_data.messages;
                         localeData[""].domain = domain;
                         wp.i18n.setLocaleData( localeData, domain );
-                    })( "sg-blocks-post-locale", '.$post_locale_translations.' );', 'after');
+                    })( "sg-blocks-post-locale", ' . $post_locale_translations . ' );', 'after');
                 }
-                
             }
         }
 
@@ -246,15 +245,52 @@ add_filter('image_size_names_choose', function ($sizes) {
 
 
 //add a filter to put language data in post rest api json
-function sg_add_language_to_rest_response( $response, $post) {
+function sg_add_language_to_rest_response($response, $post)
+{
     // For example, adding post language using Polylang
-    if ( function_exists( 'pll_get_post_language' ) ) {
-        $language = pll_get_post_language( $post->ID, 'locale' );
+    if (function_exists('pll_get_post_language')) {
+        $language = pll_get_post_language($post->ID, 'locale');
         $response->data['language'] = $language;
     }
     return $response;
 }
-add_filter( 'rest_prepare_post', 'sg_add_language_to_rest_response', 10, 3 );
-add_filter( 'rest_prepare_page', 'sg_add_language_to_rest_response', 10, 3 );
-add_filter( 'rest_prepare_guides', 'sg_add_language_to_rest_response', 10, 3 );
-add_filter( 'rest_prepare_activities', 'sg_add_language_to_rest_response', 10, 3 );
+add_filter('rest_prepare_post', 'sg_add_language_to_rest_response', 10, 3);
+add_filter('rest_prepare_page', 'sg_add_language_to_rest_response', 10, 3);
+add_filter('rest_prepare_guides', 'sg_add_language_to_rest_response', 10, 3);
+add_filter('rest_prepare_activities', 'sg_add_language_to_rest_response', 10, 3);
+
+
+function sg_register_meta_strings_to_translate()
+{
+    if (function_exists('pll_register_string') && is_admin()) {
+
+        // activities
+        $activities = get_posts(array('numberposts' => -1, 'post_type' => 'activities'));
+        foreach ($activities as $activity) {
+            $meta_info = get_post_meta($activity->ID, 'info', true);
+            $meta_prices = get_post_meta($activity->ID, 'price', true);
+
+            //info
+            if ($meta_info && is_array($meta_info)) {
+                foreach ($meta_info as $info) {
+                    if(array_key_exists('title', $info)) pll_register_string('sg-blocks-activity-info', $info['title'], 'sg-blocks');
+                    if (array_key_exists('content', $info) && is_array($info['content'])) {
+                        foreach ($info['content'] as $li) {
+                            pll_register_string('sg-blocks-activity-info', $li['text'], 'sg-blocks');
+                        }
+                    }
+                }
+            }
+
+            //prices
+            if ($meta_prices && is_array($meta_prices)) {
+                foreach ($meta_prices as $price) {
+                    if(array_key_exists('name', $price)) pll_register_string('sg-blocks-activity-price', $price['name'], 'sg-blocks');
+                    if (array_key_exists('description', $price)) pll_register_string('sg-blocks-activity-price', $price['description'], 'sg-blocks');
+                }
+            }
+        }
+    }
+}
+
+add_action('admin_init', 'sg_register_meta_strings_to_translate');
