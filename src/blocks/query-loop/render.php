@@ -129,7 +129,7 @@ if (!function_exists('render_block_sg_query_related')) {
         }
         $nav_elements = '';
         if ($slider && $slider_display_nav) {
-            $nav_elements = '<button class="sg-swiper__nav sg-icon-cheveron-left" data-direction="prev"></button><button class="sg-swiper__nav sg-icon-cheveron-right" data-direction="next"></button>';
+            $nav_elements = '<button aria-label="'.__('Previous slide', 'sg-blocks').'" class="sg-swiper__nav sg-icon-cheveron-left" data-direction="prev"></button><button class="sg-swiper__nav sg-icon-cheveron-right" data-direction="next" aria-label="'.__('Next slide', 'sg-blocks').'"></button>';
         }
 
         wp_reset_postdata();
